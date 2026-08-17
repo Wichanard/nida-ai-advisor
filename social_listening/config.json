@@ -1,0 +1,122 @@
+{
+  "keywords": [
+    "เรียนต่อ นิด้า",
+    "ป.โท นิด้า",
+    "ป.เอก นิด้า",
+    "สมัครเรียน นิด้า",
+    "หลักสูตร นิด้า",
+    "ค่าเทอม นิด้า",
+    "สอบเข้า นิด้า",
+    "ทุนการศึกษา นิด้า",
+    "NIDA MBA",
+    "NIDA MPA",
+    "NIDA Graduate",
+    "NIDA admission",
+    "NIDA master degree",
+    "NIDA phd",
+    "นิด้า ปริญญาโท",
+    "นิด้า ปริญญาเอก"
+  ],
+  "exclude_keywords": [
+    "นิด้าโพล",
+    "นิด้า โพล",
+    "การเมือง",
+    "เลือกตั้ง",
+    "ส.ส.",
+    "นายกรัฐมนตรี",
+    "พรรคการเมือง",
+    "โพลการเมือง"
+  ],
+  "platforms": {
+    "news": {
+      "enabled": true,
+      "api_key": null,
+      "max_results": 25,
+      "language": "th",
+      "sort_by": "relevancy",
+      "query_operator": "OR",
+      "comment_parsing": true,
+      "comment_selectors": [
+        "[class*=comment]",
+        "[id*=comment]",
+        ".comment",
+        ".comment-box",
+        ".comment-list",
+        ".comment-item",
+        ".comment-body",
+        ".comment-text",
+        ".comment-content",
+        ".comment-entry",
+        ".reply",
+        ".reply-item",
+        ".post-comment",
+        ".article-comments",
+        ".discussion"
+      ],
+      "comment_context_selectors": [
+        "article",
+        "section",
+        "main",
+        ".article",
+        ".post",
+        ".news-body",
+        ".article-content",
+        ".content"
+      ],
+      "comment_selectors_by_domain": {
+        "mgronline.com": [".article-comments", ".comment-list", "#comment"],
+        "thairath.co.th": [".comment-box", ".article-comment"],
+        "komchadluek.net": [".reply", ".comment-container"],
+        "matichon.co.th": [".comment-article", ".comment-list"],
+        "dailynews.co.th": [".commentlist", ".comment-area"],
+        "bangkokpost.com": [".article-comment", ".comments-list"],
+        "nationthailand.com": [".comment", ".comment-list"],
+        "pptvhd36.com": [".comments-section", ".comment-box"],
+        "sanook.com": [".comment", ".comments-area"],
+        "kapook.com": [".comment", ".comment-box", ".comment-list"],
+        "springnews.co.th": [".comment", ".post-comments", ".comment-list"]
+      },
+      "comment_regex": [
+        "นิด้า",
+        "NIDA",
+        "NIDA Graduate",
+        "หลักสูตร"
+      ],
+      "filter_comments_by_regex": false,
+      "comment_iframe": true,
+      "iframe_selectors": ["iframe"],
+      "iframe_comment_selectors": ["[class*=comment]", "[id*=comment]"],
+      "render_js": true,
+      "render_backend": "playwright",
+      "render_sleep": 2,
+      "render_timeout": 30,
+      "render_wait_selectors": [".comment", ".comment-list", "[id*=comment]"],
+      "domains": [
+        "mgronline.com",
+        "thairath.co.th",
+        "komchadluek.net",
+        "matichon.co.th",
+        "dailynews.co.th",
+        "bangkokpost.com",
+        "nationthailand.com",
+        "pptvhd36.com",
+        "sanook.com",
+        "kapook.com",
+        "springnews.co.th"
+      ]
+    },
+    "pantip": {
+      "enabled": true,
+      "max_results": 25,
+      "max_threads": 10,
+      "max_comments_per_thread": 20,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    },
+    "youtube": {
+      "enabled": true,
+      "api_key": null,
+      "search_max_results": 10,
+      "comments_max_results": 30
+    }
+  }
+}

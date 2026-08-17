@@ -1,0 +1,26 @@
+import json
+from pathlib import Path
+from typing import List, Dict
+
+COURSES_PATH = Path("data/courses.json")
+
+def load_courses() -> List[Dict]:
+    with COURSES_PATH.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+def recommend_courses(user_input: str, top_k: int = 3) -> List[Dict]:
+    courses = load_courses()
+    user_text = user_input.lower()
+    scored = []
+
+    for course in courses:
+       # ดึงข้อมูล faculty, program และ field/description (ถ้ามี) มารวมกันเพื่อใช้ค้นหา
+        text = f"{course.get('faculty', '')} {course.get('program', '')} {course.get('description', '')}".lower()
+        # ตัวอย่างการให้คะแนนแบบง่าย (ปรับใช้ embedding ได้ในภายหลัง)
+        score = sum(1 for keyword in ["ai", "data", "business", "management", "education", "research"]
+                    if (keyword in text) and (keyword in user_text))
+        if score > 0 or any(keyword in user_text for keyword in ["ai", "data", "business", "management", "education", "research"]):
+            scored.append((score, course))
+
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [course for _, course in scored[:top_k]]

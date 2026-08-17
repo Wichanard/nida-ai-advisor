@@ -1,0 +1,78 @@
+{
+  "keywords": [
+    "นิด้า",
+    "NIDA",
+    "NIDA Graduate",
+    "คณะนิติศาสตร์",
+    "คณะบริหารธุรกิจ",
+    "คณะพัฒนาการเศรษฐกิจ",
+    "คณะบริหารการพัฒนาสิ่งแวดล้อม",
+    "หลักสูตรนิติศาสตร์",
+    "หลักสูตรบริหารธุรกิจ",
+    "หลักสูตรการพัฒนาสังคม",
+    "หลักสูตรการพัฒนาการเศรษฐกิจ"
+  ],
+  "platforms": {
+    "x": {
+      "enabled": true,
+      "max_results": 100,
+      "include_retweets": false,
+      "languages": ["th","en"]
+    },
+    "youtube": {
+      "enabled": false,
+      "search_max_results": 5,
+      "comments_max_results": 20
+    },
+    "reddit": {
+      "enabled": false,
+      "max_results": 100,
+      "comments_max_results": 20,
+      "subreddits": ["all"]
+    },
+    "crowdtangle": {
+      "enabled": false,
+      "max_results": 25,
+      "sort_by": "date",
+      "include_history": false
+    },
+    "pantip": {
+      "enabled": false,
+      "max_results": 50,
+      "max_threads": 10,
+      "max_comments_per_thread": 10
+    },
+    "news": {
+      "enabled": false,
+      "max_results": 25,
+      "language": "th",
+      "sort_by": "relevancy",
+      "query_operator": "OR",
+      "comment_parsing": false,
+      "comment_selectors": ["[class*=comment]", "[id*=comment]", ".comment", ".comment-box", ".comment-list", ".reply", ".reply-item"],
+      "comment_context_selectors": ["article", "section", "main"],
+      "comment_selectors_by_domain": {
+        "mgronline.com": [".article-comments", ".comment-list", "#comment"],
+        "thairath.co.th": [".comment-box", ".article-comment"],
+        "komchadluek.net": [".reply", ".comment-container"],
+        "matichon.co.th": [".comment-article", ".comment-list"],
+        "dailynews.co.th": [".commentlist", ".comment-area"],
+        "bangkokpost.com": [".article-comment", ".comments-list"],
+        "nationthailand.com": [".comment", ".comment-list"],
+        "pptvhd36.com": [".comments-section", ".comment-box"],
+        "sanook.com": [".comment", ".comments-area"],
+        "kapook.com": [".comment", ".comment-box", ".comment-list"],
+        "springnews.co.th": [".comment", ".post-comments", ".comment-list"]
+      },
+      "comment_regex": ["นิด้า", "NIDA", "NIDA Graduate", "หลักสูตร"],
+      "comment_iframe": false,
+      "iframe_selectors": ["iframe"],
+      "iframe_comment_selectors": ["[class*=comment]", "[id*=comment]"],
+      "render_js": false,
+      "render_backend": "requests-html",
+      "render_sleep": 2,
+      "render_timeout": 30,
+      "domains": []
+    }
+  }
+}

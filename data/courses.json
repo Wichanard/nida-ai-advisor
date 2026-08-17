@@ -1,0 +1,1874 @@
+﻿[
+  {
+    "faculty": "บริหารธุรกิจ",
+    "departments": [
+      {
+        "department": "การจัดการ",
+        "programs": [
+          {
+            "program": "บริหารธุรกิจมหาบัณฑิต",
+            "degree": "ป.โท",
+            "keywords": ["การจัดการ","ธุรกิจ","ผู้นำ"],
+            "description": "หลักสูตรเน้นการพัฒนาทักษะการบริหารจัดการในระดับสูงสำหรับผู้บริหารและผู้ประกอบการ",
+            "admission_requirements": "ปริญญาตรีทุกสาขา มีผลคะแนน GPA ไม่น้อยกว่า 2.5",
+            "career_opportunities": ["ผู้จัดการ","ที่ปรึกษาธุรกิจ","ผู้ประกอบการ"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/business-mba",
+            "semesters": [
+              {
+                "term": "1",
+                "study_mode": "ภาคปกติ",
+                "admission_period": "มกราคม",
+                "tuition": "70,000"
+              },
+              {
+                "term": "2",
+                "study_mode": "ภาคค่ำ",
+                "admission_period": "มิถุนายน",
+                "tuition": "70,000"
+              }
+            ]
+          },
+          {
+            "program": "GSBA คณะบริหารธุรกิจ Accelerated MBA (Weekday Program)",
+            "degree": "ป.โท",
+            "keywords": ["MBA","Accelerated","AMBA","English","Digital Transformation","Business Management","AACSB"],
+            "description": "หลักสูตร Accelerated MBA (AMBA) เรียนเป็นภาษาอังกฤษ แบบเต็มเวลา (Weekday) เพื่อผลิตผู้บริหารระดับสากล",
+            "overview": "หลักสูตรเร่งรัด (AMBA) มุ่งพัฒนาผู้บริหารเชิงปฏิบัติที่มีมุมมองสากล โดยการเรียนการสอนเป็นภาษาอังกฤษและเน้นกรณีศึกษาจริง",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "Full-time (Weekday)",
+            "duration": "1.5 Years",
+            "credits": "42",
+            "total_fee": "216,900",
+            "fee_breakdown": {
+              "credit": "4,500",
+              "tuition_fee": "208,100",
+              "special_activity": "10,000",
+              "total": "216,900"
+            },
+            "tuition_by_student_type": {
+              "thai": "216,900",
+              "asean": "248,900",
+              "international": "256,900"
+            },
+            "admission_requirements": "Applicants must hold a bachelor’s degree in any field from an accredited institution and meet English requirements (TOEFL 500 PBT / 173 CBT / 61 iBT or IELTS 6.0 or NIDA TOEFL ITP 500 or NIDA TEAP 500). Native speakers or graduates from English programs within 5 years may be exempt.",
+            "special_features": [
+              "No minimum GPAX",
+              "No work experience required",
+              "English program; AACSB accreditation noted"
+            ],
+            "director": "รศ.ดร.กัญญาภัสส์ ปันจัยสีห์",
+            "director_title": "ผู้อำนวยการหลักสูตร AMBA และ Inter MBA",
+            "institution": "สถาบันบัณฑิตพัฒนบริหารศาสตร์",
+            "curriculum": [
+              {"category": "English (Non-Credit)", "courses": ["LC 4003 Advance Integrated English Language Skill Development"]},
+              {"category": "Basic Courses", "courses": ["AB 5400 Business Economics","AB 5500 Quantitative Analysis for Business Decisions"]},
+              {"category": "Core Courses", "courses": ["AB 6100 Human Resource Management and Organizational Behavior","AB 6200 Marketing Management","AB 6300 Management Accounting","AB 6400 Financial Management","AB 6500 Operations Management"]},
+              {"category": "Major / Advanced Courses", "courses": ["AB 7033 Investment Analysis","AB 8000 Business Policy and Strategic Management","AB 7064 Big Data, Data Mining, and CRM Applications","AB 8888 Selected topic in business administration (Strategic Branding Management)","AB 8888 Selected topic in business administration (Foundation of Management)","AB 8888 Selected topic in business administration (IT Project Management)"]},
+              {"category": "Independent Study", "courses": ["AB 9000 Independent Study: Integrated Business Project"]}
+            ],
+            "application_link": "https://nida.ac.th/admission?facid=1195&progid=3929",
+            "contact": {
+              "phone": "02 727 3370-3",
+              "line": "@nidaadmission",
+              "email": "admissions@nida.ac.th"
+            },
+            "semesters": [
+              {"term": "1", "study_mode": "Full-time", "admission_period": "Open", "tuition": "216,900"}
+            ]
+          },
+          {
+            "program": "GSBA Accelerated MBA (Weekend Program)",
+            "degree": "ป.โท",
+            "keywords": ["Digital Economy","Digital Transformation","Digital Innovation","Business Model Innovation","MBA","English","ผู้นำยุคดิจิทัล"],
+            "description": "หลักสูตร MBA เร่งรัด (AMBA) ของ NIDA สำหรับผู้ที่ต้องการศึกษาต่อระดับปริญญาโทบริหารธุรกิจในรูปแบบเรียนช่วงสุดสัปดาห์",
+            "overview": "เทคโนโลยีดิจิทัลมีบทบาทต่อชีวิตและระบบเศรษฐกิจโลกอย่างมาก สอดรับกับปฏิวัติอุตสาหกรรม 4.0 และเศรษฐกิจดิจิทัล นวัตกรรมดิจิทัลสร้างโมเดลธุรกิจใหม่ และผู้บริหารยุคใหม่ต้องพร้อมขับเคลื่อน Digital Transformation",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "ช่วงสุดสัปดาห์",
+            "duration": "1.5 ปี",
+            "credits": "42",
+            "total_fee": "216,900",
+            "fee_breakdown": {
+              "credit": "4,500",
+              "tuition_fee": "208,100",
+              "special_activity": "10,000",
+              "total": "216,900"
+            },
+            "tuition_by_student_type": {
+              "thai": "216,900",
+              "asean": "248,900",
+              "international": "256,900"
+            },
+            "admission_requirements": "ปริญญาตรีทุกสาขาจากสถาบันที่ได้รับการรับรองก่อนวันสมัคร และมีคะแนน TOEFL 500 PBT, 173 CBT, 61 iBT หรือ IELTS 6.0 หรือ NIDA TOEFL ITP 500 หรือ NIDA TEAP 500; เจ้าของภาษาอังกฤษหรือผู้สำเร็จปริญญาตรีสาขาภาษาอังกฤษภายใน 5 ปีนับจากวันที่สมัคร",
+            "special_features": [
+              "ไม่กำหนด GPAX",
+              "ไม่จำเป็นต้องมีประสบการณ์ทำงาน",
+              "หลักสูตรภาษาอังกฤษได้รับการรับรองตามมาตรฐานสากล (AACSB)"
+            ],
+            "director": "รศ.ดร.กัญญาภัสส์ ปันจัยสีห์",
+            "director_title": "ผู้อำนวยการหลักสูตร AMBA และ Inter MBA",
+            "institution": "สถาบันบัณฑิตพัฒนบริหารศาสตร์",
+            "curriculum": [
+              {
+                "category": "ภาษาอังกฤษ (ไม่นับหน่วยกิต)",
+                "courses": ["LC 4003 การพัฒนาทักษะภาษาอังกฤษแบบบูรณาการขั้นสูง"]
+              },
+              {
+                "category": "วิชาพื้นฐาน",
+                "courses": [
+                  "AB 5400 เศรษฐศาสตร์ธุรกิจ",
+                  "AB 5500 การวิเคราะห์เชิงปริมาณเพื่อการตัดสินใจทางธุรกิจ"
+                ]
+              },
+              {
+                "category": "วิชาหลัก",
+                "courses": [
+                  "AB 6100 การจัดการทรัพยากรมนุษย์และพฤติกรรมองค์กร",
+                  "AB 6200 การจัดการการตลาด",
+                  "AB 6300 การบัญชีบริหาร",
+                  "AB 6400 การจัดการการเงิน",
+                  "AB 6500 การจัดการการดำเนินงาน"
+                ]
+              },
+              {
+                "category": "วิชาเอก/วิชาขั้นสูง",
+                "courses": [
+                  "AB 7033 การวิเคราะห์การลงทุน",
+                  "AB 8000 นโยบายธุรกิจและการจัดการเชิงกลยุทธ์",
+                  "AB 7064 บิ๊กดาต้า การขุดข้อมูล และแอปพลิเคชัน CRM",
+                  "AB 8888 หัวข้อที่เลือกในสาขาบริหารธุรกิจ (การจัดการแบรนด์เชิงกลยุทธ์)",
+                  "AB 8888 หัวข้อที่เลือกในสาขาบริหารธุรกิจ (พื้นฐานการจัดการ)",
+                  "AB 8888 หัวข้อที่เลือกในสาขาบริหารธุรกิจ (การจัดการโครงการไอที)"
+                ]
+              },
+              {
+                "category": "การศึกษาอิสระ",
+                "courses": ["AB 9000 การศึกษาอิสระ: โครงการธุรกิจแบบบูรณาการ"]
+              }
+            ],
+            "semesters": [
+              {
+                "term": "1",
+                "study_mode": "นอกเวลาราชการ",
+                "admission_period": "ไม่ระบุ",
+                "tuition": "216,900"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "รัฐประศาสนศาสตร์",
+    "departments": [
+      {
+        "department": "การจัดการภาครัฐและภาคเอกชน",
+        "programs": [
+          {
+            "program": "Master of Public and Private Management (English Program)",
+            "degree": "ป.โท",
+            "keywords": ["Public and Private Management","English Program","Government and Private Sector","Executive Management"],
+            "description": "หลักสูตร 2 ปี เรียนในเวลาราชการเป็นภาษาอังกฤษ เน้นการบริหารภาครัฐและภาคเอกชนในบริบทของการพัฒนาอย่างยั่งยืน",
+            "overview": "หลักสูตรนี้จัดทำเพื่อพัฒนาผู้บริหารระดับกลางและระดับสูงให้มีความรู้ความสามารถด้านการจัดการภาครัฐและภาคเอกชนอย่างครบวงจร พร้อมโอกาสรับทุน แลกเปลี่ยน และฝึกงาน",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "เรียนในเวลาราชการ",
+            "duration": "2 ปี",
+            "credits": "39",
+            "total_fee": "97,000",
+            "admission_requirements": "ไม่จำเป็นต้องมีประสบการณ์ทำงาน; รับผู้สำเร็จการศึกษาระดับปริญญาตรีทุกสาขา",
+            "special_features": ["มีทุนการศึกษา","มีโอกาสแลกเปลี่ยน","มีโอกาสฝึกงาน","ไม่มีข้อกำหนดประสบการณ์ทำงาน"],
+            "curriculum": [
+              {"category": "วิชาหลัก", "courses": ["PP 6000 Administration and Sustainable Development","PP 6001 Management Research","PP 6002 Public and Private Sector Management","PP 6003 Modern Organization"]},
+              {"category": "วิชาเอก", "courses": ["Strategic Management and Public Policy","Human Capital Management and Development for Excellence","Financial Management for Executive","Marketing Management for Executive"]},
+              {"category": "วิชาเลือก", "courses": ["Economics for Management","Innovation Management and Technology","Managerial Accounting","Risk and Crisis Management"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "97,000"}
+            ]
+          },
+          {
+            "program": "การจัดการภาครัฐและภาคเอกชนมหาบัณฑิต (ภาษาไทย)",
+            "degree": "ป.โท",
+            "keywords": ["การจัดการภาครัฐและภาคเอกชน","ภาษาไทย","แผนวิทยานิพนธ์","แผนค้นคว้าอิสระ"],
+            "description": "หลักสูตรเดียวกันกับหลักสูตรภาษาอังกฤษ แต่เป็นภาษาไทย มีทั้งแผนวิทยานิพนธ์และแผนค้นคว้าอิสระ",
+            "overview": "หลักสูตรภาษาไทยในคณะรัฐประศาสนศาสตร์เปิดโอกาสให้ผู้เรียนพัฒนาองค์ความรู้และทักษะด้านการบริหารภาครัฐและภาคเอกชนในรูปแบบที่เหมาะสมกับการเรียนในเวลาราชการ",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "เรียนในเวลาราชการ",
+            "duration": "2 ปี",
+            "credits": "39",
+            "total_fee": "97,000",
+            "admission_requirements": "ปริญญาตรีทุกสาขา; มีสิทธิ์รับทุนและโอกาสฝึกงาน/แลกเปลี่ยน",
+            "special_features": ["มีทั้งแผนวิทยานิพนธ์และแผนค้นคว้าอิสระ","มีสาขาเอกและวิชาเลือกเช่นเดียวกับหลักสูตรภาษาอังกฤษ","มีสิทธิ์รับทุนและโอกาสฝึกงาน/แลกเปลี่ยน"],
+            "curriculum": [
+              {"category": "วิชาหลัก", "courses": ["PP 6000 Administration and Sustainable Development","PP 6001 Management Research","PP 6002 Public and Private Sector Management","PP 6003 Modern Organization"]},
+              {"category": "วิชาเอก", "courses": ["Strategic Management and Public Policy","Human Capital Management and Development for Excellence","Financial Management for Executive","Marketing Management for Executive"]},
+              {"category": "วิชาเลือก", "courses": ["Economics for Management","Innovation Management and Technology","Managerial Accounting","Risk and Crisis Management"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "97,000"}
+            ]
+          },
+          {
+            "program": "Master of Public Administration (English Program)",
+            "degree": "ป.โท",
+            "keywords": ["Public Administration","English Program","Government Administration","Research Methodology"],
+            "description": "หลักสูตรภาษาอังกฤษ เรียนในเวลาราชการ 39 หน่วยกิต 2 ปี ค่าธรรมเนียมรวมประมาณ 97,000 บาท เน้นทฤษฎีและปฏิบัติด้านการบริหารภาครัฐ",
+            "overview": "หลักสูตรนี้มุ่งเน้นให้ผู้เรียนเข้าใจหลักการและกลไกของการบริหารภาครัฐเชิงทฤษฎีและเชิงปฏิบัติ พร้อมการพัฒนาความสามารถในการวางแผนและปฏิบัติในนโยบายสาธารณะ",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "เรียนในเวลาราชการ",
+            "duration": "2 ปี",
+            "credits": "39",
+            "total_fee": "97,000",
+            "admission_requirements": "ปริญญาตรีทุกสาขา; ไม่มีข้อกำหนดประสบการณ์ทำงาน",
+            "special_features": ["เน้นทฤษฎีและปฏิบัติด้านการบริหารภาครัฐ","เรียนในเวลาราชการ","แบบหลักสูตรภาษาอังกฤษ"],
+            "curriculum": [
+              {"category": "วิชาหลัก", "courses": ["PA 6000 Contemporary Public Administration Theory","PA 6010 Administration and Sustainable Development","PA 6020 Research Methodology in Public Administration","PA 6030 Organizational Analysis"]},
+              {"category": "สาขา/วิชาเอก", "courses": ["Policy Implementation and Evaluation","Project Planning, Analysis, and Management","Crisis and Disaster Management"]},
+              {"category": "วิชาเลือก", "courses": ["Public Policy","Dynamic of Global Economic","Financial and Fiscal Management","Human Resource Management","Public Policy Development"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "97,000"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "รัฐประศาสนศาสตร์",
+        "programs": [
+          {
+            "program": "รัฐประศาสนศาสตรมหาบัณฑิต (ภาษาไทย)",
+            "degree": "ป.โท",
+            "keywords": ["รัฐประศาสนศาสตร์","ภาษาไทย","การบริหารภาครัฐ","แผนวิทยานิพนธ์"],
+            "description": "หลักสูตรเรียนในเวลาราชการ 39 หน่วยกิต 2 ปี ค่าใช้จ่ายรวม 97,000 บาท เปิดรับผู้สำเร็จปริญญาตรีทุกสาขา และสามารถเลือกแผนวิทยานิพนธ์หรือค้นคว้าอิสระ",
+            "overview": "หลักสูตรนี้เปิดโอกาสให้ผู้เรียนทุกสาขาเข้าถึงความรู้ด้านการบริหารภาครัฐและการพัฒนานโยบายสาธารณะแบบกว้างและลึก พร้อมสาขาเอกหลากหลาย",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "เรียนในเวลาราชการ",
+            "duration": "2 ปี",
+            "credits": "39",
+            "total_fee": "97,000",
+            "admission_requirements": "ปริญญาตรีทุกสาขา; ไม่จำเป็นต้องมีประสบการณ์ทำงาน",
+            "special_features": ["เปิดรับผู้สำเร็จปริญญาตรีทุกสาขา","ไม่จำเป็นต้องมีประสบการณ์ทำงาน","มีแผนวิทยานิพนธ์และแผนค้นคว้าอิสระ","มีหลายสาขาเอก"],
+            "curriculum": [
+              {"category": "สาขาเอก", "courses": ["องค์การและการจัดการ","การจัดการทรัพยากรมนุษย์","การบริหารการเงินและการคลัง","นโยบายสาธารณะและการจัดการเชิงกลยุทธ์","การปกครองท้องถิ่น","การบริหารงานยุติธรรมทางอาญา","การจัดการองค์การที่ไม่แสวงหากำไร","การจัดการสำหรับนักบริหาร","การบริหารงานเมือง"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "97,000"}
+            ]
+          },
+          {
+            "program": "ภาคพิเศษ/นอกเวลาราชการ (Special Program / Online / Weekend)",
+            "degree": "ป.โท",
+            "keywords": ["ภาคพิเศษ","Online","Weekend","Special Program","นอกเวลาราชการ"],
+            "description": "หลักสูตรภาคพิเศษสำหรับผู้ที่ทำงานได้ เรียนนอกเวลาราชการรูปแบบต่าง ๆ ตามสถานที่และรูปแบบการเรียน เช่น กรุงเทพมหานคร, Online, ชลบุรี, สุราษฏร์ธานี, อุดรธานี, พิษณุโลก, นครราชสีมา, กรุงเทพมหานคร Special Program",
+            "overview": "หลักสูตรภาคพิเศษมีลักษณะคล้ายคลึงกับหลักสูตรภาคปกติ แต่มีความยืดหยุ่นและปรับให้เข้ากับการเรียนแบบไลฟ์สไตล์ของผู้ทำงานมากขึ้น",
+            "location": "กรุงเทพมหานคร / Online / ชลบุรี / สุราษฏร์ธานี / อุดรธานี / พิษณุโลก / นครราชสีมา",
+            "language": "Thai / English",
+            "study_time": "นอกเวลาราชการ, Online, Weekend, Special Program",
+            "duration": "2 ปี",
+            "credits": "39",
+            "total_fee": "97,000",
+            "admission_requirements": "ผู้ที่ทำงานได้; เปิดรับสำหรับผู้สนใจหลักสูตรภาคปกติและรูปแบบยืดหยุ่น",
+            "special_features": ["เรียนแบบยืดหยุ่นตามสถานที่และเวลา","รองรับรูปแบบออนไลน์และภาคพิเศษ","เหมาะสำหรับผู้ที่ทำงานแล้ว"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "97,000"}
+            ]
+          },
+          {
+            "program": "Doctor of Philosophy in Governance and Development | Ph.D. (International)",
+            "degree": "ป.เอก",
+            "keywords": ["Ph.D.","Governance and Development","International","Evening Classes","Weekend Classes"],
+            "description": "หลักสูตรปริญญาเอกนานาชาติ 63 หน่วยกิต ค่าใช้จ่ายรวม 480,000 บาท เรียนแบบ Evening Classes และ Weekend Classes",
+            "overview": "หลักสูตรนี้ให้ความสำคัญกับการวิจัยเชิงลึกด้านการกำกับดูแลและการพัฒนา โดยมี 2 กลุ่มวิชาเอกหลักคือ Organization and Human Resource Governance และ Public Policy and Development",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "Evening Classes และ Weekend Classes",
+            "duration": "ไม่ระบุ",
+            "credits": "63",
+            "total_fee": "480,000",
+            "admission_requirements": "ปริญญาโทที่เกี่ยวข้อง; ส่งข้อเสนอโครงการวิจัย",
+            "special_features": ["หลักสูตรนานาชาติ","เรียนแบบ Evening Classes และ Weekend Classes","มีทางเลือกวิชาเอก Public Finance and Financial Management"],
+            "curriculum": [
+              {"category": "Remedial Courses", "courses": ["Non-credit remedial courses"]},
+              {"category": "Core Courses", "courses": ["Core Courses"]},
+              {"category": "Research Methodology", "courses": ["Research Methodology"]},
+              {"category": "Major Subjects", "courses": ["Organization and Human Resource Governance","Public Policy and Development","Public Finance and Financial Management"]},
+              {"category": "Independent Study", "courses": ["Independent Study"]},
+              {"category": "Dissertation", "courses": ["Dissertation"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคค่ำ/สุดสัปดาห์","admission_period": "ไม่ระบุ","tuition": "480,000"}
+            ]
+          },
+          {
+            "program": "หลักสูตรปริญญาเอก สาขาวิชารัฐประศาสนศาสตร์",
+            "degree": "ป.เอก",
+            "keywords": ["รัฐประศาสนศาสตร์","ปริญญาเอก","วิจัย","พัฒนาศักยภาพ"],
+            "description": "หลักสูตรวิจัยที่เน้นการพัฒนาศักยภาพด้านรัฐประศาสนศาสตร์เชิงลึกเพื่อการศึกษาเชิงวิชาการและการวิจัยระดับสูง",
+            "overview": "แม้จะครอบคลุมเนื้อหาในวงกว้าง แต่ภาพรวมหลักยังเน้นหลักสูตรวิจัยเชิงลึกเพื่อส่งเสริมศักยภาพด้านรัฐประศาสนศาสตร์",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "เรียนในเวลาราชการหรือแบบยืดหยุ่นตามหลักสูตร",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "ปริญญาโทที่เกี่ยวข้อง; มีข้อเสนอการวิจัย",
+            "special_features": ["หลักสูตรวิจัยเชิงลึก","เน้นพัฒนาศักยภาพด้านรัฐประศาสนศาสตร์"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "หลักสูตรฝึกอบรม",
+        "programs": [
+          {
+            "program": "NwT.MAX: Digital Intelligence and Smart System",
+            "degree": "ฝึกอบรม",
+            "keywords": ["AI","Metaverse","Blockchain","Big Data","Startup","Digital Transformation"],
+            "description": "หลักสูตรฝึกอบรม 115 ชั่วโมง ค่าลงทะเบียน 86,500 บาท เหมาะสำหรับนักบริหารระดับสูง เน้น AI, Metaverse, Blockchain, Big Data, Startup และ AI ในองค์กร",
+            "overview": "หลักสูตรนี้มุ่งพัฒนานักบริหารระดับสูงให้มีความเข้าใจและความสามารถในการนำเทคโนโลยีดิจิทัลและนวัตกรรมสู่การวางกลยุทธ์องค์กร",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "ฝึกอบรมเชิงปฏิบัติ",
+            "duration": "115 ชั่วโมง",
+            "credits": "ไม่ระบุ",
+            "total_fee": "86,500",
+            "admission_requirements": "มีประสบการณ์ทำงาน 10 ปีขึ้นไป หรือเป็นนักบริหารระดับสูง/ผู้มีประสบการณ์ทางบริหาร",
+            "special_features": ["เน้น AI, Metaverse, Blockchain, Big Data, Startup","เหมาะกับนักบริหารระดับสูง","เน้นกลยุทธ์ในยุคดิจิทัล"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ฝึกอบรม","admission_period": "ไม่ระบุ","tuition": "86,500"}
+            ]
+          },
+          {
+            "program": "Development Administrator in Digital Era",
+            "degree": "ฝึกอบรม",
+            "keywords": ["Digital Era","Administration","Technology","Leadership"],
+            "description": "หลักสูตรฝึกอบรมเชิงบริหารยุคดิจิทัลที่เกี่ยวกับการปรับตัวของผู้บริหารให้สอดรับกับเทคโนโลยีและการเปลี่ยนแปลง",
+            "overview": "หลักสูตรนี้ช่วยพัฒนาแนวคิดและทักษะด้านการบริหารในยุคดิจิทัลให้สอดคล้องกับบริบทองค์กรและการเปลี่ยนแปลงแบบก้าวกระโดด",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "ฝึกอบรมเชิงบริหาร",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "เหมาะสำหรับผู้บริหารระดับกลางถึงระดับสูง",
+            "special_features": ["เน้นการปรับตัวต่อเทคโนโลยี","พัฒนาทักษะการตัดสินใจเชิงยุทธศาสตร์"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ฝึกอบรม","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          },
+          {
+            "program": "วิทยาการการจัดการสำหรับนักบริหารระดับสูง",
+            "degree": "ฝึกอบรม",
+            "keywords": ["นักบริหารระดับสูง","การจัดการ","กลยุทธ์","การตัดสินใจ"],
+            "description": "เป็นหลักสูตรเชิงนักบริหารระดับสูง เน้นการพัฒนาทักษะบริหารและการตัดสินใจเชิงยุทธศาสตร์",
+            "overview": "หลักสูตรนี้ออกแบบมาเพื่อเสริมศักยภาพผู้บริหารระดับสูงให้เห็นภาพเชิงกลยุทธ์และคิดเชิงบูรณาการในการแก้ปัญหาเชิงยุทธศาสตร์",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ฝึกอบรมเชิงบริหาร",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "ผู้บริหารระดับสูงหรือผู้ที่มีประสบการณ์ด้านการบริหาร",
+            "special_features": ["เน้นการพัฒนาทักษะบริหาร","การตัดสินใจเชิงยุทธศาสตร์"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ฝึกอบรม","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          },
+          {
+            "program": "Mini Master of Management Program (MMM)",
+            "degree": "ฝึกอบรม",
+            "keywords": ["Mini Master","Management Program","ผู้บริหาร","Short Course"],
+            "description": "เป็นหลักสูตรสั้น/ประยุกต์สำหรับนักบริหารที่ต้องการพัฒนาศักยภาพระดับกลาง ๆ แบบมีโครงสร้างและประสิทธิภาพ",
+            "overview": "หลักสูตรนี้เหมาะสำหรับผู้บริหารที่ต้องการพัฒนาทักษะเชิงปฏิบัติแบบมีโครงสร้างและเน้นประสิทธิภาพในการปฏิบัติงาน",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ฝึกอบรมเฉพาะหลักสูตร",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "ผู้บริหารที่ต้องการพัฒนาศักยภาพระดับกลาง ๆ",
+            "special_features": ["สั้นและประยุกต์ใช้ได้จริง","มีโครงสร้างและประสิทธิภาพ"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "semesters": [
+              {"term": "1","study_mode": "ฝึกอบรม","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSHRD คณะพัฒนาทรัพยากรมนุษย์",
+    "departments": [
+      {
+        "department": "การพัฒนาทรัพยากรมนุษย์และองค์การ",
+        "programs": [
+          {
+            "program": "หลักสูตรการพัฒนาทรัพยากรมนุษย์และองค์การ (HROD)",
+            "degree": "ป.โท",
+            "keywords": ["HROD","Human Resource Development","Organization Development","Research-driven Practice","Leadership"],
+            "description": "หลักสูตรปริญญาโทภาคพิเศษ นอกเวลาราชการ ที่เน้นการบูรณาการความรู้ด้านทรัพยากรมนุษย์และองค์การ ผ่านการใช้วิจัยนำการปฏิบัติ การพัฒนากลยุทธ์และองค์การ และการสร้างผู้นำที่สามารถขับเคลื่อนการเปลี่ยนแปลงอย่างยั่งยืน",
+            "overview": "หลักสูตรนี้มุ่งพัฒนาศักยภาพนักบริหารและนักพัฒนาทรัพยากรมนุษย์ให้มีความเข้าใจเชิงระบบและความคิดเชิงนวัตกรรมในด้านการจัดการคน การออกแบบองค์การ และการสร้างวัฒนธรรมการเรียนรู้",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "ภาคพิเศษ, นอกเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "ผู้สนใจหลักสูตรปริญญาโทภาคพิเศษ; เน้นการประยุกต์ใช้ความรู้และการวิจัยเชิงปฏิบัติ",
+            "special_features": ["วิจัยนำการปฏิบัติ","พัฒนากลยุทธ์และองค์การ","สร้างผู้นำเปลี่ยนแปลง","ความยั่งยืนและจริยธรรมในองค์การ"],
+            "curriculum": [
+              {"category": "วิชาหลัก", "courses": ["HR 6001 Innovation and Scientific Thinking for Smart Decision","HR 6002 Organizational Behavior and Learning","HR 6003 Organization Theory and Management in the Modern to Post-Modern World","HR 6004 Ethics & Sustainable Development","HR 6005 Research Methods and Research-Guided Practices"]},
+              {"category": "สาขาเอก", "courses": ["Human Resource Design, System, and Implementation","Unleashing Talent Potential","Employee Experience and Organization Well-Being","Leadership for Transformation"]},
+              {"category": "สาขาเอกเพิ่มเติม", "courses": ["Human Resource System by Design","Organization Diagnosis and Development","Strategic Performance Management System","Strategic Communication for Change"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/hrod",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          },
+          {
+            "program": "หลักสูตรวิทยาศาสตรมหาบัณฑิต สาขาวิชาศาสตร์และการขับเคลื่อนองค์การ (OSCa)",
+            "degree": "ป.โท",
+            "keywords": ["OSCa","Organization Science","Corporate Strategy","AI","Game Design","Knowledge Management"],
+            "description": "หลักสูตรปริญญาโทภาคพิเศษ นอกเวลาราชการ ที่เน้นองค์การเป็นศูนย์กลางแบบศาสตร์และการขับเคลื่อน โดยมององค์การผ่านหลากหลายมิติ เช่น กลยุทธ์ วัฒนธรรม การเรียนรู้ การตัดสินใจ บทบาทผู้นำ ความยั่งยืน AI Game Assessment และ Knowledge Management",
+            "overview": "หลักสูตรนี้เหมาะสำหรับผู้ที่ต้องการทำงานด้านการเปลี่ยนแปลงองค์การ การออกแบบองค์การ การบริหารคนและผลการปฏิบัติงาน รวมถึงการผสาน AI และเทคโนโลยีเข้ากับการจัดการองค์การและทรัพยากรมนุษย์",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "ภาคพิเศษ, นอกเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "ไม่ระบุ",
+            "total_fee": "ไม่ระบุ",
+            "admission_requirements": "ผู้สนใจหลักสูตรปริญญาโทภาคพิเศษที่ต้องการประยุกต์ศาสตร์องค์การเข้ากับการขับเคลื่อนองค์กรและการพัฒนาคน",
+            "special_features": ["องค์การเป็นศูนย์กลาง","มองผ่านกลยุทธ์และวัฒนธรรม","เชื่อมต่อ AI และเทคโนโลยี","เหมาะกับการเปลี่ยนแปลงองค์การ"],
+            "curriculum": [
+              {"category": "วิชาหลัก", "courses": ["OC 6001 Corporate Strategy Generation and Basic Business Administration","OC 6002 Sustainability Essentials","OC 6003 Entrepreneurial Psychology and Learning","OC 6004 Research Concept, Design and Methods in Organizational Dynamics","OC 6005 Art and Science in Leading"]},
+              {"category": "วิชาเอก/เลือก", "courses": ["OC 7001 Power of Culture and Communication","OC 7002 Decision-Making Science in the Inevitable Changes","OC 7003 Organizational Project Management","OC 7004 People Capital, Experiences, Performance, and Potential","OC 7005 Organization Playbook","OC 7101 Organization Design and Architecture","OC 7102 Project Management for Human Resource and Organization Development","OC 7103 Coaching, Counselling, and Mentoring","OC 7104 Strategic Compensation Management","OC 7105 Labor Relations","OC 7106 Transorganization Development","OC 7107 Cultural Dynamic and Diversity","OC 7108 Professional Consultancy","OC 7109 Human Resource Development Blueprint","OC 7110 Positive Psychology for Work Performance","OC 7111 Tools and Techniques for Assessment","OC 7112 Happiology","OC 7113 Instructional Design Essential","OC 7114 Leisurely Human Resource Development","OC 7115 Gamification and Game Design in Human Resource Organization Development","OC 7116 Designing Cyber and AI Awareness for the Organization","HR 7117 Social Intelligence and Mingling Management","OC 7118 Powerful Idea Expression","OC 7119 Organization Management Innovation","OC 7120 Knowledge Management and Learning Organization"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/osca",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "ไม่ระบุ"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "หลักสูตรปริญญาเอก",
+        "programs": [
+          {
+            "program": "หลักสูตรปริญญาเอก HODI (Thai-English)",
+            "degree": "ป.เอก",
+            "keywords": ["HODI","Human and Organization Development","Innovation","Thai-English","Weekend Classes"],
+            "description": "หลักสูตรปริญญาเอกภาคพิเศษ นอกเวลาราชการ เรียนวันเสาร์-อาทิตย์ ระยะเวลา 3 ปี 63 หน่วยกิต ค่าใช้จ่ายรวม 692,500 บาท เน้นนวัตกรรมเพื่อการพัฒนามนุษย์และองค์การอย่างยั่งยืน",
+            "overview": "หลักสูตรนี้เป็นหลักสูตรสองภาษา (Thai–English) ที่มีโครงสร้างวิชาชัดเจนและมุ่งสร้างความเชี่ยวชาญระดับวิชาการในการพัฒนามนุษย์และองค์การอย่างยั่งยืน",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai / English",
+            "study_time": "วันเสาร์-อาทิตย์, ภาคพิเศษ, นอกเวลาราชการ",
+            "duration": "3 ปี",
+            "credits": "63",
+            "total_fee": "692,500",
+            "admission_requirements": "ต้องสำเร็จปริญญาโท; มีคะแนนเฉลี่ยปริญญาตรีไม่ต่ำกว่า 2.50 และปริญญาโทไม่ต่ำกว่า 3.25; ต้องมีคะแนนภาษาอังกฤษตามเกณฑ์หรือเรียน補ภาษาอังกฤษตามเงื่อนไข; ยอมรับที่จะเขียนวิทยานิพนธ์เป็นภาษาอังกฤษ",
+            "special_features": ["หลักสูตรสองภาษา","เรียนวันเสาร์-อาทิตย์","มุ่งเน้นนวัตกรรมและความยั่งยืน"],
+            "curriculum": [
+              {"category": "Core courses", "courses": ["HODI 6001 Integrated Innovation for Human and Organization Development","HODI 6002 Epistemology & Inquiry","HODI 6003 Theory Development for Human and Organization Development"]},
+              {"category": "Research methodology", "courses": ["HODI 6004 Advanced Qualitative Research","HODI 6005 Advanced Quantitative Research"]},
+              {"category": "Major subjects", "courses": ["HODI 7101 Futuristic Human Development","HODI 7102 Innovation Organization Development","HODI 7103 Entrepreneurial Leadership"]},
+              {"category": "Electives", "courses": ["HODI 7201 Cultural Intelligence in Human and Organization Development","HODI 7202 Communication in Organization Development","HODI 7203 Knowledge Management & Learning Organization","HODI 7204 Human and Organization Development Audit Evaluation","HODI 7205 Professional Consultant","HODI 7206 Digital Organization and Society"]},
+              {"category": "Dissertation", "courses": ["HODI 9000 Dissertation"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/hodi",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "692,500"}
+            ]
+          },
+          {
+            "program": "International Ph.D. Program in Human Resource and Organization Development",
+            "degree": "ป.เอก",
+            "keywords": ["International Ph.D.","HROD","Human Resource and Organization Development","Weekend Classes","Research"],
+            "description": "หลักสูตรปริญญาเอกนานาชาติที่เน้นการพัฒนานักวิชาการ นักวิจัย ที่ปรึกษา และผู้บริหารระดับสูงในด้านการพัฒนาทรัพยากรมนุษย์และองค์การ โดยเป็นหลักสูตรวันหยุดสุดสัปดาห์ 67 หน่วยกิต ค่าใช้จ่ายรวม 743,500 บาท",
+            "overview": "หลักสูตรนี้มุ่งให้ผู้เรียนสามารถสังเคราะห์องค์ความรู้ใน HROD จากหลายศาสตร์ สร้างองค์ความรู้ใหม่ วิเคราะห์แนวคิดเดิมผ่านงานวิจัย และแปลงความรู้ให้เกิดประโยชน์ทางปฏิบัติและการตีพิมพ์",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "Weekend Classes",
+            "duration": "ไม่ระบุ",
+            "credits": "67",
+            "total_fee": "743,500",
+            "admission_requirements": "สำเร็จปริญญาโทที่เกี่ยวข้อง; ต้องมีคุณสมบัติทางวิชาการที่สอดคล้องกับหลักสูตรและแผนการวิจัย",
+            "special_features": ["หลักสูตรนานาชาติ","เน้นวิจัยและการตีพิมพ์","เหมาะสำหรับนักวิชาการและผู้บริหารระดับสูง"],
+            "curriculum": [
+              {"category": "A. Remedial Courses", "courses": ["LC 4003 Advanced Reading and Writing in English for Graduate Studies","LC 4004 Advanced Integrated English Language Skills Development"]},
+              {"category": "B. Basic Courses", "courses": ["HROD 6000 Inquiry Strategies for HROD Research","HROD 6001 Strategic Human Resource in Global Context","HROD 6002 Organization Development and Change","HROD 6003 Epistemology & Inquiry in Human Resource and Organization Development","HROD 6007 Special Topic Research"]},
+              {"category": "C. Research Methodology", "courses": ["HROD 6004 HROD Research Methods, Techniques, and Tools","HROD 6005 Qualitative Research for Human Resource and Organization Development","HROD 6006 Quantitative Research for Human Resource and Organization Development"]},
+              {"category": "D. Specialized Field", "courses": ["HROD 7101 Human Resource and Organization Development Theory Development","HROD 7102 Learning and Development in the Workplace","HROD 7103 Ethics in a Workplace and Ethical Global Issues"]},
+              {"category": "E. Electives", "courses": ["HROD 7201 Cultural Intelligence in Human Resource and Organization Development","HROD 7202 Leadership Development","HROD 7203 Communication in Organization Development","HROD 7204 Knowledge Management & Learning Organization","HROD 7205 Professional Consultant","HROD 7206 Advanced Organization Development","HROD 7207 Strategic Performance Management","HROD 7208 Analytics and Innovation in Futuristic Human Resource and Organization Development","HROD 7209 Sufficiency Economy Philosophy for Sustainability","HROD 7210 Talent Development","HROD 7211 Selected Topics 1","HROD 7212 Selected Topics 2"]},
+              {"category": "F. Seminars", "courses": ["HROD 8001 Seminar I","HROD 8002 Seminar II","HROD 8003 Seminar III"]},
+              {"category": "G. Dissertation", "courses": ["HROD 9900"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/international-hrod-phd",
+            "semesters": [
+              {"term": "1","study_mode": "Weekend Classes","admission_period": "ไม่ระบุ","tuition": "743,500"}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSLC คณะภาษาและการสื่อสาร",
+    "departments": [
+      {
+        "department": "ภาษาศาสตร์และการสื่อสาร",
+        "programs": [
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาภาษาอังกฤษเพื่อการพัฒนาอาชีพ ภาคปกติ",
+            "degree": "ป.โท",
+            "keywords": ["ภาษาอังกฤษเพื่อการพัฒนาอาชีพ","English for Career Development","Teaching","Translation","Interpretation","Business English","Research"],
+            "description": "หลักสูตรภาคปกติในเวลาราชการ 36 หน่วยกิต ค่าใช้จ่ายรวม 98,700 บาท ผลิตบัณฑิตที่มีความเชี่ยวชาญด้านภาษาอังกฤษเพื่อการพัฒนาอาชีพในด้านการสอน การแปล ล่าม งานธุรกิจ และการทำงานเชิงวิชาชีพ",
+            "overview": "หลักสูตรนี้เน้นการพัฒนาผู้เรียนให้มีความเชี่ยวชาญด้านภาษาอังกฤษเชิงอาชีพและการวิจัย เพื่อเตรียมความพร้อมสำหรับการทำงานเชิงวิชาชีพในสังคมยุคใหม่",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "98,700",
+            "admission_requirements": "สำเร็จปริญญาตรีหรือเทียบเท่า; ผ่านการคัดเลือกโดยข้อเขียน/สัมภาษณ์",
+            "special_features": ["ผลิตบัณฑิตเชี่ยวชาญภาษาอังกฤษเพื่ออาชีพ","เตรียมพร้อมด้านการสอน การแปล ล่าม การธุรกิจและวิจัย"],
+            "curriculum": [
+              {"category": "หมวดวิชาเสริมพื้นฐาน", "courses": ["ไม่คิดหน่วยกิต"]},
+              {"category": "หมวดวิชาพื้นฐาน", "courses": ["Core foundation courses"]},
+              {"category": "หมวดวิชาเอก", "courses": ["Specialized content courses"]},
+              {"category": "หมวดวิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "การค้นคว้าอิสระ", "courses": ["Independent Study"]},
+              {"category": "วิทยานิพนธ์", "courses": ["Thesis"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gslc-english-career",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "98,700"}
+            ]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการสื่อสาร วัฒนธรรม และภาษาญี่ปุ่น ภาคปกติ",
+            "degree": "ป.โท",
+            "keywords": ["การสื่อสาร","วัฒนธรรม","ภาษาญี่ปุ่น","Japan Studies","Communication","Culture"],
+            "description": "หลักสูตรภาคปกติในเวลาราชการ 36 หน่วยกิต ค่าใช้จ่ายรวม 54,000 บาท ผสานความรู้ด้านการสื่อสาร วัฒนธรรม และภาษาญี่ปุ่น เพื่อการประยุกต์ใช้งานในอาชีพที่เกี่ยวข้องกับญี่ปุ่น",
+            "overview": "หลักสูตรนี้มุ่งพัฒนาศักยภาพนักศึกษาให้มีความรู้และทักษะในการใช้ภาษาญี่ปุ่นและองค์ความรู้ด้านวัฒนธรรมและการสื่อสารเพื่อรองรับการทำงานและการศึกษาต่อที่เกี่ยวข้องกับญี่ปุ่น",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "54,000",
+            "admission_requirements": "สำเร็จปริญญาตรี; มีพื้นฐานภาษาญี่ปุ่นระดับ N3 หรือเป็นวิชาเอก/โทภาษาญี่ปุ่น; ผ่านข้อเขียนและ/หรือสัมภาษณ์",
+            "special_features": ["ผสานความรู้ด้านการสื่อสาร วัฒนธรรม และภาษาญี่ปุ่น","เน้นการประยุกต์ใช้งานกับอาชีพญี่ปุ่น","มีทุนส่งเสริมการศึกษาให้กับภาคปกติ"],
+            "curriculum": [
+              {"category": "วิชาพื้นฐานภาษาญี่ปุ่น", "courses": ["Japanese foundation courses"]},
+              {"category": "วิชาหลักด้านการสื่อสาร/วัฒนธรรม/ญี่ปุ่นศึกษา", "courses": ["Communication, culture, and Japan studies core courses"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "การค้นคว้าอิสระ", "courses": ["Independent Study"]},
+              {"category": "วิทยานิพนธ์", "courses": ["Thesis"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gslc-japanese-communication",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "54,000"}
+            ]
+          },
+          {
+            "program": "M.A. in English Language Studies and Teaching (International Program) Weekend Program",
+            "degree": "ป.โท",
+            "keywords": ["ELST","English Language Studies and Teaching","International Program","Weekend","Interdisciplinary"],
+            "description": "หลักสูตรภาคพิเศษ/นอกเวลาราชการแบบ Weekend ภาษาอังกฤษ 36 หน่วยกิต ระยะเวลา 2 ปี ค่าใช้จ่ายรวม 179,700 บาท ผสมความรู้เชิงทฤษฎีและปฏิบัติ เน้นความเป็นนานาชาติและการเรียนแบบ Interdisciplinary",
+            "overview": "หลักสูตรนี้มุ่งพัฒนาผู้เรียนให้มีความรู้ทั้งเชิงทฤษฎีและปฏิบัติ พร้อมความพร้อมในการศึกษาต่อหรือทำงานในตำแหน่งที่มีความรับผิดชอบสูง โดยเน้นสาขา ELST อย่างชัดเจน",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "ภาคพิเศษ, Weekend",
+            "duration": "2 ปี",
+            "credits": "36",
+            "total_fee": "179,700",
+            "admission_requirements": "เปิดรับผู้สนใจหลักสูตรนานาชาติที่ต้องการศึกษาภาษาอังกฤษเชิงทฤษฎีและปฏิบัติแบบ Interdisciplinary",
+            "special_features": ["ผสมทฤษฎีและปฏิบัติ","ความเป็นนานาชาติ","Interdisciplinary","เตรียมพร้อมสู่การศึกษาต่อและงานรับผิดชอบสูง"],
+            "curriculum": [
+              {"category": "Foundation courses", "courses": ["Foundation courses"]},
+              {"category": "Core courses", "courses": ["Core courses"]},
+              {"category": "Elective courses", "courses": ["Elective courses"]},
+              {"category": "Seminar", "courses": ["Seminar"]},
+              {"category": "Thesis หรือ Independent Study", "courses": ["Thesis or Independent Study"]},
+              {"category": "Comprehensive Examination (Track B)", "courses": ["Comprehensive Examination"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gslc-elst-weekend",
+            "semesters": [
+              {"term": "1","study_mode": "Weekend","admission_period": "ไม่ระบุ","tuition": "179,700"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "หลักสูตรปริญญาเอก",
+        "programs": [
+          {
+            "program": "Ph.D. in English Language Studies and Teaching (International Program)",
+            "degree": "ป.เอก",
+            "keywords": ["Ph.D.","English Language Studies and Teaching","International Program","Track 1","Track 2.1","Track 2.2"],
+            "description": "หลักสูตรปริญญาเอกภาคปกติในเวลาราชการ แบบหลักสูตรนานาชาติ มี 3 Track ได้แก่ Track 1 48 หน่วยกิต ค่าธรรมเนียม 369,500 บาท, Track 2.1 57 หน่วยกิต ค่าธรรมเนียม 429,500 บาท, และ Track 2.2 สำหรับผู้มีปริญญาตรีเกียรตินิยมอันดับหนึ่งหรือพื้นฐานตรงตามเงื่อนไขของหลักสูตร",
+            "overview": "หลักสูตรนี้มีรูปแบบการศึกษาที่หลากหลายตาม Track และมุ่งพัฒนาผู้เรียนให้มีความเชี่ยวชาญทั้งในเชิงวิชาการและการวิจัยระดับสูงด้านภาษาอังกฤษศึกษาและการสอน",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "48 / 57",
+            "total_fee": "369,500 / 429,500",
+            "admission_requirements": "Track 1 และ Track 2.1 ต้องมีปริญญาโทที่เกี่ยวข้องและ GPA 3.25 ขึ้นไป; Track 2.2 ต้องมีปริญญาตรีเกียรตินิยมอันดับหนึ่งในสาขาที่เกี่ยวข้อง; ต้องมีผล TOEFL/IELTS ตามหลักเกณฑ์ที่กำหนด; ภาษาอังกฤษเป็นภาษาต่างประเทศต้องมีคะแนนขั้นต่ำตามแต่ละ Track",
+            "special_features": ["มี 3 Track","หลักสูตรภาคปกติในเวลาราชการ","เน้นปริญญาเอกด้าน ELST และการวิจัย"],
+            "curriculum": [
+              {"category": "Track 1", "courses": ["48 credits, tuition 369,500"]},
+              {"category": "Track 2.1", "courses": ["57 credits, tuition 429,500"]},
+              {"category": "Track 2.2", "courses": ["Direct admission track for honor-degree graduates; follow curriculum requirements"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gslc-phd-elst",
+            "semesters": [
+              {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "369,500 / 429,500"}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "นิเทศศาสตร์",
+    "departments": [
+      {
+        "department": "การสื่อสาร",
+        "programs": [
+          {
+            "program": "นิเทศศาสตร์มหาบัณฑิต",
+            "degree": "ป.โท",
+            "keywords": ["นิเทศศาสตร์","สื่อสารมวลชน","ดิจิทัลมีเดีย"],
+            "description": "หลักสูตรเตรียมความพร้อมด้านการสื่อสาร การประชาสัมพันธ์ และสื่อดิจิทัล",
+            "admission_requirements": "ปริญญาตรีทุกสาขา พร้อมผลงานหรือประสบการณ์ด้านการสื่อสาร",
+            "career_opportunities": ["นักประชาสัมพันธ์","ผู้จัดการสื่อสารองค์กร","นักสื่อสารมวลชน"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/communications-mpa",
+            "semesters": [
+              {
+                "term": "1",
+                "study_mode": "ภาคค่ำ",
+                "admission_period": "มีนาคม",
+                "tuition": "65,000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "นโยบายสาธารณะ",
+    "departments": [
+      {
+        "department": "นโยบายสาธารณะ",
+        "programs": [
+          {
+            "program": "นโยบายสาธารณะดุษฎีบัณฑิต",
+            "degree": "ป.เอก",
+            "keywords": ["นโยบายสาธารณะ","การวิเคราะห์นโยบาย","วิจัย"],
+            "description": "หลักสูตรวิจัยเชิงนโยบายสาธารณะสำหรับนักวิชาการและผู้เชี่ยวชาญ",
+            "admission_requirements": "ปริญญาโทที่เกี่ยวข้อง พร้อมข้อเสนอการวิจัย",
+            "career_opportunities": ["นักวิชาการ","นักวิเคราะห์นโยบาย","ที่ปรึกษาองค์กร"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-policy-phd",
+            "semesters": [
+              {
+                "term": "1",
+                "study_mode": "ภาคปกติ",
+                "admission_period": "มกราคม",
+                "tuition": "80,000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "วิทยาศาสตร์การเมือง",
+    "departments": [
+      {
+        "department": "รัฐศาสตร์",
+        "programs": [
+          {
+            "program": "รัฐประศาสนศาสตรมหาบัณฑิต",
+            "degree": "ป.โท",
+            "keywords": ["รัฐศาสตร์","การบริหารภาครัฐ","การปกครอง"],
+            "description": "หลักสูตรเน้นการบริหารภาครัฐและการพัฒนานโยบายสาธารณะ",
+            "admission_requirements": "ปริญญาตรีทุกสาขา มีประสบการณ์การทำงานภาครัฐหรือองค์กรไม่แสวงหากำไรเป็นพิจารณา",
+            "career_opportunities": ["ผู้บริหารรัฐ","ผู้วางนโยบาย","ที่ปรึกษาภาครัฐ"],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/public-administration-mpa",
+            "semesters": [
+              {
+                "term": "1",
+                "study_mode": "ภาคปกติ",
+                "admission_period": "เมษายน",
+                "tuition": "75,000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSCM คณะนิเทศศาสตร์และนวัตกรรมการจัดการ",
+    "departments": [
+      {
+        "department": "นิเทศศาสตร์และนวัตกรรมการจัดการ",
+        "programs": [
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (ภาคปกติ)",
+            "degree": "ป.โท",
+            "keywords": ["นิเทศศาสตร์และนวัตกรรม","Marketing Communication","AI","Data","Innovation","ภาคปกติ"],
+            "description": "หลักสูตรปริญญาโทภาคปกติในเวลาราชการ 36 หน่วยกิต ค่าลงทะเบียนหน่วยกิตละ 1,500 บาท มีเน้นความเชี่ยวชาญด้านการสื่อสาร การตลาด นวัตกรรม เทคโนโลยี AI และข้อมูล",
+            "overview": "หลักสูตรนี้มุ่งพัฒนาศักยภาพด้านนวัตกรรมการสื่อสารการตลาดด้วยปัญญาประดิษฐ์และข้อมูล (AI and Data Driven for Innovative Marketing Communication) เพื่อเตรียมบัณฑิตให้มีความพร้อมทั้งเชิงวิชาการและเชิงประยุกต์",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "108,300",
+            "fee_breakdown": {
+              "credit": "1,500",
+              "total": "108,300"
+            },
+            "admission_requirements": "สำเร็จปริญญาตรีจากสถาบันที่ได้รับการรับรอง",
+            "special_features": [
+              "เน้น AI, data-driven marketing communication, digital strategy และ innovation",
+              "มีความเชี่ยวชาญเฉพาะเรื่องในแผนวิชาเอกด้าน AI and Data Driven for Innovative Marketing Communication",
+              "จัดการเรียนการสอนในเวลาราชการ"
+            ],
+            "curriculum": [
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาเอก", "courses": ["Specialized courses"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "การค้นคว้าอิสระ (แผน 2)", "courses": ["Independent Study"]},
+              {"category": "วิทยานิพนธ์ (แผน 1)", "courses": ["Thesis"]},
+              {"category": "สอบประมวลความรู้", "courses": ["Comprehensive Examination"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-ma-regular",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "108,300"}
+            ]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (Onsite)",
+            "degree": "ป.โท",
+            "keywords": ["นิเทศศาสตร์และนวัตกรรม","Onsite","AI","Data","Innovative Marketing Communication"],
+            "description": "หลักสูตรปริญญาโทภาคพิเศษนอกเวลาราชการ (Onsite) 36 หน่วยกิต ค่าใช้จ่ายรวม 273,699 บาท ค่าลงทะเบียนการเรียนการสอนภาษาไทยหน่วยกิตละ 6,000 บาท",
+            "overview": "หลักสูตร Onsite นี้มุ่งเน้น AI, data-driven marketing communication, digital strategy และ innovation ในลักษณะการเรียนรู้เชิงประยุกต์และเชิงวิชาการพร้อมตลอดเวลา",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคพิเศษ, Onsite",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "273,699",
+            "fee_breakdown": {
+              "credit": "6,000",
+              "total": "273,699"
+            },
+            "admission_requirements": "ต้องมีประสบการณ์การทำงานไม่ต่ำกว่า 1 ปี และสำเร็จปริญญาตรีจากสถาบันที่ได้รับการรับรอง",
+            "special_features": [
+              "เดียวกันกับหลักสูตรหลักโดยเน้น AI, data-driven marketing communication, digital strategy และ innovation",
+              "มีแผน 1 และแผน 2",
+              "รูปแบบการเรียนแบบ Onsite"
+            ],
+            "curriculum": [
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาเอก", "courses": ["Specialized courses"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "การค้นคว้าอิสระ (แผน 2)", "courses": ["Independent Study"]},
+              {"category": "วิทยานิพนธ์ (แผน 1)", "courses": ["Thesis"]},
+              {"category": "สอบประมวลความรู้", "courses": ["Comprehensive Examination"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-ma-onsite",
+            "semesters": [
+              {"term": "1", "study_mode": "Onsite", "admission_period": "ไม่ระบุ", "tuition": "273,699"}
+            ]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (English Program)",
+            "degree": "ป.โท",
+            "keywords": ["English Program","AI","Data Driven","Innovative Marketing Communication","Sustainable Marketing"],
+            "description": "หลักสูตรภาคพิเศษนอกเวลาราชการเป็นภาษาอังกฤษ 36 หน่วยกิต ค่าใช้จ่ายรวม 525,700 บาท ค่าลงทะเบียนการเรียนการสอนภาษาอังกฤษหน่วยกิตละ 6,000 บาทและค่าบำรุงหน่วยกิตหน่วยกิตละ 6,000 บาท",
+            "overview": "หลักสูตร English Program นี้เน้น AI and Data Driven for Innovative Marketing Communication และเสนอกลุ่มวิชาเลือกแยกเป็น 2 กลุ่ม คือ Innovative and Sustainable Marketing และ AI and Data Driven Strategies for Innovative Marketing Communication",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "ภาคพิเศษ, ภาษาอังกฤษ",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "525,700",
+            "fee_breakdown": {
+              "credit": "6,000",
+              "academic_fee": "6,000",
+              "total": "525,700"
+            },
+            "admission_requirements": "ต้องมีประสบการณ์การทำงานไม่ต่ำกว่า 1 ปี (กรณีภาคพิเศษ) และสำเร็จปริญญาตรีจากสถาบันที่ได้รับการรับรอง",
+            "special_features": [
+              "เน้น AI and Data Driven for Innovative Marketing Communication",
+              "กลุ่มวิชาเลือกแยกเป็น Innovative and Sustainable Marketing และ AI and Data Driven Strategies for Innovative Marketing Communication",
+              "สอนเป็นภาษาอังกฤษ"
+            ],
+            "curriculum": [
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาเอก", "courses": ["Specialized courses"]},
+              {"category": "วิชาเลือก", "courses": ["Innovative and Sustainable Marketing","AI and Data Driven Strategies for Innovative Marketing Communication"]},
+              {"category": "การค้นคว้าอิสระ / วิทยานิพนธ์", "courses": ["Independent Study / Thesis"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-ma-english",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาษาอังกฤษ", "admission_period": "ไม่ระบุ", "tuition": "525,700"}
+            ]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (Online)",
+            "degree": "ป.โท",
+            "keywords": ["Online","Marketing Communication","AI","Innovation","Digital Strategy"],
+            "description": "หลักสูตรปริญญาโทออนไลน์ 36 หน่วยกิต ค่าใช้จ่ายรวม 199,200 บาท ค่าลงทะเบียนหน่วยกิตละ 4,000 บาท เป็นเวอร์ชันออนไลน์ของหลักสูตรเดียวกันที่เน้นความรู้เชิงประยุกต์และนวัตกรรมการสื่อสารการตลาด",
+            "overview": "หลักสูตร Online นี้เป็นเวอร์ชันออนไลน์ของหลักสูตรเดียวกันเพื่อให้ผู้เรียนเข้าถึงความรู้ทางด้านการสื่อสารการตลาดอย่างหลากหลายและมีความนวัตกรรมสูง",
+            "location": "ออนไลน์",
+            "language": "Thai",
+            "study_time": "ออนไลน์",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "199,200",
+            "fee_breakdown": {
+              "credit": "4,000",
+              "total": "199,200"
+            },
+            "admission_requirements": "ต้องมีประสบการณ์การทำงานไม่ต่ำกว่า 1 ปี และสำเร็จปริญญาตรีจากสถาบันที่ได้รับการรับรอง",
+            "special_features": [
+              "เป็นเวอร์ชันออนไลน์ของหลักสูตรเดียวกัน",
+              "เน้นความรู้เชิงประยุกต์และนวัตกรรมการสื่อสารการตลาด",
+              "เรียนออนไลน์"
+            ],
+            "curriculum": [
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาเอก", "courses": ["Specialized courses"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "การค้นคว้าอิสระ / วิทยานิพนธ์", "courses": ["Independent Study / Thesis"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-ma-online",
+            "semesters": [
+              {"term": "1", "study_mode": "Online", "admission_period": "ไม่ระบุ", "tuition": "199,200"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "หลักสูตรปริญญาเอก",
+        "programs": [
+          {
+            "program": "ปรัชญาดุษฎีบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (ภาษาไทย)",
+            "degree": "ป.เอก",
+            "keywords": ["PhD","นิเทศศาสตร์และนวัตกรรม","AUN QA","สหวิทยาการ","ภาษาไทย"],
+            "description": "หลักสูตรปริญญาเอกภาษาไทย 3 Track: แบบ 1(1.1) = 48 หน่วยกิต, แบบ 2(2.1) = 54 หน่วยกิต, แบบ 2(2.2) = 90 หน่วยกิต โดยมีค่าใช้จ่าย 541,500 / 667,500 / 973,500 บาท ตาม Track",
+            "overview": "หลักสูตรนี้ได้รับการรับรองคุณภาพจาก AUN QA เป็นหลักสูตร PhD ที่มีความโดดเด่นด้านสหวิทยาการและนวัตกรรมทางการสื่อสาร",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "48 / 54 / 90",
+            "total_fee": "541,500 / 667,500 / 973,500",
+            "fee_breakdown": {
+              "track_1_1_1": "541,500",
+              "track_2_1": "667,500",
+              "track_2_2": "973,500"
+            },
+            "admission_requirements": "แบบ 1(1.1) และ 2(2.1) ต้องสำเร็จปริญญาโท; แบบ 2(2.2) ต้องสำเร็จปริญญาตรีที่มีผลดีเด่น; มีประสบการณ์การทำงานตามประกาศของสถาบัน",
+            "special_features": [
+              "ได้รับการรับรองคุณภาพจาก AUN QA",
+              "เป็นหลักสูตร PhD ที่มีความโดดเด่นด้านสหวิทยาการและนวัตกรรมทางการสื่อสาร",
+              "มี 3 Track ตามคุณสมบัติและเงื่อนไขของผู้สมัคร"
+            ],
+            "curriculum": [
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาพื้นฐาน (เฉพาะแบบ 2(2.2))", "courses": ["Foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "ระเบียบวิธีวิจัยขั้นสูง", "courses": ["Advanced research methodology"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "วิทยานิพนธ์", "courses": ["Dissertation"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-phd-thai",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "541,500 / 667,500 / 973,500"}
+            ]
+          },
+          {
+            "program": "ปรัชญาดุษฎีบัณฑิต (นิเทศศาสตร์และนวัตกรรม) (English Program)",
+            "degree": "ป.เอก",
+            "keywords": ["PhD","English Program","AUN QA","Leaders","Innovation","Communication"],
+            "description": "หลักสูตรปริญญาเอก English Program มีหน่วยกิต 48 หน่วยกิต ค่าใช้จ่ายรวม 829,500 บาท เน้นการเป็น leaders ในด้านการสื่อสาร การจัดการ และนวัตกรรม",
+            "overview": "หลักสูตรนี้เป็นเวอร์ชันนานาชาติที่มุ่งพัฒนาผู้เรียนให้เป็น leaders ด้านการสื่อสาร การจัดการ และนวัตกรรม พร้อมความเชี่ยวชาญทางการวิจัยระดับสูงและงานวิจัยนานาชาติ",
+            "location": "กรุงเทพมหานคร",
+            "language": "English",
+            "study_time": "ภาคปกติ, ภาษาอังกฤษ",
+            "duration": "ไม่ระบุ",
+            "credits": "48",
+            "total_fee": "829,500",
+            "admission_requirements": "ต้องสำเร็จปริญญาโทหรือปริญญาตรีดีเด่นตามเงื่อนไขแบบที่ระบุ และมีประสบการณ์การทำงานตามประกาศของสถาบัน",
+            "special_features": [
+              "เป็นหลักสูตรปริญญาเอกที่เน้น leaders ในด้านการสื่อสาร การจัดการ และนวัตกรรม",
+              "ได้รับการรับรอง AUN QA",
+              "มีข้อความชัดเจนว่าเป็นหลักสูตรหนึ่งเดียวใน ASEAN ที่ได้รับการรับรองแบบนี้"
+            ],
+            "curriculum": [
+              {"category": "Supplementary Foundation Courses", "courses": ["Supplementary foundation courses"]},
+              {"category": "Research Methodology", "courses": ["Advanced research methodology"]},
+              {"category": "Specialized Courses", "courses": ["Specialized courses"]},
+              {"category": "Electives", "courses": ["Elective courses"]},
+              {"category": "Dissertation", "courses": ["Dissertation"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gscm-phd-english",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาษาอังกฤษ", "admission_period": "ไม่ระบุ", "tuition": "829,500"}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSTM คณะการจัดการการท่องเที่ยว",
+    "departments": [
+      {
+        "department": "การจัดการการท่องเที่ยวและบริการแบบบูรณาการ",
+        "programs": [
+          {
+            "program": "Master of Management Program in Integrated Tourism and Hospitality Management",
+            "degree": "ป.โท",
+            "keywords": ["Integrated Tourism and Hospitality","UNWTO.TedQual","Smart Tourism","Big Data","Digital","Sustainable Tourism"],
+            "description": "หลักสูตรปริญญาโทภาคปกติในเวลาราชการ 36 หน่วยกิต ระยะเวลา 1.5–2 ปี ค่าใช้จ่ายรวม 167,900 บาท เน้นการเรียนแบบบูรณาการทั้งเชิงทฤษฎีและปฏิบัติ โดยใช้กรณีศึกษา ฟิลด์ทริป และการเรียนรู้เชิงปฏิบัติ",
+            "overview": "หลักสูตรนี้ได้รับการรับรองมาตรฐานจาก UNWTO.TedQual มีความยืดหยุ่นในการเรียนรู้และใช้เทคโนโลยีสารสนเทศ ดิจิทัล และ Big Data พร้อมเสริมทักษะด้านการวางแผน การบริหาร และนวัตกรรมในอุตสาหกรรมการท่องเที่ยวและบริการ",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "1.5–2 ปี",
+            "credits": "36",
+            "total_fee": "167,900",
+            "admission_requirements": "จบปริญญาตรีจากสถาบันที่รับรอง; มีประสบการณ์ทำงานไม่น้อยกว่า 1 ปี; มีหนังสือรับรองจากผู้บังคับบัญชา; สำหรับแผน A1 (วิทยานิพนธ์) ต้องมีความรู้ด้านวิจัยหรือผลงานตีพิมพ์",
+            "special_features": [
+              "ได้รับการรับรองมาตรฐานจาก UNWTO.TedQual",
+              "เน้นการเรียนแบบบูรณาการทั้งเชิงทฤษฎีและปฏิบัติ",
+              "ใช้กรณีศึกษา ฟิลด์ทริป และการเรียนรู้เชิงปฏิบัติ",
+              "ใช้งานข้อมูลดิจิทัล Big Data และนวัตกรรมเชิงบูรณาการ"
+            ],
+            "curriculum": [
+              {"category": "Paradigm and Ethic for Sustainable Tourism and Hospitality", "courses": ["Paradigm and Ethic for Sustainable Tourism and Hospitality"]},
+              {"category": "Dynamics of Tourism and Hospitality Management and Development", "courses": ["Dynamics of Tourism and Hospitality Management and Development"]},
+              {"category": "Innovation for Tourism and Hospitality Planning", "courses": ["Innovation for Tourism and Hospitality Planning"]},
+              {"category": "Sustainable Tourism Policy, Planning and Management", "courses": ["Sustainable Tourism Policy, Planning and Management"]},
+              {"category": "Research Methodology for Tourism and Hospitality", "courses": ["Research Methodology for Tourism and Hospitality"]},
+              {"category": "Specialization tracks", "courses": ["Integrated Tourism and Hospitality Policy, Planning and Management","Integrated Tourism and Hospitality Management","Hotel Management","Airline and Transportation Management","Hospitality Management"]},
+              {"category": "Electives", "courses": ["Data analytics","Smart entrepreneurship","Event management","Heritage tourism","Health and wellness tourism"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gstm-ma-regular",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "167,900"}
+            ]
+          },
+          {
+            "program": "หลักสูตรการจัดการมหาบัณฑิต (การจัดการการท่องเที่ยวและบริการแบบบูรณาการ)",
+            "degree": "ป.โท",
+            "keywords": ["Tourism Management","Hospitality","Part-time","Bangkok","Case Study","Field Trip"],
+            "description": "หลักสูตรปริญญาโทภาคพิเศษนอกเวลาราชการ กรุงเทพฯ 36 หน่วยกิต ค่าใช้จ่ายรวม 177,900 บาท เน้นการคิดวิเคราะห์ วิพากษ์ และอภิปรายเชิงระบบ สอดคล้องกับประสบการณ์จริงของผู้ทำงานแล้ว",
+            "overview": "หลักสูตรนี้เหมาะสำหรับผู้ที่ทำงานแล้วและต้องการเน้นประสบการณ์จริงผ่าน case study field trip และการเรียนรู้เชิงปฏิบัติ เพื่อพัฒนาทักษะการจัดการอุตสาหกรรมการท่องเที่ยวและบริการแบบบูรณาการ",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคพิเศษ, นอกเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "36",
+            "total_fee": "177,900",
+            "admission_requirements": "จบปริญญาตรี; มีประสบการณ์การทำงานอย่างน้อย 1 ปี; สามารถอุทิศเวลาให้กับการศึกษาได้; สำหรับแผนวิทยานิพนธ์ต้องมีพื้นฐานวิจัย",
+            "special_features": [
+              "เน้นการคิดวิเคราะห์ วิพากษ์ และอภิปรายเชิงระบบ",
+              "เสริมประสบการณ์จากผู้เชี่ยวชาญผ่าน case study, field trip, practical learning",
+              "เหมาะกับผู้ทำงานแล้ว"
+            ],
+            "curriculum": [
+              {"category": "วิชาเตรียมความพร้อม", "courses": ["Readiness courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาเอก", "courses": ["Specialized courses"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "วิทยานิพนธ์ / การค้นคว้าอิสระ", "courses": ["Thesis / Independent Study"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gstm-ma-onsite-bangkok",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาคพิเศษ", "admission_period": "ไม่ระบุ", "tuition": "177,900"}
+            ]
+          },
+          {
+            "program": "หลักสูตรการจัดการมหาบัณฑิต สาขาวิชาการจัดการการท่องเที่ยวและบริการแบบบูรณาการ ภาคพิเศษ ในส่วนภูมิภาค จังหวัดภูเก็ต",
+            "degree": "ป.โท",
+            "keywords": ["Phuket","Weekend","Regional","Tourism Management","Service Management"],
+            "description": "หลักสูตรปริญญาโทภาคพิเศษ/เรียนวันเสาร์-อาทิตย์ ภูเก็ต 36 หน่วยกิต ระยะเวลา 1.5 ปี ค่าใช้จ่ายรวม 174,900 บาท เน้นการเรียนรู้แบบบูรณาการและสู่การปฏิบัติจริง",
+            "overview": "หลักสูตรภูมิภาคนี้ช่วยสร้างเครือข่ายนักบริหารการท่องเที่ยวและบริการในบริบทท้องถิ่น พร้อมการสอนที่เป็นลำดับ Saturday-Sunday เพื่อให้เข้ากับนักศึกษาที่ทำงานอยู่",
+            "location": "ภูเก็ต",
+            "language": "Thai",
+            "study_time": "ภาคพิเศษ, วันเสาร์-อาทิตย์",
+            "duration": "1.5 ปี",
+            "credits": "36",
+            "total_fee": "174,900",
+            "admission_requirements": "จบปริญญาตรีหรือเทียบเท่า; มีประสบการณ์ทำงานอย่างน้อย 1 ปี; มีหนังสือรับรองจากผู้บังคับบัญชา; สามารถอุทิศเวลาให้กับการศึกษาได้",
+            "special_features": [
+              "เน้นการเรียนรู้แบบบูรณาการและสู่การปฏิบัติจริง",
+              "สร้างเครือข่ายนักบริหารการท่องเที่ยวและบริการ",
+              "เรียนแบบ Saturday-Sunday"
+            ],
+            "curriculum": [
+              {"category": "วิชาเตรียมความพร้อมก่อนเข้าศึกษา", "courses": ["Preparatory courses"]},
+              {"category": "วิชาหลัก", "courses": ["15 credits"]},
+              {"category": "วิชาเอก", "courses": ["9 credits"]},
+              {"category": "วิชาเลือก", "courses": ["6 credits"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gstm-ma-phuket",
+            "semesters": [
+              {"term": "1", "study_mode": "Saturday-Sunday", "admission_period": "ไม่ระบุ", "tuition": "174,900"}
+            ]
+          }
+        ]
+      },
+      {
+        "department": "หลักสูตรปริญญาเอก",
+        "programs": [
+          {
+            "program": "หลักสูตรปรัชญาดุษฎีบัณฑิต",
+            "degree": "ป.เอก",
+            "keywords": ["PhD","UNWTO.TedQual","Tourism","Hospitality","Integrated Management"],
+            "description": "หลักสูตรปริญญาเอกด้านการท่องเที่ยวและบริการแบบบูรณาการแห่งแรกของประเทศไทย ได้รับการรับรอง UNWTO.TedQual และมีค่าใช้จ่ายรวม 562,000 บาท จะแบ่งจ่ายเป็น 7 งวด",
+            "overview": "หลักสูตรนี้เป็นหลักสูตรปริญญาเอกที่ผสานความเชี่ยวชาญด้านการท่องเที่ยวและบริการแบบบูรณาการระดับแนวคิดและวิจัยสูง พร้อมการจัดการเรียนการสอนจากอาจารย์ผู้มีตำแหน่งทางวิชาการสูงสุดและเครือข่ายความร่วมมือทั้งในและต่างประเทศ",
+            "location": "กรุงเทพมหานคร",
+            "language": "Thai",
+            "study_time": "ภาคปกติ, ในเวลาราชการ",
+            "duration": "ไม่ระบุ",
+            "credits": "48+",
+            "total_fee": "562,000",
+            "admission_requirements": "ต้องสำเร็จปริญญาโท; ต้องมีผล IELTS หรือ TOEFL ตามเกณฑ์ที่กำหนด; สามารถสมัครได้ทั้งกรณีผลภาษาอังกฤษสูง หรือระดับกลาง หรือไม่มีผลสอบก็ได้ แต่ต้องเรียนภาษาอังกฤษตามเงื่อนไขของหลักสูตร",
+            "special_features": [
+              "เป็นหลักสูตรปริญญาเอกด้านการท่องเที่ยวและบริการแบบบูรณาการแห่งแรกของประเทศไทย",
+              "ได้รับการรับรอง UNWTO.TedQual",
+              "มีเครือข่ายความร่วมมือทั้งในและต่างประเทศ"
+            ],
+            "curriculum": [
+              {"category": "วิชาเตรียมความพร้อม", "courses": ["Preparatory courses"]},
+              {"category": "วิชาเสริมพื้นฐาน", "courses": ["Supplementary foundation courses"]},
+              {"category": "วิชาพื้นฐาน (สำหรับแผน 2.2 เท่านั้น)", "courses": ["Foundation courses"]},
+              {"category": "วิชาหลัก", "courses": ["Core courses"]},
+              {"category": "วิชาระเบียบวิจัย", "courses": ["Research methodology"]},
+              {"category": "วิชาเลือก", "courses": ["Elective courses"]},
+              {"category": "วิทยานิพนธ์", "courses": ["Dissertation"]},
+              {"category": "วิชาเชิงโครงสร้าง", "courses": ["Niche policy, planning and development in tourism and hospitality","Innovation for quality human capital development","Creative community-based tourism and hospitality management","Advanced strategic management for tourism and hospitality businesses amid change"]}
+            ],
+            "contact": "admissions@nida.ac.th",
+            "application_link": "https://www.nida.ac.th/admission/gstm-phd",
+            "semesters": [
+              {"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "562,000"}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSAS คณะสถิติประยุกต์",
+    "metadata": {
+      "study_mode": "ภาคปกติในเวลาราชการ",
+      "location": "กรุงเทพมหานคร",
+      "credits_range": "36–42",
+      "total_cost_range_thb": "93,597–120,100",
+      "admission_requirements_summary": {
+        "degree": "มีปริญญาตรีหรือเทียบเท่า",
+        "exam_scores": "คะแนนวิชาเฉพาะ 2 (รวม) มากกว่า 500 และคะแนนภาษาอังกฤษมากกว่า 400 รวมกันมากกว่า 950 เพื่อสิทธิ์สอบสัมภาษณ์",
+        "work_experience_years": 1,
+        "scholarship_gpa_requirements": [3.00, 2.75, 2.50]
+      }
+    },
+    "departments": [
+      {
+        "department": "สถิติประยุกต์และวิทยาการข้อมูล",
+        "programs": [
+          {
+            "program": "สาขาวิชาการวิเคราะห์ข้อมูลและวิทยาการข้อมูล (Data Analytics & Data Science)",
+            "degree": "ป.โท",
+            "keywords": ["DADS","Data Analytics","Data Science","machine learning","NLP","real-time analytics"],
+            "description": "เน้น data journey ตั้งแต่ collection, preparation, modeling, analytics, visualization; เน้นเทคโนโลยีสมัยใหม่ เช่น machine learning, deep learning, NLP, real-time analytics, marketing analytics",
+            "credits": 36,
+            "duration_years": 2,
+            "total_fee": 101500,
+            "highlights": ["ผสมความรู้ทางเทคนิคและการประยุกต์ใช้งานจริง","เป็นหลักสูตร Data Analytics & Data Science ครอบคลุม data journey"],
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "101,500"}]
+          },
+          {
+            "program": "สาขาวิชาบริหารเทคโนโลยีสารสนเทศ (Information Technology Management)",
+            "degree": "ป.โท",
+            "keywords": ["ITM","Information Technology Management","ERP","Cloud","Big Data"],
+            "description": "ผสาน IT และ Management เพื่อพัฒนานักบริหารไอทีที่เชื่อมโยงยุทธศาสตร์องค์กรกับเทคโนโลยี",
+            "credits": 39,
+            "total_fee": 101500,
+            "special_features": ["IT Certified Professional","สนับสนุนการสอบ Global Certificate เช่น AWS, Google, Cisco, PMI/PMP"],
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "101,500"}]
+          },
+          {
+            "program": "สาขาวิชาโลจิสติกส์อัจฉริยะและการจัดการโซ่อุปทาน (Smart Logistics and Supply Chain Management)",
+            "degree": "ป.โท",
+            "keywords": ["LSCM_MSc","Smart Logistics","Supply Chain Analytics","Inventory Optimization"],
+            "description": "มุ่งเน้น Supply Chain Analytics ครอบคลุม Analytics, Cutting-Edge Technology, Management",
+            "credits": 37,
+            "total_fee": 98500,
+            "highlights": ["พัฒนาทักษะ 4 ด้าน: Inventory Optimization, Network & Distribution Management, Supply Chain Optimization, Warehouse Automation & Smart Logistics","ศึกษาดูงานต่างประเทศกับองค์กรโลจิสติกส์ชั้นนำ"],
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "98,500"}]
+          },
+          {
+            "program": "Ph.D. in Smart Logistics and Supply Chain Management (ภาคพิเศษ)",
+            "degree": "ป.เอก",
+            "keywords": ["LSCM_PhD","PhD","Smart Logistics","Supply Chain"],
+            "description": "พัฒนาบุคลากรสาย Supply Chain Analytics และผู้เชี่ยวชาญด้านโลจิสติกส์อัจฉริยะ",
+            "credits": 37,
+            "total_fee": 242600,
+            "admission_requirements": {"work_experience_years": 1, "degree_background_examples": ["Logistics Management","Engineering","Operations Research","Statistics"]},
+            "semesters": [{"term": "1", "study_mode": "ภาคพิเศษ", "admission_period": "ไม่ระบุ", "tuition": "242,600"}]
+          },
+          {
+            "program": "สาขาวิชาวิทยาการคอมพิวเตอร์และระบบสารสนเทศ (Computer Science and Information Systems)",
+            "degree": "ป.โท",
+            "keywords": ["CSIS","Computer Science","Information Systems","AI","NLP"],
+            "description": "เปิดรับทุกสาขา; เตรียมพื้นฐานให้ผู้ไม่มีพื้นฐานคอมพิวเตอร์; โฟกัส AI และ Information Systems Management",
+            "credits": 39,
+            "total_fee": 120100,
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "120,100"}]
+          },
+          {
+            "program": "สาขาวิชาสถิติประยุกต์ (Applied Statistics)",
+            "degree": "ป.โท",
+            "keywords": ["AS","Applied Statistics","Statistical Theory","Predictive Analytics"],
+            "description": "มุ่งเน้นการจัดการและใช้ประโยชน์ข้อมูลเพื่อสนับสนุนการตัดสินใจแบบ data-driven; พัฒนาทักษะทาง Mathematics, Statistics, และ Machine Learning",
+            "credits": 42,
+            "duration_years": 2,
+            "total_fee": 110500,
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "110,500"}]
+          },
+          {
+            "program": "สาขาวิชาการจัดการความเสี่ยงความมั่นคงทางไซเบอร์ (Cybersecurity Risk Management)",
+            "degree": "ป.โท",
+            "keywords": ["CYBERSECURITY","Cybersecurity","Risk Management","CISSP"],
+            "description": "ผสานเทคโนโลยีและกฎหมาย เพื่อพัฒนาผู้เชี่ยวชาญด้านความมั่นคงสารสนเทศและการจัดการความเสี่ยง",
+            "credits": 36,
+            "total_fee": 98000,
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "98,000"}]
+          },
+          {
+            "program": "Management of Analytics and Data Technologies (MADT)",
+            "degree": "ป.โท",
+            "keywords": ["MADT","Analytics","Data Technologies","Management"],
+            "description": "ผสมผสาน Management + Data Analytics + Data Technologies; เน้นการเรียนรู้จากกรณีศึกษาและลงมือปฏิบัติ",
+            "credits": 36,
+            "total_fee": 93597,
+            "semesters": [{"term": "1", "study_mode": "ภาคปกติ", "admission_period": "ไม่ระบุ", "tuition": "93,597"}]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSDMS คณะพัฒนาสังคมและยุทธศาสตร์การบริหาร",
+    "departments": [
+      {
+        "department": "การพัฒนาสังคมและยุทธศาสตร์การบริหาร",
+        "programs": [
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการบริหารการพัฒนาสังคม (ภาคปกติ)",
+            "degree": "ป.โท",
+            "code": "SDA",
+            "study_mode": "ภาคปกติ (เรียนตามเวลาราชการ)",
+            "overview": "มุ่งผลิตนักบริหารการพัฒนาสังคมที่มีความรู้ความสามารถทางการวิจัย วิเคราะห์ สังเคราะห์ วิพากษ์ และการจัดการเชิงยุทธศาสตร์",
+            "keywords": ["SDA","Social Development","Administration","Policy","Strategy"],
+            "total_fee": 101200,
+            "fees_examples": {"per_term_examples_thb": {"year1_term1": 33800,"year1_term2": 29300,"year1_term3": 6500,"year2_term1": 11300,"year2_term2": 20300}},
+            "admission_requirements": ["สำเร็จการศึกษาระดับปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี","ผู้สมัครจะต้องได้รับอนุญาตจากหน่วยงานให้มาศึกษาเต็มเวลา"],
+            "majors_or_tracks": ["Social Policy and Administrative Strategic Planning","Organization Management and Social Responsibility"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/social-development-administration/",
+            "semesters": [{"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "101,200"}]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการเมืองและยุทธศาสตร์การพัฒนา (ภาคปกติ)",
+            "degree": "ป.โท",
+            "code": "PDS",
+            "study_mode": "ภาคปกติ (Block Course Learning)",
+            "overview": "สร้างความรู้ความเข้าใจเชิงปฏิบัติทางการเมืองและยุทธศาสตร์การพัฒนา",
+            "keywords": ["PDS","Politics","Development Strategy","Block Course"],
+            "total_fee": 101200,
+            "fees_examples": {"per_term_examples_thb": {"year1_term1": 33800,"year1_term2": 29300,"year1_term3": 6500,"year2_term1": 11300,"year2_term2": 20300}},
+            "admission_requirements": ["สำเร็จการศึกษาระดับปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี"],
+            "majors_or_tracks": ["Local Politics and Administrative Strategy","International Politics and Development"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/politics-development-strategy/",
+            "semesters": [{"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "101,200"}]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการเมืองและยุทธศาสตร์การพัฒนา (ภาคพิเศษ — Online)",
+            "degree": "ป.โท",
+            "code": "PDS-ONLINE",
+            "study_mode": "ภาคพิเศษ (เรียนออนไลน์ วันเสาร์-อาทิตย์)",
+            "overview": "หลักสูตรเรียนออนไลน์ เน้นความรู้เชิงปฏิบัติทางการเมืองและยุทธศาสตร์การพัฒนา; หลักสูตรได้รับการรับรองสาขารัฐศาสตร์จาก ก.พ.",
+            "keywords": ["PDS","Online","Politics","Development"],
+            "total_fee": 131200,
+            "fees_examples": {"per_term_examples_thb": {"year1_term1": 37800,"year1_term2": 27800,"year1_term3": 9500,"year2_term1": 27800,"year2_term2": 28300}},
+            "admission_requirements": ["สำเร็จการศึกษาระดับปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/politics-development-strategy-online/",
+            "semesters": [{"term": "1","study_mode": "ออนไลน์","admission_period": "ไม่ระบุ","tuition": "131,200"}]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการบริหารการพัฒนาสังคม (ภาคพิเศษ กทม.)",
+            "degree": "ป.โท",
+            "code": "SDA-BKK",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์)",
+            "overview": "เน้นการพัฒนาผู้นำการพัฒนาสังคม ฝึกการวิจัยและการจัดการเชิงยุทธศาสตร์",
+            "keywords": ["SDA","Bangkok","Weekend","Social Development"],
+            "total_fee": 150200,
+            "fees_examples": {"per_term_examples_thb": {"year1_term1": 42300,"year1_term2": 32300,"year1_term3": 11000,"year2_term1": 32300,"year2_term2": 32300}},
+            "admission_requirements": ["สำเร็จการศึกษาระดับปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี","สามารถอุทิศเวลาให้การศึกษาค้นคว้าได้"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/social-development-administration-bkk/",
+            "semesters": [{"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "150,200"}]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการเมืองและยุทธศาสตร์การพัฒนา (ภาคพิเศษ กทม.) - ภาษาไทย",
+            "degree": "ป.โท",
+            "code": "PDS-BKK-TH",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์)",
+            "overview": "หลักสูตรสำหรับผู้ต้องการความรู้เชิงปฏิบัติทางการเมืองและยุทธศาสตร์การพัฒนา (ได้รับการรับรองสาขารัฐศาสตร์จาก ก.พ.)",
+            "keywords": ["PDS","Bangkok","Thai","Politics"],
+            "total_fee": 150200,
+            "fees_examples": {"per_term_examples_thb": {"year1_term1": 42300,"year1_term2": 32300,"year1_term3": 11000,"year2_term1": 32300,"year2_term2": 32300}},
+            "admission_requirements": ["สำเร็จการศึกษาปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/politics-development-strategy-thai/",
+            "semesters": [{"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "150,200"}]
+          },
+          {
+            "program": "ศิลปศาสตรมหาบัณฑิต สาขาวิชาการบริหารการพัฒนาสังคม (ภาคพิเศษ ยะลา)",
+            "degree": "ป.โท",
+            "code": "SDA-YALA",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์, Block Course)",
+            "overview": "มุ่งผลิตนักบริหารการพัฒนาสังคมที่มีทักษะการวิจัย วิเคราะห์ สังเคราะห์ และจัดการเชิงยุทธศาสตร์",
+            "keywords": ["SDA","Yala","Regional","Block Course"],
+            "duration_years": 2,
+            "total_fee": 128700,
+            "fees_examples": {"per_term_examples_thb": {"per_term_various": [29300,12000,29300,29300,9500,19300]}},
+            "admission_requirements": ["สำเร็จการศึกษาระดับปริญญาตรีหรือเทียบเท่า","มีประสบการณ์ทำงาน 1 ปี","สามารถอุทิศเวลาให้กับการศึกษาค้นคว้าตามที่กำหนดได้"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/master/social-development-administration-thai-yala/",
+            "semesters": [{"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "128,700"}]
+          },
+          {
+            "program": "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการบริหารการพัฒนาสังคม (English Program) — แผน 2",
+            "degree": "ป.เอก",
+            "code": "PhD-SDA-ENG-P2",
+            "study_mode": "ภาคพิเศษ / English Program (Plan 2)",
+            "overview": "หลักสูตรปริญญาเอกด้านการบริหารการพัฒนาสังคม มีแผนการศึกษาแบบ coursework + dissertation (Plan 2) ในเวอร์ชันภาษาอังกฤษ",
+            "keywords": ["PhD","SDA","English Program","Research"],
+            "special_features": ["ต้องส่งผลงานวิชาการตามเกณฑ์"],
+            "admission_requirements": ["สำเร็จระดับปริญญาโท","ส่งผลงานตีพิมพ์และจดหมายรับรองจากอาจารย์"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/phd/phd-social-development-eng/"
+          },
+          {
+            "program": "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการบริหารการพัฒนาสังคม",
+            "degree": "ป.เอก",
+            "code": "PhD-SDA",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์)",
+            "overview": "ผลิตนักวิชาการ นักวิจัย และนักวางแผนยุทธศาสตร์การพัฒนาสังคม โดยมี 2 แผนการศึกษา (Plan 1: Thesis-only; Plan 2: Coursework + Dissertation)",
+            "keywords": ["PhD","Social Development","Research"],
+            "total_fee": {"plan1": 387000, "plan2": 465000},
+            "admission_requirements": {"plan1": ["จบปริญญาโทที่เกี่ยวข้องและ GPA ปริญญาโท ≥ 3.50","ผลงานตีพิมพ์ตามข้อกำหนด"], "plan2": ["จบปริญญาโทสาขาใดก็ได้","หนังสือรับรองจากอาจารย์/ผู้บังคับบัญชา"]},
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/phd/phd-social-development/",
+            "semesters": [{"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "387,000/465,000"}]
+          },
+          {
+            "program": "ปรัชญาดุษฎีบัณฑิต-การเมืองและยุทธศาสตร์การพัฒนา (วิจัย)",
+            "degree": "ป.เอก",
+            "code": "PhD-PDS-RES",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์) — แบบวิจัย",
+            "overview": "มุ่งผลิตนักวิจัยและนักวิชาการด้านการเมืองและยุทธศาสตร์การพัฒนา (เน้นงานวิจัย)",
+            "keywords": ["PhD","PDS","Research"],
+            "total_fee": 371000,
+            "admission_requirements": ["สำเร็จปริญญาโททุกสาขา","มีประสบการณ์วิจัย/ผลงานตามที่กำหนด"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/phd/politics-development-strategy-research/",
+            "semesters": [{"term": "1","study_mode": "ภาคพิเศษ","admission_period": "ไม่ระบุ","tuition": "371,000"}]
+          },
+          {
+            "program": "Doctor of Philosophy (Politics and Development Strategy) - Plan 2",
+            "degree": "ป.เอก",
+            "code": "PhD-PDS-P2",
+            "study_mode": "แผน 2 (Coursework + Dissertation)",
+            "overview": "โฟกัสการวิเคราะห์ การวิจัย และการกำหนดนโยบายด้านการเมืองและการพัฒนา",
+            "keywords": ["PhD","PDS","Plan2"],
+            "contact": "ดูที่หน้าโปรแกรม (ลิงก์ด้านล่าง)",
+            "application_link": "https://nida.ac.th/phd/politics-development-strategy-plan2/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSDE คณะพัฒนาการเศรษฐกิจ",
+    "departments": [
+      {
+        "department": "การพัฒนาการเศรษฐกิจ",
+        "programs": [
+          {
+            "id": "MA-BE-REG",
+            "level": "Master (MA)",
+            "code": "BE",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์ธุรกิจ (ภาคปกติ)",
+            "name_en": "Master of Economics (Business Economics) - Regular",
+            "study_mode": "ภาคปกติ (เรียนตามเวลาราชการ)",
+            "overview": "ใช้เศรษฐศาสตร์เป็นแนวคิด ทำธุรกิจแบบมืออาชีพ",
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": null,
+            "notes": "หน้าที่ดึงมาเป็นคำโปรยสั้นจากหน้าโปรแกรม ไม่ได้ให้รายละเอียดเชิงโครงสร้างรายวิชาหรือค่าเล่าเรียนแยกตามเทอม",
+            "source_url": "https://nida.ac.th/master/business-economics/"
+          },
+          {
+            "id": "MA-BE-MGMT-REG",
+            "level": "Master (MA)",
+            "code": "BE-MGMT",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์และการบริหาร (ภาคปกติ)",
+            "name_en": "Master of Economics & Management - Regular",
+            "study_mode": "ภาคปกติ (เรียนตามเวลาราชการ)",
+            "overview": "หลักสูตรปริญญาโท ที่ครบ จบ ในที่เดียว — ได้ทั้งบริหาร และ เศรษฐศาสตร์",
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": null,
+            "notes": "หน้าเพจให้คำโปรยสั้น ไม่มีรายละเอียดค่าเล่าเรียนหรือโครงสร้างหลักสูตรในเนื้อหาที่ดึงได้",
+            "source_url": "https://nida.ac.th/master/business-economics-mangement/"
+          },
+          {
+            "id": "MA-FE-REG",
+            "level": "Master (MA)",
+            "code": "FE",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์การเงิน (ภาคปกติ)",
+            "name_en": "Master of Financial Economics - Regular",
+            "study_mode": "ภาคปกติ (เรียนตามเวลาราชการ)",
+            "overview": null,
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": [
+              "สำเร็จการศึกษาระดับปริญญาตรีหรือประกาศนียบัตรเทียบเท่าปริญญาตรีจากสถาบันที่รับรองโดยหน่วยงานที่เกี่ยวข้อง",
+              "ไม่มีโรคติดต่อร้ายแรง (มีใบรับรองแพทย์)",
+              "มีความประพฤติดี",
+              "ผ่านการคัดเลือกตามหลักเกณฑ์ของสถาบัน"
+            ],
+            "notes": "หน้าที่ดึงได้แสดงเฉพาะส่วนคุณสมบัติผู้สมัคร แต่ไม่มีรายละเอียดค่าเล่าเรียนหรือโครงสร้างหลักสูตรที่ชัดเจนบนเนื้อหาที่ดึงมา",
+            "source_url": "https://nida.ac.th/master/financial-economics/"
+          },
+          {
+            "id": "MA-BE-SPECIAL",
+            "level": "Master (MA)",
+            "code": "BE-SPECIAL",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์ธุรกิจ (ภาคพิเศษ)",
+            "name_en": "Master of Business Economics - Special Program",
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": "ใช้เศรษฐศาสตร์เป็นแนวคิด ทำธุรกิจแบบมืออาชีพ",
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": null,
+            "notes": "หน้าเพจเป็นคำโปรยสั้น — ไม่มีรายละเอียดค่าเล่าเรียนหรือโครงสร้างหลักสูตรในเนื้อหาที่ดึงได้",
+            "source_url": "https://nida.ac.th/master/business-economics-special-program/"
+          },
+          {
+            "id": "MA-BE-MGMT-SPECIAL",
+            "level": "Master (MA)",
+            "code": "BE-MGMT-SPECIAL",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์และการบริหาร (ภาคพิเศษ)",
+            "name_en": "Master of Economics & Management - Special Program",
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": "หลักสูตรปริญญาโท ที่ครบ จบ ในที่เดียว — ได้ทั้งบริหาร และ เศรษฐศาสตร์",
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": null,
+            "notes": "หน้าเพจเป็นคำโปรยสั้น — ไม่มีรายละเอียดเชิงโครงสร้างหรือค่าเล่าเรียนที่ดึงได้จากหน้า",
+            "source_url": "https://nida.ac.th/master/business-economics-manage-special-program/"
+          },
+          {
+            "id": "MA-FE-SPECIAL",
+            "level": "Master (MA)",
+            "code": "FE-SPECIAL",
+            "name_th": "เศรษฐศาสตรมหาบัณฑิต สาขาวิชาเศรษฐศาสตร์การเงิน (ภาคพิเศษ)",
+            "name_en": "Master of Financial Economics - Special Program",
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": null,
+            "special_features": null,
+            "core_courses_examples": null,
+            "credits": null,
+            "fees": { "per_term_examples_thb": null, "total_cost_thb": null },
+            "admission_requirements": null,
+            "notes": "หน้ามีข้อมูลบุคลากรบางส่วน แต่หน้าเพจที่ดึงมาจำกัดข้อมูล ควรเปิดหน้าเต็มหรือตรวจสอบไฟล์โบรชัวร์ถ้าต้องการรายละเอียดเพิ่มเติม",
+            "source_url": "https://nida.ac.th/master/finance-economics-special-program/"
+          },
+          {
+            "id": "PhD-ECO-PLAN-A",
+            "level": "Ph.D.",
+            "code": "ECO-P-A",
+            "name_th": "ปรัชญาดุษฎีบัณฑิต สาขาเศรษฐศาสตร์ (แผน A)",
+            "name_en": "Doctor of Philosophy (Ph.D.) Program in Economics - Plan A (International Program)",
+            "study_mode": "ภาคปกติ / International Program — Plan A (coursework + research)",
+            "overview": "ผสมผสาน coursework และ research เพื่อพัฒนาทักษะเชิงทฤษฎีและเชิงปริมาณสำหรับงานวิชาการและงานภาคเอกชน",
+            "special_features": ["Special Workshops","ใช้ Stata และ R","Time Series Analysis","Impact Evaluation","CGE Model","จัดบรรยายพิเศษและเป็นเจ้าภาพประชุมวิชาการนานาชาติ"],
+            "core_courses_examples": ["Mathematics for Economists","Microeconomic Theory I and II","Macroeconomic Theory I and II","Econometrics I and II","Elective courses","Dissertation"],
+            "credits_total": 66,
+            "fees": { "per_year_examples_thb": { "year1": 179000, "year2": 160000, "year3": 156000, "year4": 42000 }, "total_cost_thb": 537000 },
+            "admission_requirements": ["ผู้สมัครต้องมีวุฒิปริญญาโทหรือเทียบเท่าจากสถาบันที่ได้รับการรับรอง","พิจารณาจากผลการศึกษาที่ผ่านมา, statement of purpose, ความสามารถภาษาอังกฤษ, และการสัมภาษณ์"],
+            "source_url": "https://nida.ac.th/phd/economics-plan-a/"
+          },
+          {
+            "id": "PhD-ECO-PLAN-B",
+            "level": "Ph.D.",
+            "code": "ECO-P-B",
+            "name_th": "ปรัชญาดุษฎีบัณฑิต สาขาเศรษฐศาสตร์ (แผน B)",
+            "name_en": "Doctor of Philosophy (Ph.D.) Program in Economics - Plan B (International Program)",
+            "study_mode": "ภาคปกติ / International Program — Plan B (coursework + research)",
+            "overview": "ผสม coursework และ research เพื่อพัฒนาทักษะเชิงทฤษฎีและเชิงปริมาณสำหรับงานวิชาการและภาคเอกชน",
+            "special_features": ["Special Workshops","Stata and R","Time Series Analysis","Impact Evaluation","CGE Model","จัดบรรยายพิเศษและเป็นเจ้าภาพประชุมวิชาการนานาชาติ"],
+            "core_courses_examples": ["Mathematics for Economists","Microeconomic Theory I and II","Macroeconomic Theory I and II","Econometrics I and II","Elective courses","Dissertation"],
+            "credits_total": 90,
+            "fees": { "per_year_examples_thb": { "year1": 178000, "year2": 126000, "year3": 120000, "year4": 120000 }, "total_cost_thb": 544000 },
+            "admission_requirements": ["สำหรับ Plan B ต้องมีปริญญาตรีหรือเทียบเท่า (ได้รับการรับรอง) และต้องเป็นผู้ที่จบชั้นที่มีผลการเรียนดี (เช่นเกรดเฉลี่ยไม่ต่ำกว่า 3.50 ตามเงื่อนไขของเพจ)","พิจารณาจากผลงาน/statement/ภาษาอังกฤษ/สัมภาษณ์"],
+            "source_url": "https://nida.ac.th/phd/economics-plan-b/"
+          },
+          {
+            "id": "PhD-ECO-PLAN-C",
+            "level": "Ph.D.",
+            "code": "ECO-P-C",
+            "name_th": "ปรัชญาดุษฎีบัณฑิต สาขาเศรษฐศาสตร์ (แผน C)",
+            "name_en": "Doctor of Philosophy (Ph.D.) Program in Economics - Plan C (International Program)",
+            "study_mode": "ภาคปกติ / International Program — Plan C (research only)",
+            "overview": "เน้นการวิจัย (Research only) และการพัฒนาข้อเสนอวิจัยและวิทยานิพนธ์ระดับสูง",
+            "special_features": ["Special Workshops","Stata and R","Time Series Analysis","Impact Evaluation","CGE Model","จัดบรรยายพิเศษและเป็นเจ้าภาพประชุมวิชาการนานาชาติ"],
+            "core_courses_examples": ["Mathematics for Economists","Microeconomic Theory I and II","Macroeconomic Theory I and II","Econometrics I and II","Elective courses","Dissertation"],
+            "credits_total": 48,
+            "fees": { "per_year_examples_thb": { "year1": 180000, "year2": 144000, "year3": 84000, "year4": 156000, "year5": 118000 }, "total_cost_thb": 682000 },
+            "admission_requirements": ["ผู้สมัครต้องมีวุฒิปริญญาโทหรือเทียบเท่าที่ได้รับการรับรอง","พิจารณาจากผลงานการศึกษา, statement of purpose, ประสบการณ์, ความสามารถภาษาอังกฤษ และข้อเสนอวิทยานิพนธ์"],
+            "source_url": "https://nida.ac.th/phd/economics-plan-c/"
+          },
+          {
+            "id": "DD-FE-KMITL-NIDA",
+            "level": "Double Degree (Undergrad + Master)",
+            "code": "DD-FE-KMITL-NIDA",
+            "name_th": "KMITL-NIDA Double Degree Program in Financial Engineering",
+            "name_en": "KMITL-NIDA Double Degree Program in Financial Engineering (B.Eng. + M.Sc.)",
+            "study_mode": "Double Degree (ภาคปกติ)",
+            "overview": "ประยุกต์เครื่องมือทางวิศวกรรมศาสตร์ คณิตศาสตร์ และเทคโนโลยี เพื่อสร้างนวัตกรรมและแก้ไขปัญหาให้กับอุตสาหกรรมการเงิน; เรียนร่วมกับคณาจารย์จากทั้ง 2 สถาบัน; Project Based Learning; จบ 5 ปี ได้ 2 ปริญญา",
+            "special_features": ["ร่วมกับภาคอุตสาหกรรมหลายแห่ง","ใช้สิ่งอำนวยความสะดวกจากทั้ง 2 สถาบัน","ดูงาน/ทัศนศึกษานอกสถานที่"],
+            "core_courses_examples": ["Financial Technology","Financial Engineering","Financial Modeling","Financial Data Analytics"],
+            "duration_years": 5,
+            "fees": { "per_semester_thb": 120000, "per_year_thb": 240000, "total_cost_thb": 1200000 },
+            "admission_requirements": ["สำเร็จการศึกษาระดับมัธยมศึกษาตอนปลายหรือเทียบเท่า","มีคะแนนทดสอบทักษะคณิตศาสตร์ตามที่กำหนด (เช่น SAT Subject Math ≥ 600 หรือ PAT1 ≥ 90 หรือ A-Level B)","มีคะแนนภาษาอังกฤษตามที่กำหนด (TOEFL iBT ≥ 79 หรือ TOEFL ITP/paper ≥ 550 หรือ IELTS ≥ 6.0 หรือ Cambridge exam ≥ 170)"],
+            "notes": "ค่าเล่าเรียนที่หน้าเพจระบุเป็นอัตราเทอม/ปีและคำนวณรวมเป็นจำนวนเงินตลอดหลักสูตร",
+            "source_url": "https://nida.ac.th/double-degree/financial-engineering-kmitl-double-degree-program/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSEDA คณะบริหารการพัฒนาสิ่งแวดล้อม",
+    "departments": [
+      {
+        "department": "บริหารการพัฒนาสิ่งแวดล้อม",
+        "programs": [
+          {
+            "id": "MSc-ENV-SUSTAIN",
+            "level": "Master (MSc)",
+            "code": "ENV-SUST",
+            "name_th": "หลักสูตรวิทยาศาสตรมหาบัณฑิต สาขาวิชาศาสตร์และการจัดการความยั่งยืน",
+            "name_en": "Master of Science (Environmental Science & Sustainable Management)",
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": null,
+            "notes": "ไม่สามารถดึงเนื้อหาหน้านี้ได้ (HTTP 403 / ป้องกันการเข้าถึง) — ต้องเปิดด้วยเว็บเบราว์เซอร์ปกติหรือส่ง PDF/สกรีนช็อตจากผู้ใช้เพื่อสกัดข้อมูล",
+            "core_courses": null,
+            "majors_or_tracks": null,
+            "credits": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/master/envirormental-science-sustainable-management/"
+          },
+          {
+            "id": "MSc-ENV-MGMT-BKK",
+            "level": "Master (MSc)",
+            "code": "ENV-MGMT-BKK",
+            "name_th": "หลักสูตรวิทยาศาสตรมหาบัณฑิต สาขาวิชาการจัดการสิ่งแวดล้อม (กรุงเทพฯ)",
+            "name_en": "Master of Science (Environmental Science & Management) - Bangkok",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์)",
+            "overview": "หลักสูตรการจัดการสิ่งแวดล้อมที่มีหมวดวิชาพื้นฐาน หมวดวิชาหลัก หมวดวิชาเอก หลายสาขา ได้แก่ การบริหารการพัฒนาสิ่งแวดล้อม, การจัดการสิ่งแวดล้อมในองค์การธุรกิจและอุตสาหกรรม, สิ่งแวดล้อมศึกษา, การจัดการเมือง ชุมชนและท้องถิ่นยั่งยืน",
+            "core_courses": [
+              "จส 6001 จริยธรรม อุดมการณ์ และการคิดเชิงระบบด้านสิ่งแวดล้อม",
+              "จส 6002 สิ่งแวดล้อม นิเวศวิทยา และเทคโนโลยีการจัดการ",
+              "จส 6003 การวางแผนและการบริหารการพัฒนาสิ่งแวดล้อมเพื่อความยั่งยืน",
+              "จส 6004 เศรษฐศาสตร์สิ่งแวดล้อมและการประยุกต์",
+              "จส 6005 นโยบาย การเมือง และกฎหมายในการจัดการสิ่งแวดล้อม",
+              "จส 6006 หลักการวิจัย การเก็บข้อมูล และการวิเคราะห์ข้อมูลสิ่งแวดล้อม"
+            ],
+            "majors_or_tracks": [
+              "การบริหารการพัฒนาสิ่งแวดล้อม",
+              "การจัดการสิ่งแวดล้อมในองค์การธุรกิจและอุตสาหกรรม",
+              "สิ่งแวดล้อมศึกษา",
+              "การจัดการเมือง ชุมชน และท้องถิ่นยั่งยืน"
+            ],
+            "electives_examples": [
+              "จส 7701 การบริหารโครงการสิ่งแวดล้อมเพื่อความยั่งยืน",
+              "จส 7702 เทคโนโลยีสารสนเทศสิ่งแวดล้อม",
+              "จส 7703 การจัดการสิ่งแวดล้อมระหว่างประเทศ",
+              "จส 7704 การจัดการทรัพยากรธรรมชาติและความหลากหลายทางชีวภาพ",
+              "จส 7705 การจัดการทรัพยากรดิน น้ำ ทะเลและชายฝั่ง",
+              "จส 7706 การจัดการขยะมูลฝอยและของเสียอันตราย",
+              "จส 7707 การจัดการการเปลี่ยนแปลงสภาพภูมิอากาศและคุณภาพบรรยากาศ",
+              "จส 7708 การประเมินผลกระทบและการวิเคราะห์ผลตอบแทนทางสังคมและสิ่งแวดล้อม",
+              "จส 7709 การประเมินวัฏจักรชีวิตของผลิตภัณฑ์",
+              "จส 7710 การประเมินความเสี่ยงและการตัดสินใจด้านสิ่งแวดล้อมและภัยพิบัติ"
+            ],
+            "other_courses_examples": [
+              "จส 8001 สัมมนาการจัดการสิ่งแวดล้อม",
+              "จส 8002 การฝึกปฏิบัติงานด้านสิ่งแวดล้อม",
+              "จส 8003 หัวข้อพิเศษทางการจัดการสิ่งแวดล้อม",
+              "จส 8004 การศึกษาตามแนวแนะ",
+              "จส 9000 การค้นคว้าอิสระ",
+              "จส 9004 วิทยานิพนธ์"
+            ],
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/master/environmental-science-management-bkk/"
+          },
+          {
+            "id": "MSc-ENV-MGMT-RAYONG",
+            "level": "Master (MSc)",
+            "code": "ENV-MGMT-RAYONG",
+            "name_th": "หลักสูตรวิทยาศาสตรมหาบัณฑิต สาขาวิชาการจัดการสิ่งแวดล้อม (ระยอง)",
+            "name_en": "Master of Science (Environmental Science & Management) - Rayong",
+            "study_mode": "ภาคพิเศษ (เรียนเฉพาะวันเสาร์–อาทิตย์, Block Course)",
+            "overview": "หลักสูตรมีหมวดวิชาพื้นฐาน หมวดวิชาเอก และหมวดวิชาเลือก ครอบคลุมการจัดการสิ่งแวดล้อมทั้งเชิงนโยบาย เทคโนโลยี อุตสาหกรรม เมือง และการศึกษาเพื่อความยั่งยืน",
+            "core_courses": [
+              "EM 6001 Environmental Ethics, Ideologies, and Systematic Thinking",
+              "EM 6002 Environment, Ecology and Management Technology",
+              "EM 6003 Planning and Environmental Development Administration for Sustainability",
+              "EM 6004 Environmental Economics and Application",
+              "EM 6005 Policy, Politics, and Law in Environmental Management",
+              "EM 6006 Principle of Environmental Research, Data Collection and Analysis"
+            ],
+            "majors_or_tracks": [
+              "Environmental Development Administration",
+              "Environmental Management in Business and Industrial Organizations",
+              "Environmental Education",
+              "Sustainable City, Community, and Local Management"
+            ],
+            "electives_examples": [
+              "EM 7701 Environmental Project Management for Sustainability",
+              "EM 7702 Environmental Information Technology",
+              "EM 7703 International Environment Management",
+              "EM 7704 Natural Resources and Biodiversity Resource Management",
+              "EM 7705 Soil, Water, Marine and Coastal Resources Management",
+              "EM 7706 Solid and Hazardous Waste Management",
+              "EM 7707 Climate Change and Atmospheric Quality Management",
+              "EM 7708 Environmental and Social Return on Investment and Impact Assessment",
+              "EM 7709 Life Cycle Assessment",
+              "EM 7710 Environmental and Disaster Risk Assessment and Decision Making"
+            ],
+            "other_courses_examples": [
+              "EM 8001 Environmental Management Seminar",
+              "EM 8002 Environmental Practicum",
+              "EM 8003 Special Topics in Environmental Management",
+              "EM 8004 Directed Study",
+              "EM 9000 Independent Study",
+              "EM 9004 Thesis"
+            ],
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/master/environmental-science-management-rayong/"
+          },
+          {
+            "id": "PhD-ENV-MGMT",
+            "level": "Ph.D.",
+            "code": "ENV-PHD",
+            "name_th": "ปรัชญาดุษฎีบัณฑิต สาขาวิชาการจัดการสิ่งแวดล้อม",
+            "name_en": "Doctor of Philosophy (Environmental Management)",
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": "หลักสูตรระดับปริญญาเอกด้านการจัดการสิ่งแวดล้อม ครอบคลุมหมวดวิชาพื้นฐาน หมวดวิชาหลัก หมวดวิชาระเบียบวิธีวิจัย หมวดวิชาเลือกเชิงประยุกต์ และวิทยานิพนธ์ (จัดทำเป็นภาษาอังกฤษ)",
+            "curriculum_groups": {
+              "foundation": [
+                "สว 5100 การจัดการสิ่งแวดล้อมเพื่อความยั่งยืน"
+              ],
+              "core": [
+                "สว 6101 การประยุกต์แนวทางพระราชดำริและปรัชญาเศรษฐกิจพอเพียงในการจัดการสิ่งแวดล้อม",
+                "สว 6102 การจัดการสิ่งแวดล้อมขั้นประยุกต์"
+              ],
+              "research_methods": [
+                "สว 6201 ระเบียบวิธีวิจัยด้านการจัดการสิ่งแวดล้อมขั้นสูง",
+                "สว 6202 การวิจัยเชิงบูรณาการด้านการจัดการสิ่งแวดล้อม",
+                "สว 6203 การออกแบบการทดลองสำหรับงานวิจัยและนวัตกรรมด้านสิ่งแวดล้อม",
+                "สว 6204 ระเบียบวิธีวิจัยด้านสิ่งแวดล้อมศึกษา"
+              ],
+              "elective_groups_examples": {
+                "environmental_management_for_executives": [
+                  "สว 7101 ภาวะผู้นำและการบริหารการเปลี่ยนแปลงเพื่อการจัดการสิ่งแวดล้อม",
+                  "สว 7102 การอภิบาลระบบนิเวศสังคม",
+                  "สว 7103 กฎหมายและกระบวนการยุติธรรมด้านสิ่งแวดล้อม",
+                  "สว 7104 เศรษฐศาสตร์สิ่งแวดล้อมขั้นประยุกต์",
+                  "สว 7105 การเมืองและนโยบายสิ่งแวดล้อมระหว่างประเทศ",
+                  "สว 7106 การจัดการความขัดแย้งด้านสิ่งแวดล้อมและการมีส่วนร่วมของประชาชนขั้นประยุกต์",
+                  "สว 7107 การประเมินด้านสิ่งแวดล้อมขั้นประยุกต์"
+                ],
+                "environmental_management_in_business_and_industry": [
+                  "สว 7201 การควบคุมมลพิษและการประยุกต์",
+                  "สว 7202 การจัดการอุตสาหกรรมเชิงนิเวศขั้นประยุกต์",
+                  "สว 7203 การจัดการและอนุรักษ์พลังงานขั้นประยุกต์",
+                  "สว 7204 มาตรฐานการจัดการสิ่งแวดล้อมและความปลอดภัยและการประยุกต์",
+                  "สว 7205 ธุรกิจเพื่อสิ่งแวดล้อมและความยั่งยืน",
+                  "สว 7206 ความรับผิดชอบต่อสังคมและสิ่งแวดล้อมและการประยุกต์"
+                ],
+                "environmental_challenges": [
+                  "สว 7301 การจัดการการเปลี่ยนแปลงสภาพภูมิอากาศ",
+                  "สว 7302 การวิเคราะห์ความเสี่ยงด้านสิ่งแวดล้อมและภัยพิบัติ",
+                  "สว 7303 การจัดการทรัพยากรดินและน้ำขั้นประยุกต์",
+                  "สว 7304 การจัดการความหลากหลายทางชีวภาพอย่างยั่งยืน",
+                  "สว 7305 การจัดการคุณภาพอากาศขั้นประยุกต์",
+                  "สว 7306 การวิเคราะห์สิ่งแวดล้อมเชิงพื้นที่",
+                  "สว 7307 การจัดการอนามัยสิ่งแวดล้อมขั้นประยุกต์",
+                  "สว 7308 ความสามารถฟื้นตัวของสิ่งแวดล้อมในยุคความปกติใหม่",
+                  "สว 7309 การสื่อสารและเครือข่ายด้านสิ่งแวดล้อม",
+                  "สว 7310 การวิเคราะห์ข้อมูลสำหรับการจัดการสิ่งแวดล้อม"
+                ],
+                "environmental_education": [
+                  "สว 7401 ปรัชญาสิ่งแวดล้อมศึกษา",
+                  "สว 7402 การพัฒนาผู้นำด้านสิ่งแวดล้อมศึกษา",
+                  "สว 7403 การวัดและประเมินผลการเรียนรู้สิ่งแวดล้อมศึกษา",
+                  "สว 7404 การพัฒนาคุณภาพชีวิตในสังคมไทย",
+                  "สว 7405 การศึกษาเรียนรู้ชุมชนเพื่อความยั่งยืน"
+                ],
+                "urban_local_community": [
+                  "สว 7501 การพัฒนาเมือง ท้องถิ่น และชุมชนยั่งยืนในยุคการเปลี่ยนแปลงฉับพลัน",
+                  "สว 7502 การจัดการความปลอดภัยและสาธารณภัยขั้นประยุกต์",
+                  "สว 7503 การจัดการขยะและของเสีย",
+                  "สว 7504 การวางแผนและการปฏิบัติการเพื่อการพัฒนาชุมชนที่ยั่งยืน",
+                  "สว 7505 เมืองยืดหยุ่นต่อสภาพภูมิอากาศและภาวะวิกฤติ"
+                ]
+              }
+            },
+            "thesis_and_research": [
+              "สว 9900, สว 9901, สว 9902 (วิทยานิพนธ์ — จัดทำเป็นภาษาอังกฤษ)",
+              "สว 8900 การค้นคว้าอิสระ"
+            ],
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/phd/environment-mangement/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "faculty": "GSL คณะนิติศาสตร์",
+    "departments": [
+      {
+        "department": "นิติศาสตร์",
+        "programs": [
+          {
+            "id": "GSL-LLM-REGULAR",
+            "level": "Master (LL.M.)",
+            "name_th": "หลักสูตรนิติศาสตรมหาบัณฑิต (ภาคปกติ)",
+            "name_en": null,
+            "study_mode": "ภาคปกติ (เวลาราชการ)",
+            "overview": "มุ่งผลิตมหาบัณฑิตในสาขานิติศาสตร์ที่มีความรู้ความสามารถสูง มีคุณธรรม มีความเชี่ยวชาญทางด้านกฎหมาย สามารถคิด วิเคราะห์ วินิจฉัยกฎหมาย และใช้กฎหมายเพื่อประกอบอาชีพ ผดุงความยุติธรรมของสังคม และเพื่อรักษาผลประโยชน์ของประเทศชาติ. หลักสูตรรวมภาษาอังกฤษสำหรับนักกฎหมาย, ระเบียบวิธีวิจัย, การฝึกใช้ฐานข้อมูลไทย/ต่างประเทศ และการแนะนำแนวทางหัวข้อวิจัยและการทำวิทยานิพนธ์.",
+            "highlights": [
+              "มีการจัดการฝึกอบรมการใช้ฐานข้อมูลไทยและต่างประเทศ",
+              "มีวิชาภาษาอังกฤษสำหรับนักกฎหมายเพื่อพัฒนาศักยภาพในการศึกษาระดับบัณฑิตศึกษา",
+              "มีวิชาระเบียบวิธีวิจัยและกิจกรรมอบรมการทำวิทยานิพนธ์/การค้นคว้าอิสระ"
+            ],
+            "core_areas_or_subjects": [
+              "กฎหมายเอกชน (Private Law)",
+              "กฎหมายมหาชน (Public Law)",
+              "กฎหมายอาญาและกระบวนการยุติธรรมทางอาญา (Criminal Law and Criminal Justice Administration)",
+              "กฎหมายธุรกิจและการค้าระหว่างประเทศ (International Business and Trade Law)"
+            ],
+            "credits": null,
+            "duration_years": null,
+            "fees": { "per_credit": 1500, "total_estimated": 120000, "currency": "THB" },
+            "admission_requirements": [
+              "สำเร็จการศึกษานิติศาสตรบัณฑิตจากสถาบันที่ กำหนด (สกอ. รับรอง)",
+              "สามารถอุทิศเวลาให้กับการศึกษาค้นคว้าตามหลักสูตรได้"
+            ],
+            "application_info": { "apply_link": "https://nida.ac.th/admission?facid=1181&progid=3439", "open_for_application": "เปิดรับสมัคร" },
+            "source_url": "https://nida.ac.th/master/graduate-school-laws/"
+          },
+          {
+            "id": "GSL-MA-BUSINESS-LAWS-BKK",
+            "level": "Master (M.A.)",
+            "name_th": "ศศ.ม. สาขาวิชากฎหมายเพื่อการบริหาร (ภาคพิเศษ - กรุงเทพฯ)",
+            "name_en": null,
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ, กรุงเทพฯ / ออนไลน์ตามหน้าประกาศ)",
+            "overview": "_ประยุกต์ใช้กฎหมายเพื่อการบริหารงานที่มีศักยภาพและลดความเสี่ยงที่เกิดจากการบริหารงาน สู่การเป็นผู้นำที่ประสบความสำเร็จ_",
+            "highlights": null,
+            "core_areas_or_subjects": null,
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "application_info": null,
+            "source_url": "https://nida.ac.th/master/business-laws-bkk/"
+          },
+          {
+            "id": "GSL-LLM-SPECIAL-BKK",
+            "level": "Master (LL.M.)",
+            "name_th": "หลักสูตรนิติศาสตรมหาบัณฑิต (ภาคพิเศษ)",
+            "name_en": null,
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ, กรุงเทพฯ)",
+            "overview": "มุ่งผลิตมหาบัณฑิตในสาขานิติศาสตร์ที่มีความรู้ความสามารถสูง มีคุณธรรม และเชี่ยวชาญทางด้านกฎหมาย พร้อมกิจกรรมฝึกอบรมการใช้ฐานข้อมูลและการทำวิทยานิพนธ์",
+            "highlights": [
+              "หลักสูตรได้รับการเผยแพร่ว่ามีมาตรฐานตามกรอบมาตรฐานคุณวุฒิระดับอุดมศึกษา พ.ศ.2552",
+              "หลักสูตรได้รับการรับรองจาก กต. และ กอ."
+            ],
+            "core_areas_or_subjects": [
+              "กฎหมายเอกชน (Private Law)",
+              "กฎหมายมหาชน (Public Law)",
+              "กฎหมายอาญาและกระบวนการยุติธรรมทางอาญา",
+              "กฎหมายธุรกิจและการค้าระหว่างประเทศ"
+            ],
+            "credits": null,
+            "duration_years": null,
+            "fees": { "per_credit": 4800, "total_estimated": 200000, "currency": "THB" },
+            "admission_requirements": [
+              "สำเร็จการศึกษานิติศาสตรบัณฑิตจากสถาบันที่ กำหนด (สกอ. รับรอง)",
+              "มีประสบการณ์ทำงานไม่น้อยกว่า 1 ปี (สำหรับภาคพิเศษ)",
+              "มีเอกสารรับรองการทำงาน/เอกสารประกอบการประกอบอาชีพสำหรับผู้ประกอบอาชีพอิสระ",
+              "สามารถอุทิศเวลาให้กับการศึกษาค้นคว้าตามหลักสูตรได้"
+            ],
+            "application_info": { "apply_link": "https://nida.ac.th/admission?facid=1181&progid=3428", "open_for_application": "เปิดรับสมัคร" },
+            "source_url": "https://nida.ac.th/master/laws-special-program-bkk/"
+          },
+          {
+            "id": "GSL-PhD-LAW",
+            "level": "Doctor (Ph.D. / D.Law)",
+            "name_th": "น.ด. หลักสูตรนิติศาสตรดุษฎีบัณฑิต",
+            "name_en": null,
+            "study_mode": "ภาคพิเศษ (นอกเวลาราชการ)",
+            "overview": "มุ่งผลิตดุษฎีบัณฑิตที่มีองค์ความรู้ทางนิติศาสตร์ มีคุณธรรม จริยธรรม ธรรมาภิบาล และความเชี่ยวชาญด้านกฎหมาย สามารถสร้างองค์ความรู้ใหม่ที่ตอบโจทย์สังคมและเทคโนโลยีที่เปลี่ยนแปลงอย่างรวดเร็ว",
+            "highlights": null,
+            "core_areas_or_subjects": null,
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/phd/doctor-of-laws/"
+          },
+          {
+            "id": "GSL-CERT-SUSTAIN-ENV",
+            "level": "Professional Certificate",
+            "name_th": "ประกาศนียบัตรกระบวนการยุติธรรมทางสิ่งแวดล้อมเพื่อการพัฒนาสิ่งแวดล้อมอย่างยั่งยืน",
+            "name_en": null,
+            "study_mode": "ภาคพิเศษ (อบรมระยะสั้น)",
+            "overview": "การบูรณาการองค์ความรู้ด้านสิ่งแวดล้อม กฎหมาย การบริหารการจัดการ เศรษฐศาสตร์ วิศวกรรมศาสตร์ และวิทยาศาสตร์สิ่งแวดล้อม",
+            "highlights": null,
+            "core_areas_or_subjects": null,
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/course/sustainable-environment/"
+          },
+          {
+            "id": "GSL-CERT-GOV-LAWS",
+            "level": "Professional Certificate",
+            "name_th": "ประกาศนียบัตรทางกฎหมายปกครองและคดีปกครองชั้นสูง",
+            "name_en": null,
+            "study_mode": "ภาคพิเศษ (อบรมระยะสั้น)",
+            "overview": "หลักสูตรเสริมความรู้ด้านกฎหมายปกครอง โดยหลังจบการอบรมสามารถเข้าศึกษาต่อในหลักสูตรนิติศาสตรมหาบัณฑิต สาขากฎหมายมหาชน และศศ.ม. สาขากฎหมายเพื่อการบริหาร ได้โดยเทียบโอนถึง 4 รายวิชา",
+            "highlights": ["สามารถเทียบโอนรายวิชา (สูงสุด 4 รายวิชา) ไปยังหลักสูตรปริญญาที่เกี่ยวข้อง"],
+            "core_areas_or_subjects": null,
+            "credits": null,
+            "duration_years": null,
+            "fees": null,
+            "admission_requirements": null,
+            "source_url": "https://nida.ac.th/course/governance-laws/"
+          }
+        ]
+      }
+    ]
+  }
+]
