@@ -11,7 +11,7 @@ pydantic
 chromadb
 pypdf
 matplotlib
-Pillow>=10.2.0
+Pillow==10.4.0
 tenacity
 langdetect
 pysqlite3-binary
