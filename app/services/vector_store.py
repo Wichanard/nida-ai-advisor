@@ -97,7 +97,17 @@ class NIDAVectorStore:
             for dept in faculty.get("departments", []):
                 dept_name = dept.get("department", "")
                 for prog in dept.get("programs", []):
-                    raw_fee = prog.get("total_fee")
+                    # --- Data Normalization Fix ---
+                    # Some faculties use "program" & "degree", others use "name_th" & "level".
+                    # We normalize them here so dashboard.py displays them correctly.
+                    normalized_prog = {**prog}
+                    prog_name = prog.get("program") or prog.get("name_th") or prog.get("name_en") or "ไม่ระบุชื่อหลักสูตร"
+                    prog_degree = prog.get("degree") or prog.get("level") or "ไม่ระบุระดับ"
+                    
+                    normalized_prog["program"] = prog_name
+                    normalized_prog["degree"] = prog_degree
+                    
+                    raw_fee = prog.get("total_fee") or (prog.get("fees") or {}).get("total_cost_thb")
                     if not raw_fee and prog.get("semesters"):
                         first_sem_fee = prog["semesters"][0].get("tuition")
                         raw_fee = first_sem_fee
@@ -106,13 +116,13 @@ class NIDAVectorStore:
                     doc_parts = [
                         fac_name,
                         dept_name,
-                        prog.get("program", ""),
-                        prog.get("degree", ""),
+                        prog_name,
+                        prog_degree,
                         prog.get("description", ""),
                         prog.get("overview", ""),
                         safe_join_list(prog.get("keywords")),
                         safe_join_list(prog.get("career_opportunities")),
-                        prog.get("study_time", ""),
+                        prog.get("study_time", "") or prog.get("study_mode", ""),
                         prog.get("language", ""),
                         prog.get("admission_requirements", ""),
                         safe_join_list(prog.get("special_features")),
@@ -124,7 +134,7 @@ class NIDAVectorStore:
                         "department": dept_name,
                         "numeric_fee": parsed_fee,
                         "search_document": full_doc,
-                        **prog,
+                        **normalized_prog,
                     }
                     self.programs.append(prog_record)
                     self.corpus.append(full_doc)
