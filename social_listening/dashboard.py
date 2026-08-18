@@ -30,6 +30,7 @@ from app.models.database import (
     init_db,
     record_feedback,
     save_chat_message,
+    get_db_connection,
     ingest_social_mentions,
     get_all_chat_sessions,
 )
@@ -889,6 +890,56 @@ def render_executive_knowledge_tab() -> None:
             st.warning("ไม่พบเอกสารที่ตรงเงื่อนไข")
 
 
+def get_all_user_chat_messages() -> list[str]:
+    """Fetch all messages sent by users from the database."""
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT message FROM chat_messages WHERE sender = 'user'")
+            rows = cursor.fetchall()
+            return [row["message"] for row in rows if row["message"]]
+    except Exception as e:
+        print(f"Error fetching user chat messages: {e}")
+        return []
+
+def render_executive_chatbot_analytics_tab() -> None:
+    st.markdown("## 💬 Chatbot Usage & Analytics")
+    st.markdown("เจาะลึกคำถามและคีย์เวิร์ดที่ผู้สมัครเรียนพิมพ์ถามเข้ามาในระบบแชท AI มากที่สุด (รวมทั้งภาษาไทยและอังกฤษ)")
+
+    messages = get_all_user_chat_messages()
+    
+    # KPI Metrics
+    total_msgs = len(messages)
+    st.markdown(f'<div class="nida-kpi-card"><div class="nida-kpi-label">จำนวนประโยคคำถามทั้งหมดจากผู้ใช้</div><div class="nida-kpi-value">{total_msgs}</div><div class="nida-kpi-label">ข้อความ</div></div>', unsafe_allow_html=True)
+    st.divider()
+
+    if not messages:
+        st.info("ยังไม่มีข้อมูลการสนทนาในระบบ")
+        return
+
+    col_wc, col_kw = st.columns([1.3, 1])
+    
+    with col_wc:
+        st.subheader("☁️ Chatbot Word Cloud")
+        st.caption("กลุ่มคำศัพท์ (Keywords) จากทุกคำถามของผู้ใช้งาน")
+        wc_bytes = generate_wordcloud_image(messages)
+        if wc_bytes:
+            st.image(wc_bytes, use_container_width=True)
+        else:
+            st.warning("ไม่สามารถสร้าง Word Cloud ได้ (อาจมีข้อมูลน้อยเกินไป)")
+
+    with col_kw:
+        st.subheader("📌 Top 15 คำที่ถูกถามบ่อยที่สุด")
+        freqs = get_word_frequencies(messages, top_n=15)
+        df_freq = pd.DataFrame(freqs.items(), columns=["คำศัพท์ (Keyword)", "ความถี่ (ครั้ง)"])
+        df_freq = df_freq.sort_values("ความถี่ (ครั้ง)", ascending=False)
+        st.dataframe(df_freq, use_container_width=True, hide_index=True)
+        
+    st.divider()
+    st.subheader("📊 กราฟความถี่ของคำศัพท์")
+    st.bar_chart(df_freq.set_index("คำศัพท์ (Keyword)"))
+
+
 # ─── Main Multi-Role Controller ───
 
 def main() -> None:
@@ -994,11 +1045,12 @@ def main() -> None:
                 st.session_state.auth_role = None
                 st.rerun()
 
-        e_tab1, e_tab2, e_tab3, e_tab4 = st.tabs([
+        e_tab1, e_tab2, e_tab3, e_tab4, e_tab5 = st.tabs([
             "📈 Executive Intelligence & ABSA Radar",
             "📊 Social Listening & Word Cloud Studio",
             "🔄 Automated ETL Data Pipeline",
             "📚 Document Knowledge Base & PDF Manager",
+            "💬 Chatbot Usage & Analytics",
         ])
         with e_tab1:
             render_executive_radar_tab()
@@ -1008,6 +1060,8 @@ def main() -> None:
             render_executive_etl_tab()
         with e_tab4:
             render_executive_knowledge_tab()
+        with e_tab5:
+            render_executive_chatbot_analytics_tab()
 
 
 
