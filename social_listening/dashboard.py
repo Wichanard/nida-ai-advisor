@@ -63,7 +63,7 @@ init_db()
 NIDADocumentRAG.get_instance()
 
 st.set_page_config(
-    page_title="NIDA Enterprise AI Advisor & Social Listening Platform",
+    page_title="NIDACHAT",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded",
