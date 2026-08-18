@@ -112,6 +112,10 @@ class NIDAVectorStore:
                         first_sem_fee = prog["semesters"][0].get("tuition")
                         raw_fee = first_sem_fee
                     parsed_fee = parse_numeric_fee(raw_fee)
+                    
+                    normalized_prog["total_fee"] = str(raw_fee) if raw_fee else "สอบถามสถาบัน"
+                    normalized_prog["study_time"] = prog.get("study_time") or prog.get("study_mode") or "ไม่ระบุเวลาเรียน"
+                    normalized_prog["application_link"] = prog.get("application_link") or prog.get("source_url") or "https://www.nida.ac.th"
 
                     doc_parts = [
                         fac_name,
