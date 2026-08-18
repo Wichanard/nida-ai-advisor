@@ -1,5 +1,0 @@
-build-essential
-libjpeg-dev
-zlib1g-dev
-libpng-dev
-libfreetype6-dev
