@@ -473,7 +473,7 @@ def render_gemini_studio() -> None:
             st.markdown(user_prompt)
 
         with st.chat_message("assistant", avatar="✨"):
-            with st.status("กำลังคิดวิเคราะห์และค้นหาคลังความรู้ 73 หลักสูตร + เอกสารข้อบังคับ...", expanded=False) as status:
+            with st.spinner("กำลังคิดวิเคราะห์และค้นหาคลังความรู้ 73 หลักสูตร + เอกสารข้อบังคับ..."):
                 res_data = NIDAAgentEngine.execute_chat(
                     session_id=st.session_state.session_id,
                     user_message=user_prompt,
@@ -482,7 +482,6 @@ def render_gemini_studio() -> None:
                     study_mode_filter="ทั้งหมด",
                     model_name=selected_model,
                 )
-                status.update(label="✅ ประมวลผลคำตอบสำเร็จ!", state="complete")
 
             st.markdown(res_data["reply"])
 
