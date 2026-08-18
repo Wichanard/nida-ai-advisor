@@ -142,6 +142,28 @@ st.markdown(
         font-size: 1.05rem !important;
     }
 
+    /* Suggested Prompts Secondary Button Styling as Cards */
+    .stButton>button[kind="secondary"] {
+        border-radius: 16px !important;
+        padding: 1rem !important;
+        background-color: #f8f9fa !important;
+        border: 1px solid #e0e0e0 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+        transition: all 0.2s ease-in-out !important;
+        font-weight: 500 !important;
+        text-align: left !important;
+        height: auto !important;
+        color: #444746 !important;
+        white-space: pre-wrap !important;
+        justify-content: flex-start !important;
+    }
+    .stButton>button[kind="secondary"]:hover {
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+        transform: translateY(-2px) !important;
+        border-color: #d2e3fc !important;
+    }
+
     /* KPI Metric Cards */
     .nida-kpi-card {
         background: #ffffff !important;
@@ -373,7 +395,7 @@ def render_gemini_studio() -> None:
                         if st.button(
                             f"{'🟢' if is_active else '💬'} {title}", 
                             key=f"btn_{session['session_id']}", 
-                            type="secondary", 
+                            type="tertiary", 
                             use_container_width=True
                         ):
                             if session["session_id"] != st.session_state.session_id:
@@ -387,9 +409,9 @@ def render_gemini_studio() -> None:
     if not st.session_state.chat_messages:
         st.markdown(
             """
-            <div style="text-align: center; padding: 2rem 1rem 1.2rem 1rem; max-width: 900px; margin: 0 auto;">
-                <h1 style="font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #002b66 0%, #1d4ed8 50%, #7c3aed 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
-                    ✨ สวัสดีคุณสนใจศึกษาที่ NIDA ไหม
+            <div style="text-align: center; padding: 4rem 1rem 2rem 1rem; max-width: 900px; margin: 0 auto;">
+                <h1 style="font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.6rem; letter-spacing: -1.5px;">
+                    ✨ สวัสดี คุณสนใจศึกษาที่ NIDA ไหม?
                 </h1>
             </div>
             """,
