@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "faculty": "บริหารธุรกิจ",
     "departments": [
@@ -187,7 +187,7 @@
               {"category": "วิชาเลือก", "courses": ["Economics for Management","Innovation Management and Technology","Managerial Accounting","Risk and Crisis Management"]}
             ],
             "contact": "admissions@nida.ac.th",
-            "application_link": "https://www.nida.ac.th/admission/public-admin-mpa",
+            "application_link": "https://gspa.nida.ac.th/",
             "semesters": [
               {"term": "1","study_mode": "ภาคปกติ","admission_period": "ไม่ระบุ","tuition": "97,000"}
             ]
