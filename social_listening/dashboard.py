@@ -269,6 +269,24 @@ st.markdown(
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
         color: #0f172a !important;
     }
+    
+    /* User Chat Bubble Right Alignment */
+    [data-testid="stChatMessage"]:has(.user-msg-marker) {
+        flex-direction: row-reverse;
+        border: none !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stChatMessage"]:has(.user-msg-marker) [data-testid="stChatMessageAvatar"] {
+        margin-left: 1rem;
+        margin-right: 0;
+    }
+    [data-testid="stChatMessage"]:has(.user-msg-marker) .stMarkdown {
+        background-color: #f1f5f9;
+        padding: 12px 18px;
+        border-radius: 18px 18px 4px 18px;
+        color: #0f172a;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -351,6 +369,9 @@ def render_gemini_studio() -> None:
         
     if "show_library" not in st.session_state:
         st.session_state.show_library = True
+
+    if "editing_msg_idx" not in st.session_state:
+        st.session_state.editing_msg_idx = -1
 
     # Sidebar: Model Selector & Advanced Filter Controls
     with st.sidebar:
@@ -438,29 +459,59 @@ def render_gemini_studio() -> None:
 
         st.divider()
 
+    # Global pending_prompt handler from edits
+    if "pending_prompt" in st.session_state and st.session_state.pending_prompt:
+        pending_prompt = st.session_state.pending_prompt
+        del st.session_state.pending_prompt
+
     # Display Chat History Thread
-    for msg in st.session_state.chat_messages:
+    for idx, msg in enumerate(st.session_state.chat_messages):
         role = "assistant" if msg["sender"] == "assistant" else "user"
         avatar = "✨" if role == "assistant" else "👤"
         with st.chat_message(role, avatar=avatar):
-            st.markdown(msg["message"])
-            if msg.get("recommended_programs"):
-                with st.expander("🎓 ข้อมูลหลักสูตร NIDA ที่เกี่ยวข้องกับการสนทนานี้", expanded=True):
-                    for idx, prog in enumerate(msg["recommended_programs"][:3], 1):
-                        fee_disp = prog.get("total_fee") or "สอบถามสถาบัน"
-                        careers = ", ".join(prog.get("career_opportunities", [])) or "ผู้บริหาร, นักวิเคราะห์, ที่ปรึกษา"
-                        st.markdown(
-                            f"""
-                            <div class="nida-prog-card">
-                                <div class="nida-prog-header">#{idx} {prog.get('program')} ({prog.get('degree')})</div>
-                                <p><strong>คณะ:</strong> {prog.get('faculty')} | <span class="badge-fee">ค่าเทอมประมาณ: {fee_disp} บาท</span> | <span class="badge-match">ตรงใจ {prog.get('match_score', 95)}%</span></p>
-                                <p>⏱️ <strong>เวลาเรียน:</strong> {prog.get('study_time', 'เสาร์-อาทิตย์ / ปกติ')} | 🎯 <strong>คุณสมบัติ:</strong> {prog.get('admission_requirements', 'ปริญญาตรีทุกสาขา')}</p>
-                                <p>💼 <strong>โอกาสต่อยอดสายอาชีพ:</strong> {careers}</p>
-                                <a href="{prog.get('application_link', 'https://www.nida.ac.th')}" target="_blank" style="color:#1d4ed8; font-weight:700;">🔗 ข้อมูลหลักสูตรและสมัครเรียนออนไลน์ &rarr;</a>
-                            </div>
-                            """,
-                            unsafe_allow_html=True,
-                        )
+            if role == "user":
+                st.markdown("<span class='user-msg-marker'></span>", unsafe_allow_html=True)
+                
+                if st.session_state.editing_msg_idx == idx:
+                    new_msg = st.text_area("แก้ไขข้อความ", value=msg["message"], key=f"edit_area_{idx}", label_visibility="collapsed")
+                    col1, col2 = st.columns([1, 1])
+                    with col1:
+                        if st.button("บันทึก & ส่งใหม่", key=f"save_btn_{idx}", type="primary", use_container_width=True):
+                            st.session_state.chat_messages = st.session_state.chat_messages[:idx]
+                            st.session_state.pending_prompt = new_msg
+                            st.session_state.editing_msg_idx = -1
+                            st.rerun()
+                    with col2:
+                        if st.button("ยกเลิก", key=f"cancel_btn_{idx}", use_container_width=True):
+                            st.session_state.editing_msg_idx = -1
+                            st.rerun()
+                else:
+                    st.markdown(msg["message"])
+                    # Small Edit button aligned nicely
+                    col1, col2 = st.columns([10, 1])
+                    with col2:
+                        if st.button("✏️", key=f"edit_trigger_{idx}", help="แก้ไขและสร้างคำตอบใหม่จากจุดนี้"):
+                            st.session_state.editing_msg_idx = idx
+                            st.rerun()
+            else:
+                st.markdown(msg["message"])
+                if msg.get("recommended_programs"):
+                    with st.expander("🎓 ข้อมูลหลักสูตร NIDA ที่เกี่ยวข้องกับการสนทนานี้", expanded=True):
+                        for prog_idx, prog in enumerate(msg["recommended_programs"][:3], 1):
+                            fee_disp = prog.get("total_fee") or "สอบถามสถาบัน"
+                            careers = ", ".join(prog.get("career_opportunities", [])) or "ผู้บริหาร, นักวิเคราะห์, ที่ปรึกษา"
+                            st.markdown(
+                                f"""
+                                <div class="nida-prog-card">
+                                    <div class="nida-prog-header">#{prog_idx} {prog.get('program')} ({prog.get('degree')})</div>
+                                    <p><strong>คณะ:</strong> {prog.get('faculty')} | <span class="badge-fee">ค่าเทอมประมาณ: {fee_disp} บาท</span> | <span class="badge-match">ตรงใจ {prog.get('match_score', 95)}%</span></p>
+                                    <p>⏱️ <strong>เวลาเรียน:</strong> {prog.get('study_time', 'เสาร์-อาทิตย์ / ปกติ')} | 🎯 <strong>คุณสมบัติ:</strong> {prog.get('admission_requirements', 'ปริญญาตรีทุกสาขา')}</p>
+                                    <p>💼 <strong>โอกาสต่อยอดสายอาชีพ:</strong> {careers}</p>
+                                    <a href="{prog.get('application_link', 'https://www.nida.ac.th')}" target="_blank" style="color:#1d4ed8; font-weight:700;">🔗 ข้อมูลหลักสูตรและสมัครเรียนออนไลน์ &rarr;</a>
+                                </div>
+                                """,
+                                unsafe_allow_html=True,
+                            )
 
     # Gemini Input Box
     user_prompt = st.chat_input("ถาม NIDA")
@@ -470,6 +521,7 @@ def render_gemini_studio() -> None:
     if user_prompt:
         st.session_state.chat_messages.append({"sender": "user", "message": user_prompt})
         with st.chat_message("user", avatar="👤"):
+            st.markdown("<span class='user-msg-marker'></span>", unsafe_allow_html=True)
             st.markdown(user_prompt)
 
         with st.chat_message("assistant", avatar="✨"):
