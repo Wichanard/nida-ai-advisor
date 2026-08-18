@@ -871,7 +871,7 @@ def render_executive_knowledge_tab() -> None:
 
 def main() -> None:
     if "app_mode" not in st.session_state:
-        st.session_state.app_mode = "✨ NIDA Gemini Studio (หน้าแชท AI เฉพาะทาง)"
+        st.session_state.app_mode = "✨ NIDACHAT (หน้าแชท AI เฉพาะทาง)"
 
     # Sidebar Navigation & Dedicated Mode Switcher
     with st.sidebar:
@@ -881,12 +881,12 @@ def main() -> None:
 
         st.markdown("### 🧭 เมนูหลัก (Navigation)")
         
-        btn_gemini = "✨ NIDA Gemini Studio"
+        btn_gemini = "✨ NIDACHAT"
         btn_catalog = "🏛️ สารบบและเปรียบเทียบ 73 หลักสูตร"
         btn_exec = "🔐 สำหรับเจ้าหน้าที่ / ผู้บริหาร"
 
         if st.button(btn_gemini, use_container_width=True, type="primary" if st.session_state.app_mode.startswith("✨") else "secondary"):
-            st.session_state.app_mode = "✨ NIDA Gemini Studio (หน้าแชท AI เฉพาะทาง)"
+            st.session_state.app_mode = "✨ NIDACHAT (หน้าแชท AI เฉพาะทาง)"
             st.rerun()
             
         if st.button(btn_catalog, use_container_width=True, type="primary" if st.session_state.app_mode.startswith("🏛️") else "secondary"):
