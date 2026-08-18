@@ -3,11 +3,11 @@ social_listening/dashboard.py
 NIDA Enterprise AI Advisor & Strategic Social Listening Platform.
 Features Role-Based Access Control (RBAC), ChromaDB Document RAG, Automated ETL Pipeline, and Executive BI.
 """
+from __future__ import annotations
+
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
-from __future__ import annotations
 
 import io
 import json
