@@ -471,15 +471,15 @@ def render_gemini_studio() -> None:
                         is_active = session["session_id"] == st.session_state.session_id
                         
                         if st.button(
-                            f"{'🟢' if is_active else '💬'} {title}", 
-                            key=f"btn_{session['session_id']}", 
-                            type="tertiary", 
-                            use_container_width=True
+                            title,
+                            icon=":material/chat_bubble_outline:",
+                            key=f"hist_{session['session_id']}",
+                            use_container_width=True,
+                            type="secondary" if is_active else "tertiary"
                         ):
-                            if session["session_id"] != st.session_state.session_id:
-                                st.session_state.session_id = session["session_id"]
-                                st.session_state.chat_messages = get_chat_history(session["session_id"])
-                                st.rerun()
+                            st.session_state.session_id = session["session_id"]
+                            st.session_state.chat_messages = get_chat_history(session["session_id"])
+                            st.rerun()
 
 
 
@@ -1055,25 +1055,25 @@ def main() -> None:
 
     # Sidebar Navigation & Dedicated Mode Switcher
     with st.sidebar:
-        st.markdown("## 🏛️ สถาบันบัณฑิตพัฒนบริหารศาสตร์")
-        st.markdown("**NIDA Enterprise AI & Social Listening Platform**")
+        st.markdown("<h3 style='text-align: center; color: #1e293b; font-weight: 700; margin-bottom: 0;'>NIDA</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #64748b; font-size: 0.85rem; margin-top: 0;'>AI & Social Listening</p>", unsafe_allow_html=True)
         st.divider()
 
-        st.markdown("### 🧭 เมนูหลัก (Navigation)")
+        st.markdown("<p style='color: #94a3b8; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase;'>Navigation</p>", unsafe_allow_html=True)
         
-        btn_gemini = "✨ NIDACHAT"
-        btn_catalog = "🏛️ สารบบและเปรียบเทียบ 73 หลักสูตร"
-        btn_exec = "🔐 สำหรับเจ้าหน้าที่ / ผู้บริหาร"
+        btn_gemini = "NIDACHAT"
+        btn_catalog = "สารบบหลักสูตร"
+        btn_exec = "สำหรับผู้บริหาร"
 
-        if st.button(btn_gemini, use_container_width=True, type="primary" if st.session_state.app_mode.startswith("✨") else "secondary"):
+        if st.button(btn_gemini, icon=":material/forum:", use_container_width=True, type="secondary" if st.session_state.app_mode.startswith("✨") else "tertiary"):
             st.session_state.app_mode = "✨ NIDACHAT (หน้าแชท AI เฉพาะทาง)"
             st.rerun()
             
-        if st.button(btn_catalog, use_container_width=True, type="primary" if st.session_state.app_mode.startswith("🏛️") else "secondary"):
+        if st.button(btn_catalog, icon=":material/menu_book:", use_container_width=True, type="secondary" if st.session_state.app_mode.startswith("🏛️") else "tertiary"):
             st.session_state.app_mode = "🏛️ สารบบและเปรียบเทียบ 73 หลักสูตร (Course Explorer)"
             st.rerun()
             
-        if st.button(btn_exec, use_container_width=True, type="primary" if st.session_state.app_mode.startswith("🔐") else "secondary"):
+        if st.button(btn_exec, icon=":material/admin_panel_settings:", use_container_width=True, type="secondary" if st.session_state.app_mode.startswith("🔐") else "tertiary"):
             st.session_state.app_mode = "🔐 สำหรับเจ้าหน้าที่ / ผู้บริหารนิด้า (Executive Mode)"
             st.rerun()
             
