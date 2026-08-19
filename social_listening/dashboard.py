@@ -287,7 +287,63 @@ st.markdown(
         border-radius: 18px 18px 4px 18px;
         color: #0f172a;
     }
+
+    /* Premium Chat Input Box Styling */
+    [data-testid="stChatInput"] {
+        max-width: 850px !important;
+        margin: 0 auto !important; /* Center the input container */
+        background-color: transparent !important;
+        padding-bottom: 2rem !important; /* Lift it slightly from the absolute bottom */
+    }
+    
+    /* The inner container of the chat input */
+    [data-testid="stChatInput"] > div {
+        border: 1px solid #cbd5e1 !important; /* Very subtle border */
+        background-color: #ffffff !important; /* White pill on gray background */
+        border-radius: 30px !important; /* Pill shape */
+        padding: 5px 10px 5px 20px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    [data-testid="stChatInput"] > div:focus-within {
+        border: 1px solid #3b82f6 !important;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15) !important;
+    }
+
+    /* Target the text area inside */
+    [data-testid="stChatInput"] textarea {
+        background-color: transparent !important;
+        border: none !important;
+        color: #1e293b !important;
+        font-size: 1rem !important;
+    }
+    
+    [data-testid="stChatInput"] textarea:focus {
+        box-shadow: none !important;
+    }
+
+    /* Target the send button inside */
+    [data-testid="stChatInput"] button {
+        background-color: #3b82f6 !important; /* Blue send button */
+        border-radius: 50% !important; /* Circular button */
+        height: 40px !important;
+        width: 40px !important;
+        padding: 0 !important;
+        margin-left: 8px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    [data-testid="stChatInput"] button:hover {
+        background-color: #2563eb !important;
+        transform: scale(1.05);
+    }
+    
+    [data-testid="stChatInput"] button svg {
+        fill: white !important;
+        color: white !important;
+    }
     </style>
+
     """,
     unsafe_allow_html=True,
 )
