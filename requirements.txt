@@ -17,3 +17,10 @@ langdetect
 pysqlite3-binary
 praw
 python-dateutil
+fastapi
+uvicorn
+psycopg2-binary
+slowapi
+line-bot-sdk
+SQLAlchemy
+apscheduler

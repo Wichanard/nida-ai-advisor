@@ -1,35 +1,44 @@
-version: '3.9'
+version: '3.8'
+
 services:
-  api:
-    build: .
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: nida_user
+      POSTGRES_PASSWORD: nida_password
+      POSTGRES_DB: nida_chat
     ports:
-      - '8000:8000'
+      - "5432:5432"
     volumes:
-      - .:/app:cached
-    environment:
-      - PYTHONUNBUFFERED=1
-    env_file:
-      - .env
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
 
-  dashboard:
-    build: .
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '8501:8501'
-    volumes:
-      - .:/app:cached
+      - "8000:8000"
     environment:
-      - PYTHONUNBUFFERED=1
-    env_file:
-      - .env
-    command: ["streamlit", "run", "social_listening/dashboard.py", "--server.port=8501", "--server.address=0.0.0.0"]
+      - DATABASE_URL=postgresql://nida_user:nida_password@db:5432/nida_chat
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    volumes:
+      - ./chroma_db:/app/chroma_db
+    depends_on:
+      - db
+    restart: always
 
-  scheduler:
-    build: .
-    volumes:
-      - .:/app:cached
+  frontend:
+    build:
+      context: ./nida-chat-web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
     environment:
-      - PYTHONUNBUFFERED=1
-    env_file:
-      - .env
-    command: ["python", "scripts/scheduler.py"]
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  postgres_data:

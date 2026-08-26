@@ -2,267 +2,287 @@
 app/models/database.py
 Enterprise Persistence Layer for NIDA AI Advisor & Social Listening Platform.
 Supports multi-turn chat sessions, user feedback (RLHF), and structured social mentions.
+Now upgraded with SQLAlchemy to support PostgreSQL (Production) and SQLite (Local).
 """
 from __future__ import annotations
 
 import json
-import sqlite3
+import os
 import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import Engine
+
 BASE_DIR = Path(__file__).resolve().parents[2]
-DB_PATH = BASE_DIR / "data" / "nida_enterprise.db"
+# Default to SQLite if DATABASE_URL is not provided
+DEFAULT_DATABASE_URL = f"sqlite:///{BASE_DIR}/data/nida_enterprise.db"
+DATABASE_URL = os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
 
+engine: Optional[Engine] = None
 
-def get_db_connection() -> sqlite3.Connection:
-    """Create and return a thread-safe connection to the SQLite database."""
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(DB_PATH), timeout=15.0)
-    conn.row_factory = sqlite3.Row
-    return conn
+def get_engine() -> Engine:
+    global engine
+    if engine is None:
+        if DATABASE_URL.startswith("sqlite"):
+            # SQLite specific configuration
+            (BASE_DIR / "data").mkdir(parents=True, exist_ok=True)
+            engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+        else:
+            # PostgreSQL (or other) configuration
+            engine = create_engine(DATABASE_URL, pool_size=20, max_overflow=0)
+    return engine
 
+def init_db():
+    eng = get_engine()
+    with eng.begin() as conn:
+        conn.execute(text("""
+            CREATE TABLE IF NOT EXISTS user_profiles (
+                session_id VARCHAR(255) PRIMARY KEY,
+                inferred_age VARCHAR(255),
+                work_experience TEXT,
+                interests TEXT,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """))
 
-def init_db() -> None:
-    """Initialize enterprise database schema with required tables and indexes."""
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        
-        # 1. Chat Sessions Table
-        cursor.execute("""
+        conn.execute(text("""
             CREATE TABLE IF NOT EXISTS chat_sessions (
-                session_id TEXT PRIMARY KEY,
-                user_id TEXT DEFAULT 'guest',
+                session_id VARCHAR(255) PRIMARY KEY,
+                user_id VARCHAR(255),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                context_metadata TEXT DEFAULT '{}'
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """)
+        """))
 
-        # 2. Chat Messages Table (Multi-turn Memory)
-        cursor.execute("""
+        id_type = "INTEGER PRIMARY KEY AUTOINCREMENT" if eng.name == "sqlite" else "SERIAL PRIMARY KEY"
+        conn.execute(text(f"""
             CREATE TABLE IF NOT EXISTS chat_messages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                session_id TEXT NOT NULL,
-                sender TEXT NOT NULL CHECK(sender IN ('user', 'assistant', 'system')),
-                message TEXT NOT NULL,
-                recommended_programs TEXT DEFAULT '[]',
-                tools_used TEXT DEFAULT '[]',
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (session_id) REFERENCES chat_sessions(session_id)
+                id {id_type},
+                session_id VARCHAR(255),
+                sender VARCHAR(50),
+                message TEXT,
+                recommended_programs TEXT,
+                tools_used TEXT,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """)
+        """))
 
-        # 3. User Feedback & RLHF Evaluation
-        cursor.execute("""
+        conn.execute(text(f"""
             CREATE TABLE IF NOT EXISTS user_feedback (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                session_id TEXT NOT NULL,
+                id {id_type},
+                session_id VARCHAR(255),
                 message_id INTEGER,
-                rating INTEGER CHECK(rating IN (1, -1)),
+                rating INTEGER,
                 feedback_text TEXT,
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """)
+        """))
 
-        # 4. Social Mentions Warehouse Table
-        cursor.execute("""
+        conn.execute(text("""
             CREATE TABLE IF NOT EXISTS social_mentions (
-                id TEXT PRIMARY KEY,
-                platform TEXT NOT NULL,
+                id VARCHAR(255) PRIMARY KEY,
+                platform VARCHAR(100),
                 title TEXT,
-                text TEXT NOT NULL,
-                author TEXT,
-                published_at TEXT,
+                text TEXT,
+                author VARCHAR(255),
+                published_at VARCHAR(100),
                 url TEXT,
-                sentiment TEXT,
-                intent TEXT,
-                aspect TEXT,
+                sentiment VARCHAR(50),
+                intent VARCHAR(100),
+                aspect VARCHAR(100),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """)
-
-        # Indexes for rapid retrieval
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_messages(session_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_social_platform ON social_mentions(platform)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_social_sentiment ON social_mentions(sentiment)")
-        conn.commit()
-
-
-# ─── Chat Session CRUD ───
+        """))
 
 def save_chat_message(
     session_id: str,
     sender: str,
     message: str,
+    user_id: str = "guest",
     recommended_programs: Optional[List[Dict[str, Any]]] = None,
     tools_used: Optional[List[str]] = None,
 ) -> int:
-    """Save a chat message in the session history."""
-    init_db()
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT INTO chat_sessions (session_id, updated_at)
-            VALUES (?, CURRENT_TIMESTAMP)
-            ON CONFLICT(session_id) DO UPDATE SET updated_at = CURRENT_TIMESTAMP
-            """,
-            (session_id,),
-        )
-        cursor.execute(
-            """
-            INSERT INTO chat_messages (session_id, sender, message, recommended_programs, tools_used)
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                session_id,
-                sender,
-                message,
-                json.dumps(recommended_programs or [], ensure_ascii=False),
-                json.dumps(tools_used or [], ensure_ascii=False),
-            ),
-        )
-        msg_id = cursor.lastrowid
-        conn.commit()
-        return msg_id or 0
+    eng = get_engine()
+    with eng.begin() as conn:
+        res = conn.execute(text("SELECT session_id FROM chat_sessions WHERE session_id = :s"), {"s": session_id}).fetchone()
+        if res:
+            conn.execute(text("UPDATE chat_sessions SET updated_at = CURRENT_TIMESTAMP WHERE session_id = :s"), {"s": session_id})
+        else:
+            conn.execute(text("INSERT INTO chat_sessions (session_id, user_id) VALUES (:s, :u)"), {"s": session_id, "u": user_id})
 
+        result = conn.execute(
+            text("""
+            INSERT INTO chat_messages (session_id, sender, message, recommended_programs, tools_used)
+            VALUES (:session_id, :sender, :message, :recommended_programs, :tools_used)
+            """),
+            {
+                "session_id": session_id,
+                "sender": sender,
+                "message": message,
+                "recommended_programs": json.dumps(recommended_programs or [], ensure_ascii=False),
+                "tools_used": json.dumps(tools_used or [], ensure_ascii=False)
+            }
+        )
+        return result.lastrowid or 0
 
 def get_chat_history(session_id: str, limit: int = 20) -> List[Dict[str, Any]]:
-    """Retrieve chronologically ordered chat messages for a session."""
-    init_db()
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            """
+    eng = get_engine()
+    with eng.begin() as conn:
+        rows = conn.execute(
+            text("""
             SELECT id, session_id, sender, message, recommended_programs, tools_used, timestamp
             FROM chat_messages
-            WHERE session_id = ?
+            WHERE session_id = :session_id
             ORDER BY timestamp ASC, id ASC
-            LIMIT ?
-            """,
-            (session_id, limit),
-        )
-        rows = cursor.fetchall()
+            LIMIT :limit
+            """),
+            {"session_id": session_id, "limit": limit}
+        ).fetchall()
+        
         history = []
         for r in rows:
             history.append({
-                "id": r["id"],
-                "session_id": r["session_id"],
-                "sender": r["sender"],
-                "message": r["message"],
-                "recommended_programs": json.loads(r["recommended_programs"] or "[]"),
-                "tools_used": json.loads(r["tools_used"] or "[]"),
-                "timestamp": r["timestamp"],
+                "id": r[0],
+                "session_id": r[1],
+                "sender": r[2],
+                "message": r[3],
+                "recommended_programs": json.loads(r[4] or "[]"),
+                "tools_used": json.loads(r[5] or "[]"),
+                "timestamp": str(r[6]),
             })
         return history
 
-
 def get_all_chat_sessions(user_id: str = "guest", search_query: Optional[str] = None) -> List[Dict[str, Any]]:
-    """Retrieve all chat sessions for a user, optionally filtered by search query."""
-    init_db()
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        
+    eng = get_engine()
+    with eng.begin() as conn:
         query = """
             SELECT s.session_id, s.updated_at, 
                    (SELECT message FROM chat_messages m WHERE m.session_id = s.session_id AND m.sender = 'user' ORDER BY timestamp ASC LIMIT 1) as title
             FROM chat_sessions s
-            WHERE s.user_id = ?
+            WHERE s.user_id = :user_id
         """
-        params = [user_id]
+        params = {"user_id": user_id}
         
         if search_query:
-            query += " AND (SELECT message FROM chat_messages m WHERE m.session_id = s.session_id AND m.sender = 'user' ORDER BY timestamp ASC LIMIT 1) LIKE ?"
-            params.append(f"%{search_query}%")
+            query += " AND (SELECT message FROM chat_messages m WHERE m.session_id = s.session_id AND m.sender = 'user' ORDER BY timestamp ASC LIMIT 1) LIKE :sq"
+            params["sq"] = f"%{search_query}%"
             
         query += " ORDER BY s.updated_at DESC"
         
-        cursor.execute(query, tuple(params))
-        rows = cursor.fetchall()
+        rows = conn.execute(text(query), params).fetchall()
         
         sessions = []
         for r in rows:
             sessions.append({
-                "session_id": r["session_id"],
-                "updated_at": r["updated_at"],
-                "title": r["title"] or "New Chat"
+                "session_id": r[0],
+                "updated_at": str(r[1]),
+                "title": r[2] or "New Chat"
             })
         return sessions
 
-
 def record_feedback(session_id: str, rating: int, feedback_text: str = "", message_id: Optional[int] = None) -> bool:
-    """Record user satisfaction rating (1 = thumbs up, -1 = thumbs down)."""
-    init_db()
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            """
+    eng = get_engine()
+    with eng.begin() as conn:
+        conn.execute(
+            text("""
             INSERT INTO user_feedback (session_id, message_id, rating, feedback_text)
-            VALUES (?, ?, ?, ?)
-            """,
-            (session_id, message_id, rating, feedback_text),
+            VALUES (:session_id, :message_id, :rating, :feedback_text)
+            """),
+            {"session_id": session_id, "message_id": message_id, "rating": rating, "feedback_text": feedback_text}
         )
-        conn.commit()
         return True
 
-
 def ingest_social_mentions(items: List[Dict[str, Any]], platform_override: Optional[str] = None) -> int:
-    """Ingest and deduplicate social comments into the database warehouse."""
-    init_db()
+    eng = get_engine()
     inserted = 0
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
+    with eng.begin() as conn:
         for item in items:
-            text = item.get("text") or item.get("title")
-            if not text:
+            t = item.get("text") or item.get("title")
+            if not t:
                 continue
-            item_id = str(item.get("id") or item.get("comment_id") or uuid.uuid5(uuid.NAMESPACE_DNS, str(text)))
+            item_id = str(item.get("id") or item.get("comment_id") or uuid.uuid5(uuid.NAMESPACE_DNS, str(t)))
             platform = platform_override or item.get("platform") or "online"
-            cursor.execute(
-                """
-                INSERT INTO social_mentions (id, platform, title, text, author, published_at, url, sentiment, intent, aspect)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(id) DO UPDATE SET sentiment = excluded.sentiment, intent = excluded.intent
-                """,
-                (
-                    item_id,
-                    platform,
-                    item.get("title", ""),
-                    text,
-                    item.get("author", "ผู้ใช้ทั่วไป"),
-                    item.get("published_at", ""),
-                    item.get("url", ""),
-                    item.get("sentiment", "Neutral"),
-                    item.get("intent", "General Education"),
-                    item.get("aspect", "academics_faculty"),
-                ),
-            )
+            
+            exists = conn.execute(text("SELECT id FROM social_mentions WHERE id = :id"), {"id": item_id}).fetchone()
+            if exists:
+                conn.execute(
+                    text("""
+                    UPDATE social_mentions 
+                    SET sentiment = :sentiment, intent = :intent 
+                    WHERE id = :id
+                    """),
+                    {
+                        "id": item_id,
+                        "sentiment": item.get("sentiment", "Neutral"),
+                        "intent": item.get("intent", "General Education")
+                    }
+                )
+            else:
+                conn.execute(
+                    text("""
+                    INSERT INTO social_mentions (id, platform, title, text, author, published_at, url, sentiment, intent, aspect)
+                    VALUES (:id, :platform, :title, :text, :author, :published_at, :url, :sentiment, :intent, :aspect)
+                    """),
+                    {
+                        "id": item_id,
+                        "platform": platform,
+                        "title": item.get("title", ""),
+                        "text": t,
+                        "author": item.get("author", "Unknown"),
+                        "published_at": str(item.get("published_at", "")),
+                        "url": item.get("url", ""),
+                        "sentiment": item.get("sentiment", "Neutral"),
+                        "intent": item.get("intent", "General Education"),
+                        "aspect": item.get("aspect", "academics_faculty")
+                    }
+                )
             inserted += 1
-        conn.commit()
     return inserted
 
+def save_user_profile(session_id: str, inferred_age: str = None, work_experience: str = None, interests: str = None) -> None:
+    eng = get_engine()
+    with eng.begin() as conn:
+        row = conn.execute(text("SELECT inferred_age, work_experience, interests FROM user_profiles WHERE session_id = :session_id"), {"session_id": session_id}).fetchone()
+        
+        if row:
+            new_age = inferred_age if inferred_age else row[0]
+            new_exp = work_experience if work_experience else row[1]
+            new_int = interests if interests else row[2]
+            conn.execute(text("""
+                UPDATE user_profiles 
+                SET inferred_age = :age, work_experience = :exp, interests = :int, last_updated = CURRENT_TIMESTAMP
+                WHERE session_id = :session_id
+            """), {"age": new_age, "exp": new_exp, "int": new_int, "session_id": session_id})
+        else:
+            conn.execute(text("""
+                INSERT INTO user_profiles (session_id, inferred_age, work_experience, interests)
+                VALUES (:session_id, :age, :exp, :int)
+            """), {"session_id": session_id, "age": inferred_age, "exp": work_experience, "int": interests})
 
+def get_user_profile(session_id: str) -> Optional[Dict[str, Any]]:
+    eng = get_engine()
+    with eng.begin() as conn:
+        row = conn.execute(text("SELECT * FROM user_profiles WHERE session_id = :session_id"), {"session_id": session_id}).fetchone()
+        if row:
+            return {
+                "session_id": row[0],
+                "inferred_age": row[1],
+                "work_experience": row[2],
+                "interests": row[3],
+                "last_updated": row[4]
+            }
+        return None
 def get_system_stats() -> Dict[str, Any]:
-    """Retrieve platform usage statistics from SQLite."""
-    init_db()
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) as total_sessions FROM chat_sessions")
-        total_sessions = cursor.fetchone()["total_sessions"]
-
-        cursor.execute("SELECT COUNT(*) as total_messages FROM chat_messages")
-        total_messages = cursor.fetchone()["total_messages"]
-
-        cursor.execute("SELECT COUNT(*) as total_positive_feedback FROM user_feedback WHERE rating = 1")
-        pos_feedback = cursor.fetchone()["total_positive_feedback"]
-
-        cursor.execute("SELECT COUNT(*) as total_feedback FROM user_feedback")
-        total_feedback = cursor.fetchone()["total_feedback"]
-
-        cursor.execute("SELECT COUNT(*) as total_mentions FROM social_mentions")
-        total_mentions = cursor.fetchone()["total_mentions"]
+    eng = get_engine()
+    with eng.begin() as conn:
+        total_sessions = conn.execute(text("SELECT COUNT(*) FROM chat_sessions")).scalar()
+        total_messages = conn.execute(text("SELECT COUNT(*) FROM chat_messages")).scalar()
+        pos_feedback = conn.execute(text("SELECT COUNT(*) FROM user_feedback WHERE rating = 1")).scalar()
+        total_feedback = conn.execute(text("SELECT COUNT(*) FROM user_feedback")).scalar()
+        total_mentions = conn.execute(text("SELECT COUNT(*) FROM social_mentions")).scalar()
 
         satisfaction_rate = (pos_feedback / total_feedback * 100.0) if total_feedback > 0 else 100.0
 

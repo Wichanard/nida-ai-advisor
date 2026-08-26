@@ -2,34 +2,25 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install OS dependencies for Playwright Headless Chromium & Thai Font Support
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
-    git \
-    fonts-thai-tlwg \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
+# Install system dependencies for psycopg2 and others
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt ./requirements.txt
+# Copy requirements
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir psycopg2-binary SQLAlchemy slowapi beautifulsoup4 line-bot-sdk
 
-# Install Playwright browser binaries
-RUN playwright install --with-deps chromium
+# Copy app
+COPY . .
 
-COPY . /app
+# Ensure data directory exists
+RUN mkdir -p data chroma_db social_listening/data
 
-EXPOSE 8501 8000
+# Expose port
+EXPOSE 8000
 
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port 8000 & streamlit run social_listening/dashboard.py --server.port=8501 --server.address=0.0.0.0"]
+# Run FastAPI
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

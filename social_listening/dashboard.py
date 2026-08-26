@@ -5,9 +5,12 @@ Features Role-Based Access Control (RBAC), ChromaDB Document RAG, Automated ETL 
 """
 from __future__ import annotations
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
 
 import io
 import json
@@ -30,10 +33,11 @@ from app.models.database import (
     init_db,
     record_feedback,
     save_chat_message,
-    get_db_connection,
     ingest_social_mentions,
     get_all_chat_sessions,
+    get_engine,
 )
+from sqlalchemy import text
 from app.services.agent_engine import NIDAAgentEngine
 from app.services.auth import UserRole, authenticate_staff
 from app.services.document_rag import NIDADocumentRAG
@@ -581,17 +585,23 @@ def render_gemini_studio() -> None:
             st.markdown(user_prompt)
 
         with st.chat_message("assistant", avatar="✨"):
-            with st.spinner("กำลังคิดวิเคราะห์และค้นหาคลังความรู้ 73 หลักสูตร + เอกสารข้อบังคับ..."):
-                res_data = NIDAAgentEngine.execute_chat(
-                    session_id=st.session_state.session_id,
-                    user_message=user_prompt,
-                    degree_filter="ทั้งหมด",
-                    faculty_filter="ทั้งหมด",
-                    study_mode_filter="ทั้งหมด",
-                    model_name=selected_model,
-                )
-
-            st.markdown(res_data["reply"])
+            res_data = {}
+            def _metadata_cb(data):
+                res_data.update(data)
+                
+            response_generator = NIDAAgentEngine.execute_chat_stream(
+                session_id=st.session_state.session_id,
+                user_message=user_prompt,
+                degree_filter="ทั้งหมด",
+                faculty_filter="ทั้งหมด",
+                study_mode_filter="ทั้งหมด",
+                model_name=selected_model,
+                metadata_callback=_metadata_cb
+            )
+            
+            full_response = st.write_stream(response_generator)
+            if "reply" not in res_data:
+                res_data["reply"] = full_response
 
             if res_data.get("recommended_programs"):
                 with st.expander("🎓 ข้อมูลหลักสูตร NIDA ที่เกี่ยวข้องกับการสนทนานี้", expanded=True):
@@ -622,67 +632,152 @@ def render_gemini_studio() -> None:
 # ─── VIEW 2: NIDA COURSE EXPLORER & COMPARISON ───
 
 def render_public_catalog_tab() -> None:
-    st.markdown("## 🏛️ สารบบและตารางเปรียบเทียบ 73 หลักสูตร NIDA (ป.โท - ป.เอก)")
-    st.markdown("รวบรวมข้อมูลหลักสูตรทางการของสถาบันบัณฑิตพัฒนบริหารศาสตร์ ครบทั้ง 14 คณะ/วิทยาลัย พร้อมระบบเปรียบเทียบเคียงข้าง")
+    st.markdown("""
+    <style>
+    /* Premium Global CSS for Catalog */
+    .catalog-header {
+        text-align: center;
+        padding: 2rem 0 1rem 0;
+        background: linear-gradient(135deg, #0A2540 0%, #173d6b 100%);
+        color: white;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 25px rgba(10, 37, 64, 0.2);
+    }
+    .catalog-header h1 {
+        color: #B28B47 !important;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+    }
+    .catalog-header p {
+        color: #EDF2F7;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+    .nida-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    .nida-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        border: 1px solid #f1f5f9;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+    .nida-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #0A2540, #B28B47);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .nida-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        border-color: transparent;
+    }
+    .nida-card:hover::before {
+        opacity: 1;
+    }
+    .badge-container {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+    .badge {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .badge-fac { background: rgba(10, 37, 64, 0.1); color: #0A2540; }
+    .badge-deg { background: rgba(178, 139, 71, 0.15); color: #9c7331; }
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+    .card-detail {
+        font-size: 0.95rem;
+        color: #475569;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .card-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+    .card-spacer {
+        flex-grow: 1;
+    }
+    .nida-btn {
+        display: block;
+        text-align: center;
+        background: #0A2540;
+        color: white !important;
+        text-decoration: none !important;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+    }
+    .nida-btn:hover {
+        background: white;
+        color: #0A2540 !important;
+        border-color: #0A2540;
+    }
+    </style>
+    <div class="catalog-header">
+        <h1>🏛️ NIDA Course Explorer</h1>
+        <p>สารบบและตารางเปรียบเทียบ 73 หลักสูตรทางการ (ป.โท - ป.เอก) ครบทั้ง 14 คณะ/วิทยาลัย</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     vs = NIDAVectorStore.get_instance()
     all_programs = vs.programs
 
-    # Side-by-side comparison
-    st.subheader("⚖️ เปรียบเทียบหลักสูตรแบบเคียงข้าง (Side-by-Side Comparison)")
-    prog_names = [p.get("program", "") for p in all_programs if p.get("program")]
-    selected = st.multiselect(
-        "เลือกหลักสูตรที่ต้องการนำมาเปรียบเทียบ (2-3 หลักสูตร):",
-        options=prog_names,
-        default=prog_names[:2] if len(prog_names) >= 2 else prog_names,
-        max_selections=3,
-    )
-
-    if len(selected) >= 2:
-        compared = vs.compare_programs(selected)
-        cols = st.columns(len(compared))
-        for idx, p in enumerate(compared):
-            with cols[idx]:
-                st.markdown(
-                    f"""
-                    <div class="nida-prog-card">
-                        <div class="nida-prog-header">{p.get('program')}</div>
-                        <p><strong>ระดับ:</strong> {p.get('degree')} | <strong>คณะ:</strong> {p.get('faculty')}</p>
-                        <hr style="border-color:#e2e8f0;">
-                        <p>💰 <strong>ค่าเทอมประมาณ:</strong> {p.get('total_fee', 'สอบถามสถาบัน')} บาท</p>
-                        <p>⏱️ <strong>เวลาเรียน:</strong> {p.get('study_time', 'เสาร์-อาทิตย์ / ปกติ')}</p>
-                        <p>🎯 <strong>คุณสมบัติ:</strong> {p.get('admission_requirements', 'ปริญญาตรีทุกสาขา')}</p>
-                        <p>💼 <strong>สายอาชีพ:</strong> {', '.join(p.get('career_opportunities', []))}</p>
-                        <p><a href="{p.get('application_link', 'https://www.nida.ac.th')}" target="_blank" style="color:#1d4ed8; font-weight:700;">🔗 ไปยังหน้าสมัครเรียน &rarr;</a></p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-    st.divider()
-    st.subheader("📋 รายการหลักสูตรทั้งหมด 73 สาขาวิชา (Filterable Directory)")
-    
-    st.markdown("##### ⚙️ ตัวกรองการค้นหาหลักสูตร")
+    # 1. Search & Filters
+    st.markdown("### 🔍 ค้นหาและกรองหลักสูตร")
     f_col1, f_col2, f_col3 = st.columns(3)
     with f_col1:
-        deg_filter = st.selectbox("ระดับการศึกษา", ["ทั้งหมด", "ป.โท", "ป.เอก"], key="cat_deg")
+        deg_filter = st.selectbox("🎓 ระดับการศึกษา", ["ทั้งหมด", "ป.โท", "ป.เอก"], key="cat_deg")
     with f_col2:
         facs = sorted(list({p.get("faculty", "") for p in all_programs if p.get("faculty")}))
-        fac_filter = st.selectbox("คณะที่ต้องการเน้น", ["ทั้งหมด"] + facs, key="cat_fac")
+        fac_filter = st.selectbox("🏢 คณะที่ต้องการ", ["ทั้งหมด"] + facs, key="cat_fac")
     with f_col3:
-        mode_filter = st.selectbox("เวลาเรียน", ["ทั้งหมด", "เสาร์-อาทิตย์", "ภาคค่ำ", "ภาคปกติ", "English"], key="cat_mode")
+        mode_filter = st.selectbox("⏱️ เวลาเรียน", ["ทั้งหมด", "เสาร์-อาทิตย์", "ภาคค่ำ", "ภาคปกติ", "English"], key="cat_mode")
 
-    search_term = st.text_input("🔍 ค้นหาหลักสูตรตามชื่อ, คณะ, หรือสายอาชีพ:", "")
+    search_term = st.text_input("✨ พิมพ์ชื่อหลักสูตร, สาขาวิชา หรือสายอาชีพที่สนใจ...", "", placeholder="เช่น MBA, Data Science, ผู้บริหาร...")
     
+    # 2. Filter Logic
     filtered = all_programs
-    
     if deg_filter != "ทั้งหมด":
         filtered = [p for p in filtered if deg_filter in p.get("degree", "")]
     if fac_filter != "ทั้งหมด":
         filtered = [p for p in filtered if fac_filter in p.get("faculty", "")]
     if mode_filter != "ทั้งหมด":
         filtered = [p for p in filtered if mode_filter in p.get("study_time", "")]
-
     if search_term:
         s_low = search_term.lower()
         filtered = [
@@ -693,41 +788,90 @@ def render_public_catalog_tab() -> None:
             or any(s_low in c.lower() for c in p.get("career_opportunities", []))
         ]
 
-    df_display = pd.DataFrame([
-        {
-            "หลักสูตร": p.get("program"),
-            "ระดับ": p.get("degree"),
-            "คณะ/วิทยาลัย": p.get("faculty"),
-            "สาขาวิชา": p.get("department", "-"),
-            "ค่าเทอมประมาณ (บาท)": p.get("total_fee", "สอบถามสถาบัน"),
-            "เวลาเรียน": p.get("study_time", "เสาร์-อาทิตย์ / ปกติ"),
-        }
-        for p in filtered
-    ])
-    st.dataframe(df_display, use_container_width=True, hide_index=True)
+    st.markdown(f"**พบหลักสูตรที่ตรงกับเงื่อนไข:** `{len(filtered)}` หลักสูตร")
 
+    # 3. Render HTML Grid
+    if not filtered:
+        st.info("💡 ไม่พบหลักสูตรที่ตรงกับเงื่อนไข ลองปรับตัวกรองหรือคำค้นหาดูนะครับ")
+    else:
+        cards_html = "<div class='nida-grid'>"
+        for p in filtered:
+            fee_disp = p.get('total_fee') or 'สอบถามสถาบัน'
+            careers = ", ".join(p.get("career_opportunities", [])[:3])
+            if len(p.get("career_opportunities", [])) > 3: careers += "..."
+            
+            cards_html += f"""
+            <div class="nida-card">
+                <div class="badge-container">
+                    <span class="badge badge-fac">{p.get('faculty')}</span>
+                    <span class="badge badge-deg">{p.get('degree')}</span>
+                </div>
+                <div class="card-title">{p.get('program')}</div>
+                
+                <div class="card-detail">
+                    <span class="card-icon">📚</span>
+                    <span><strong>สาขา:</strong> {p.get('department', '-')}</span>
+                </div>
+                <div class="card-detail">
+                    <span class="card-icon">⏱️</span>
+                    <span><strong>เวลาเรียน:</strong> {p.get('study_time', 'ปกติ')}</span>
+                </div>
+                <div class="card-detail">
+                    <span class="card-icon">💰</span>
+                    <span><strong>ค่าเทอมโดยประมาณ:</strong> {fee_disp} ฿</span>
+                </div>
+                <div class="card-detail">
+                    <span class="card-icon">🎯</span>
+                    <span><strong>อาชีพ:</strong> {careers or '-'}</span>
+                </div>
+                
+                <div class="card-spacer"></div>
+                <a href="{p.get('application_link', 'https://www.nida.ac.th')}" target="_blank" class="nida-btn">
+                    อ่านรายละเอียด & สมัครเรียน ➔
+                </a>
+            </div>
+            """
+        cards_html += "</div>"
+        st.markdown(cards_html, unsafe_allow_html=True)
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.divider()
 
-    # Full Table
-    st.subheader("📋 ตารางรายชื่อหลักสูตรทั้งหมด")
-    df_progs = pd.DataFrame(all_programs)
-    display_cols = ["degree", "faculty", "program", "study_time", "total_fee", "application_link"]
-    available_cols = [c for c in display_cols if c in df_progs.columns]
-
-    st.dataframe(
-        df_progs[available_cols],
-        column_config={
-            "degree": st.column_config.TextColumn("ระดับ"),
-            "faculty": st.column_config.TextColumn("คณะ"),
-            "program": st.column_config.TextColumn("ชื่อหลักสูตร", width="large"),
-            "study_time": st.column_config.TextColumn("เวลาเรียน"),
-            "total_fee": st.column_config.TextColumn("ค่าเทอม (บาท)"),
-            "application_link": st.column_config.LinkColumn("ลิงก์สมัครเรียน"),
-        },
-        use_container_width=True,
-        hide_index=True,
+    # 4. Side-by-Side Comparison (Moved to bottom)
+    st.markdown("### ⚖️ เปรียบเทียบหลักสูตร (Compare Programs)")
+    st.caption("เลือกหลักสูตรที่สนใจ 2-3 อัน เพื่อนำมาเปรียบเทียบจุดเด่นและค่าเทอมแบบเจาะลึก")
+    
+    prog_names = [p.get("program", "") for p in all_programs if p.get("program")]
+    selected = st.multiselect(
+        "เลือกหลักสูตรที่ต้องการเปรียบเทียบ:",
+        options=prog_names,
+        default=prog_names[:2] if len(prog_names) >= 2 else prog_names,
+        max_selections=3,
+        key="compare_sel"
     )
 
+    if len(selected) >= 2:
+        compared = vs.compare_programs(selected)
+        cols = st.columns(len(compared))
+        for idx, p in enumerate(compared):
+            with cols[idx]:
+                fee_disp = p.get('total_fee') or 'สอบถามสถาบัน'
+                st.markdown(
+                    f"""
+                    <div class="nida-card" style="margin-top: 1rem;">
+                        <div class="badge-container">
+                            <span class="badge badge-fac">{p.get('faculty')}</span>
+                        </div>
+                        <div class="card-title" style="font-size: 1.1rem;">{p.get('program')}</div>
+                        <hr style="border:none; border-top: 1px dashed #cbd5e1; margin: 10px 0;">
+                        <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>ระดับ:</strong> {p.get('degree')}</p>
+                        <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>ค่าเทอม:</strong> <span style="color:#B28B47; font-weight:bold;">{fee_disp} ฿</span></p>
+                        <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>เวลาเรียน:</strong> {p.get('study_time', '-')}</p>
+                        <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong>คุณสมบัติ:</strong> {p.get('admission_requirements', '-')}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
 # ─── VIEW 2: NIDA EXECUTIVE & STAFF BI ANALYTICS (GATED) ───
 

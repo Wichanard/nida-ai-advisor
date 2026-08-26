@@ -1,45 +1,44 @@
-"""
-app/main.py
-NIDA Enterprise AI Advisor & Social Intelligence REST API Platform.
-Built with FastAPI, Vector Search, Multi-Turn Agentic Reasoning, ABSA, and Persistence.
-"""
-from __future__ import annotations
-
 import os
-import uuid
-from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Query
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from fastapi.responses import StreamingResponse, JSONResponse
+from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import subprocess
 
-from app.models.database import (
-    init_db,
-    save_chat_message,
-    get_chat_history,
-    record_feedback,
-    get_system_stats,
-)
 from app.services.agent_engine import NIDAAgentEngine
-from app.services.vector_store import NIDAVectorStore
-from social_listening.advanced_analytics import (
-    compute_absa_metrics,
-    compute_anomaly_radar,
-    generate_executive_swot_summary,
-)
-from social_listening.storage import read_jsonl
+from app.models.database import init_db, get_chat_history
+from app.routers import admin, line
 
 # Initialize database on startup
 init_db()
 
+# Rate Limiter Configuration
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(
-    title="NIDA Enterprise AI Agent & Social Intelligence API",
-    description="Production-grade REST API powering multi-turn conversational AI advising, hybrid vector search, aspect-based sentiment analysis (ABSA), and crisis radar for NIDA Graduate University.",
-    version="2.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    title="NIDA AI Enterprise API",
+    description="Next-generation API backend powering the NIDA conversational AI.",
+    version="3.0.0",
 )
 
-# Enable CORS for frontend web integration
+# Add Rate Limiter to app
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print(f"Unhandled Exception: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"message": "Internal Server Error. Please try again later."},
+    )
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -48,168 +47,118 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# ─── Pydantic Request/Response Models ───
+app.include_router(admin.router)
+app.include_router(line.router)
 
 class ChatRequest(BaseModel):
-    session_id: Optional[str] = Field(None, example="sess-12345", description="Client session ID for multi-turn conversational memory")
-    message: str = Field(..., example="สนใจเรียนต่อ MBA นิด้า ภาคค่ำหรือเสาร์-อาทิตย์ ค่าเทอมประมาณเท่าไหร่ครับ?")
-    degree_filter: Optional[str] = Field("ทั้งหมด", example="ป.โท")
-    faculty_filter: Optional[str] = Field("ทั้งหมด", example="บริหารธุรกิจ")
-    study_mode_filter: Optional[str] = Field("ทั้งหมด", example="เสาร์-อาทิตย์")
+    session_id: str
+    message: str
+    degree_filter: str = "ทั้งหมด"
+    faculty_filter: str = "ทั้งหมด"
+    study_mode_filter: str = "ทั้งหมด"
 
+scheduler = AsyncIOScheduler()
 
-class RecommendRequest(BaseModel):
-    prompt: str = Field(..., example="สนใจเรียนต่อ MBA วันเสาร์-อาทิตย์ ค่าเทอมไม่เกิน 1 แสนบาท")
-    degree_filter: Optional[str] = Field("ทั้งหมด", example="ป.โท")
-    faculty_filter: Optional[str] = Field("ทั้งหมด", example="บริหารธุรกิจ")
-    study_mode_filter: Optional[str] = Field("ทั้งหมด", example="เสาร์-อาทิตย์")
-    top_k: int = Field(4, ge=1, le=10)
-
-
-class CompareRequest(BaseModel):
-    programs: List[str] = Field(..., min_items=2, max_items=4, example=["MBA", "Data Science"])
-
-
-class FeedbackRequest(BaseModel):
-    session_id: str = Field(..., example="sess-12345")
-    rating: int = Field(..., ge=-1, le=1, description="1 for positive thumbs up, -1 for negative thumbs down")
-    feedback_text: Optional[str] = Field("", example="คำตอบละเอียดและตรงประเด็นมาก")
-    message_id: Optional[int] = Field(None)
-
-
-def _load_all_comments() -> List[Dict[str, Any]]:
-    """Helper to load all collected comments from data directories."""
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    data_dirs = [
-        os.path.join(base_dir, "social_listening", "data"),
-        os.path.join(base_dir, "data"),
-    ]
-    comments = []
-    for d in data_dirs:
-        if os.path.exists(d):
-            for fname in os.listdir(d):
-                if fname.endswith(".jsonl"):
-                    fpath = os.path.join(d, fname)
-                    try:
-                        comments.extend(read_jsonl(fpath))
-                    except Exception:
-                        pass
-    return comments
-
-
-# ─── API Endpoints ───
+def run_social_listening_collectors():
+    print("Running Social Listening Collectors...")
+    try:
+        script_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "social_listening", "run_collector.py")
+        subprocess.run(["python", script_path], check=True)
+        print("Social Listening Collectors completed successfully.")
+    except Exception as e:
+        print(f"Error running collectors: {e}")
 
 @app.get("/")
-def health_check() -> Dict[str, Any]:
-    stats = get_system_stats()
-    return {
-        "status": "online",
-        "service": "NIDA Enterprise AI Advisor & Social Intelligence Engine",
-        "version": "2.0.0",
-        "system_stats": stats,
-        "docs_url": "/docs",
-    }
+def health_check():
+    return {"status": "ok", "message": "NIDA AI Enterprise Engine is running."}
+
+@app.on_event("startup")
+async def startup_event():
+    from app.tasks.alert_agent import start_alert_agent_bg_task
+    start_alert_agent_bg_task()
+    
+    # Start the scheduler
+    scheduler.add_job(run_social_listening_collectors, 'interval', hours=12) # Run every 12 hours
+    scheduler.start()
+
+@app.post("/webhook/facebook")
+@limiter.limit("100/minute")
+async def facebook_webhook(request: Request):
+    """Endpoint for Facebook Messenger Webhook."""
+    return {"status": "success"}
+
+@app.get("/webhook/facebook")
+async def facebook_webhook_verify(request: Request):
+    """Facebook requires GET endpoint for webhook verification."""
+    mode = request.query_params.get("hub.mode")
+    token = request.query_params.get("hub.verify_token")
+    challenge = request.query_params.get("hub.challenge")
+    return int(challenge) if challenge else "Verification failed"
+
+@app.get("/api/history")
+@limiter.limit("50/minute")
+async def get_history_endpoint(request: Request, session_id: str):
+    """Fetch chat history for a session."""
+    if not session_id:
+        return {"history": []}
+    
+    try:
+        raw_history = get_chat_history(session_id=session_id, limit=50)
+        formatted = []
+        for msg in raw_history:
+            formatted.append({
+                "id": str(msg["id"]),
+                "role": "user" if msg["sender"] == "user" else "assistant",
+                "content": msg["message"]
+            })
+        return {"history": formatted}
+    except Exception as e:
+        print(f"Error fetching history: {e}")
+        return {"history": []}
+
+@app.get("/api/sessions")
+@limiter.limit("50/minute")
+async def get_sessions_endpoint(request: Request, user_id: str = "guest", search: str = None):
+    """Fetch all chat sessions for a user."""
+    from app.models.database import get_all_chat_sessions
+    try:
+        sessions = get_all_chat_sessions(user_id=user_id, search_query=search)
+        return {"sessions": sessions}
+    except Exception as e:
+        print(f"Error fetching sessions: {e}")
+        return {"sessions": []}
 
 
-@app.post("/api/v1/chat")
-def api_chat(req: ChatRequest) -> Dict[str, Any]:
-    """Execute multi-turn autonomous conversational AI turn with agent tools and memory."""
-    session_id = req.session_id or f"sess-{uuid.uuid4().hex[:8]}"
-    result = NIDAAgentEngine.execute_chat(
-        session_id=session_id,
-        user_message=req.message,
-        degree_filter=req.degree_filter or "ทั้งหมด",
-        faculty_filter=req.faculty_filter or "ทั้งหมด",
-        study_mode_filter=req.study_mode_filter or "ทั้งหมด",
-    )
-    return result
+@app.get("/api/courses")
+@limiter.limit("20/minute")
+async def get_courses_endpoint(request: Request):
+    """Fetch all courses for the comparison page."""
+    import json
+    try:
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        courses_path = os.path.join(base_dir, "data", "courses.json")
+        with open(courses_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error reading courses.json: {e}")
+        return []
 
+@app.post("/api/chat")
+@limiter.limit("20/minute")
+async def chat_endpoint(request: Request, req: ChatRequest):
+    """Streaming endpoint for Next.js frontend to consume."""
+    def generate():
+        for chunk in NIDAAgentEngine.execute_chat_stream(
+            session_id=req.session_id,
+            user_message=req.message,
+            degree_filter=req.degree_filter,
+            faculty_filter=req.faculty_filter,
+            study_mode_filter=req.study_mode_filter
+        ):
+            yield chunk
 
-@app.get("/api/v1/chat/history/{session_id}")
-def api_get_chat_history(session_id: str, limit: int = 20) -> Dict[str, Any]:
-    """Retrieve multi-turn chat history for a session."""
-    history = get_chat_history(session_id=session_id, limit=limit)
-    return {
-        "session_id": session_id,
-        "message_count": len(history),
-        "history": history,
-    }
+    return StreamingResponse(generate(), media_type="text/plain")
 
-
-@app.post("/api/v1/recommend")
-def api_recommend_courses(req: RecommendRequest) -> Dict[str, Any]:
-    """Search and recommend NIDA graduate programs using hybrid vector search."""
-    vs = NIDAVectorStore.get_instance()
-    results = vs.search(
-        query=req.prompt,
-        degree_filter=req.degree_filter or "ทั้งหมด",
-        faculty_filter=req.faculty_filter or "ทั้งหมด",
-        study_mode_filter=req.study_mode_filter or "ทั้งหมด",
-        top_k=req.top_k,
-    )
-    return {
-        "query": req.prompt,
-        "total_results": len(results),
-        "programs": results,
-    }
-
-
-@app.post("/api/v1/compare")
-def api_compare_programs(req: CompareRequest) -> Dict[str, Any]:
-    """Side-by-side comparison of 2-4 NIDA programs."""
-    vs = NIDAVectorStore.get_instance()
-    records = vs.compare_programs(req.programs)
-    return {
-        "requested_count": len(req.programs),
-        "matched_count": len(records),
-        "comparison": records,
-    }
-
-
-@app.get("/api/v1/analytics/absa")
-def api_absa_metrics() -> Dict[str, Any]:
-    """Aspect-Based Sentiment Analysis (ABSA) metrics across 5 higher-ed dimensions."""
-    comments = _load_all_comments()
-    absa = compute_absa_metrics(comments)
-    return {
-        "total_comments_analyzed": len(comments),
-        "aspect_sentiment_breakdown": absa,
-    }
-
-
-@app.get("/api/v1/analytics/anomaly-radar")
-def api_anomaly_radar() -> Dict[str, Any]:
-    """Institutional crisis radar, sentiment volatility, and anomaly detection."""
-    comments = _load_all_comments()
-    radar = compute_anomaly_radar(comments)
-    return radar
-
-
-@app.get("/api/v1/analytics/executive-summary")
-def api_executive_summary() -> Dict[str, Any]:
-    """AI Executive Intelligence Brief (SWOT & Strategic Recommendations) for NIDA Leadership."""
-    comments = _load_all_comments()
-    swot = generate_executive_swot_summary(comments)
-    return {
-        "total_sources_analyzed": len(comments),
-        "executive_swot": swot,
-    }
-
-
-@app.post("/api/v1/feedback")
-def api_submit_feedback(req: FeedbackRequest) -> Dict[str, Any]:
-    """Submit user satisfaction rating for RLHF and quality evaluation."""
-    success = record_feedback(
-        session_id=req.session_id,
-        rating=req.rating,
-        feedback_text=req.feedback_text or "",
-        message_id=req.message_id,
-    )
-    return {"status": "success" if success else "failed"}
-
-
-@app.get("/api/v1/stats")
-def api_system_stats() -> Dict[str, Any]:
-    """Retrieve platform usage, chat session counts, and user satisfaction rate."""
-    return get_system_stats()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

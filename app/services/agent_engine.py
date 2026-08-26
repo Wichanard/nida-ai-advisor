@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from app.models.database import get_chat_history, save_chat_message
+from app.models.database import get_chat_history, save_chat_message, get_user_profile, save_user_profile
 from app.services.vector_store import NIDAVectorStore, extract_max_budget
 from social_listening.storage import read_jsonl
 
@@ -110,18 +110,82 @@ class NIDAAgentEngine:
     """Enterprise Autonomous AI Agent with Tool Use and Conversational Memory."""
 
     @classmethod
-    def execute_chat(
+    def _async_profile_extraction(cls, session_id: str, user_message: str):
+        """Background task to extract user profile from message without blocking chat."""
+        import os
+        from google import genai
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key: return
+        
+        try:
+            client = genai.Client(api_key=api_key)
+            prompt = f"""
+Analyze the following user message and extract demographic or interest profile data.
+User Message: "{user_message}"
+
+Extract ONLY these fields if they exist in the text (otherwise leave blank). 
+Format strictly as JSON:
+{{
+  "inferred_age": "string or null (e.g. '25-30', 'working adult')",
+  "work_experience": "string or null (e.g. '5 years in marketing', 'fresh grad')",
+  "interests": "string or null (e.g. 'Data Science', 'MBA')"
+}}
+"""
+            response = client.models.generate_content(
+                model='gemini-3.5-flash',
+                contents=prompt,
+                config={'response_mime_type': 'application/json'}
+            )
+            import json
+            data = json.loads(response.text)
+            
+            # Fetch existing to avoid overwriting with nulls if we already know it
+            existing = get_user_profile(session_id) or {}
+            
+            age = data.get("inferred_age") or existing.get("inferred_age")
+            exp = data.get("work_experience") or existing.get("work_experience")
+            interests = data.get("interests") or existing.get("interests")
+            
+            if age or exp or interests:
+                save_user_profile(session_id, age, exp, interests)
+                
+        except Exception as e:
+            print(f"Profile extraction failed: {e}")
+
+    @classmethod
+    def execute_chat_stream(
         cls,
         session_id: str,
         user_message: str,
         degree_filter: str = "ทั้งหมด",
         faculty_filter: str = "ทั้งหมด",
         study_mode_filter: str = "ทั้งหมด",
-        model_name: str = "gemini-2.5-pro",
-    ) -> Dict[str, Any]:
-        """Execute autonomous ReAct cycle with Multi-Turn Memory, Document RAG, and Course Recommendation."""
-        # 1. Retrieve Recent Multi-Turn Conversation Memory from SQLite
-        history = get_chat_history(session_id=session_id, limit=6)
+        model_name: str = "gemini-1.5-flash",
+        metadata_callback = None
+    ):
+        """Execute autonomous ReAct cycle with Multi-Turn Memory and Stream output."""
+        lower_msg = user_message.lower().strip()
+        greeting_words = [
+            "สวัสดี", "หวัดดี", "hello", "hi", "hey", "ดีครับ", "ดีค่ะ", "ดีจ้า", 
+            "เป็นไง", "สบายดีไหม", "ทักทาย", "ว่าไง"
+        ]
+        is_greeting = any(
+            re.search(rf"\b{re.escape(g)}\b" if g.isascii() else re.escape(g), lower_msg)
+            for g in greeting_words
+        ) and len(lower_msg) <= 30
+
+        if is_greeting:
+            # We no longer hardcode the exit here to allow the LLM to handle greetings naturally.
+            # But we still record the greeting for intent tracking.
+            pass
+
+        
+        # [Brain Upgrade Phase 1]: Spawn background profiler
+        import threading
+        threading.Thread(target=cls._async_profile_extraction, args=(session_id, user_message), daemon=True).start()
+
+        # 1. Retrieve Recent Multi-Turn Conversation Memory from SQLite (Increased limit to 30)
+        history = get_chat_history(session_id=session_id, limit=30)
 
         # 2. Plan and Execute Tools via ReAct Reasoner
         recommended_programs, retrieved_docs, tools_invoked = cls._plan_and_execute_tools(
@@ -132,8 +196,16 @@ class NIDAAgentEngine:
             study_mode_filter=study_mode_filter,
         )
 
-        # 3. Synthesize Grounded Advisory Response
-        agent_reply = cls._generate_response(
+        # 4. Save User Message
+        save_chat_message(
+            session_id=session_id,
+            sender="user",
+            message=user_message,
+        )
+
+        full_reply = ""
+        # 3. Synthesize Grounded Advisory Response (Streaming)
+        for chunk in cls._generate_response_stream(
             session_id=session_id,
             user_message=user_message,
             history=history,
@@ -141,33 +213,30 @@ class NIDAAgentEngine:
             retrieved_docs=retrieved_docs,
             tools_invoked=tools_invoked,
             model_name=model_name,
-        )
+        ):
+            full_reply += chunk
+            yield chunk
 
-        # 4. Save User Message & Assistant Reply to SQLite
-        save_chat_message(
-            session_id=session_id,
-            sender="user",
-            message=user_message,
-        )
+        # Save Assistant Reply to SQLite
         msg_id = save_chat_message(
             session_id=session_id,
             sender="assistant",
-            message=agent_reply,
+            message=full_reply,
             recommended_programs=recommended_programs,
             tools_used=tools_invoked,
         )
 
-        return {
-            "message_id": msg_id,
-            "session_id": session_id,
-            "reply": agent_reply,
-            "tools_used": tools_invoked,
-            "recommended_programs": recommended_programs,
-            "model_used": model_name,
-        }
-
+        if metadata_callback:
+            metadata_callback({
+                "message_id": msg_id,
+                "session_id": session_id,
+                "reply": full_reply,
+                "tools_used": tools_invoked,
+                "recommended_programs": recommended_programs,
+                "model_used": model_name,
+            })
     # Backward compatibility alias
-    chat = execute_chat
+    chat = execute_chat_stream
 
     @classmethod
     def _plan_and_execute_tools(
@@ -212,7 +281,7 @@ class NIDAAgentEngine:
         ])
 
         # Non-course intents: Do NOT run course search or dump course cards
-        if is_greeting or is_meta_capability or is_faculty_list or is_campus_info:
+        if is_meta_capability or is_faculty_list or is_campus_info:
             return [], [], []
 
         # 5. Intent: Comparison
@@ -265,19 +334,18 @@ class NIDAAgentEngine:
         return recommended_programs, retrieved_docs, tools_invoked
 
     @classmethod
-    def _generate_response(
+    def _generate_response_stream(
         cls,
         session_id: str,
         user_message: str,
-        history: List[Dict[str, Any]],
-        recommended_programs: List[Dict[str, Any]],
-        retrieved_docs: List[Dict[str, Any]] | None = None,
-        tools_invoked: List[str] | None = None,
-        model_name: str = "gemini-2.5-pro",
-    ) -> str:
-        """Synthesize reasoned response via Gemini 2.5 Pro/Flash LLM or Enterprise Domain Expert fallback."""
-        lower_msg = user_message.lower().strip()
-
+        history: list,
+        recommended_programs: list,
+        retrieved_docs: list = None,
+        tools_invoked: list = None,
+        model_name: str = "gemini-flash-latest",
+    ):
+        """Synthesize reasoned response via Gemini LLM stream or local fallback."""
+        import os
         api_key = os.environ.get("GEMINI_API_KEY")
         docs = retrieved_docs or []
 
@@ -296,296 +364,104 @@ class NIDAAgentEngine:
 
         doc_context = []
         for d in docs:
-            doc_context.append(
-                f"[เอกสารอ้างอิง: {d.get('document_title', 'ระเบียบสถาบันนิด้า')}]:\n{d.get('content')}"
-            )
+            doc_context.append(f"[เอกสารอ้างอิง: {d.get('document_title', 'ระเบียบสถาบัน')}]:\n{d.get('content')}")
         doc_text = "\n\n".join(doc_context) if doc_context else "ไม่มีเอกสารข้อบังคับเพิ่มเติม"
 
-        history_context = "\n".join([f"{h['sender'].upper()}: {h['message']}" for h in history[-4:]])
+        history_context = "\\n".join([f"{h['sender'].upper()}: {h['message']}" for h in history[-10:]])
+
+        # [Brain Upgrade Phase 1]: Inject User Profile
+        user_profile = get_user_profile(session_id)
+        profile_context = ""
+        if user_profile:
+            profile_context = "[ข้อมูลโปรไฟล์ผู้ใช้ (ดึงจากความจำระบบ)]:\\n"
+            if user_profile.get("inferred_age"): profile_context += f"- อายุ/วัย: {user_profile.get('inferred_age')}\\n"
+            if user_profile.get("work_experience"): profile_context += f"- ประสบการณ์ทำงาน: {user_profile.get('work_experience')}\\n"
+            if user_profile.get("interests"): profile_context += f"- ความสนใจ: {user_profile.get('interests')}\\n"
+            profile_context += "\\n(ให้คุณนำข้อมูลโปรไฟล์นี้มาปรับวิธีการตอบ หรือช่วยเลือกหลักสูตรที่เหมาะสมกับอายุและประสบการณ์ของผู้ใช้ให้ตรงใจที่สุด)\\n\\n"
+
+        prompt = f"""
+คุณคือรุ่นพี่นิด้า (NIDA Senior) ผู้ช่วยและที่ปรึกษาการศึกษาต่อระดับปริญญาโทและปริญญาเอก สถาบันบัณฑิตพัฒนบริหารศาสตร์ (NIDA)
+
+{profile_context}[หลักการตอบและบุคลิกภาพ (สำคัญมาก)]:
+1. **เป็นกันเอง สุภาพ และมีความเป็นมนุษย์สูง:** ใช้ภาษาพูดแบบรุ่นพี่คุยกับน้อง (เช่น ใช้คำว่า "ครับ/ค่ะ", "แนะนำว่า", "ลองดูตัวนี้นะครับ") ห้ามตอบเป็นหุ่นยนต์แข็งๆ ทื่อๆ เด็ดขาด
+2. **การเรียนรู้คำศัพท์ (Vocabulary Mirroring):** สังเกตสไตล์การพิมพ์และคำศัพท์ที่ผู้ใช้พิมพ์มา (เช่น ถ้าผู้ใช้พิมพ์สั้นๆ หรือใช้ภาษาวัยรุ่น) ให้คุณปรับสไตล์การตอบให้เข้ากับผู้ใช้โดยอัตโนมัติ เพื่อให้รู้สึกถึงความใส่ใจและใกล้ชิด
+3. **ตรงประเด็นและอ้างอิงข้อมูลจริง (Zero Hallucination):** ดึงข้อมูลจาก [ข้อมูลที่เกี่ยวข้อง] ด้านล่างมาตอบเท่านั้น ห้ามแต่งข้อมูลขึ้นมาเอง ถ้าไม่รู้ให้ตอบตรงๆ ว่าไม่ทราบ
+4. **ถ้ามีการ์ดหลักสูตรแนบมา:** ช่วยสรุปจุดเด่นของหลักสูตรนั้นสั้นๆ 1-2 บรรทัดด้วยภาษาชวนคุย 
+5. **การทักทายแรกเริ่ม:** หากผู้ใช้ทักทายมา (เช่น สวัสดี) ให้คุณทักทายกลับอย่างเป็นธรรมชาติและอบอุ่น พร้อมเสนอความช่วยเหลือ เช่น "สวัสดีครับ! วันนี้สนใจอยากให้พี่แนะนำหลักสูตรไหนเป็นพิเศษไหมเอ่ย?" (หลีกเลี่ยงการใช้แพทเทิร์นซ้ำซาก)
+6. **กฎเหล็กเรื่องความแม่นยำ (STRICT GUARDRAILS):** ให้ตอบคำถามเฉพาะข้อมูลที่สถาบันระบุไว้ใน [ข้อมูลที่เกี่ยวข้อง] และ [ความรู้พื้นฐานของสถาบัน] ด้านล่างเท่านั้น หากไม่มั่นใจ ให้แนะนำให้ผู้ใช้ติดต่อฝ่ายรับสมัคร โทร 02-727-3000 ทันที
+7. **ระบบการอ้างอิง (Citation System):** เมื่อคุณนำข้อมูลมาจากเอกสารข้อบังคับ หรือหลักสูตร กรุณาใส่แหล่งอ้างอิงต่อท้ายประโยคนั้นๆ ด้วยรูปแบบ `(อ้างอิง: [ชื่อเอกสาร/ชื่อหลักสูตร])` เสมอ เพื่อความน่าเชื่อถือ
+
+[ความรู้พื้นฐานของสถาบัน (Core Knowledge)]:
+{NIDA_INSTITUTIONAL_KNOWLEDGE}
+
+[ข้อมูลข้อบังคับทางการที่เกี่ยวข้อง (Document RAG)]:
+{doc_text}
+
+[ประวัติการสนทนาก่อนหน้า]:
+{history_context}
+
+[ข้อมูลหลักสูตรนิด้าที่ค้นพบ]:
+{prog_text}
+
+[คำถามของผู้ใช้]:
+"{user_message}"
+"""
 
         if api_key:
-            try:
-                from google import genai
-                client = genai.Client(api_key=api_key)
-                prompt = f"""
-                คุณคือ "NIDA Gemini Advisor" ผู้ช่วยปัญญาประดิษฐ์ระดับสูงและที่ปรึกษาการศึกษาต่อระดับบัณฑิตศึกษา (ป.โท-ป.เอก) สถาบันบัณฑิตพัฒนบริหารศาสตร์ (NIDA)
-
-                [หลักการตอบและบุคลิกภาพระดับสูงสุด (แบบเดียวกับ Google Gemini)]:
-                1. **ตอบตรงกับสิ่งที่ผู้ใช้ถาม 100% (Direct & Contextual Relevance):**
-                   - หากผู้ใช้ถามเรื่องความสามารถของ AI หรือถามว่า "รู้เกี่ยวกับนิด้ามากแค่ไหน" -> ให้ตอบอธิบายขอบเขตความรู้ ประวัติศาสตร์สถาบัน ความเชี่ยวชาญ 11 คณะ 73 สาขาวิชา ระเบียบการ และชีวิตในรั้วนิด้าอย่างลึกซึ้งและภูมิใจ โดย "ห้ามแนะนำหรือยัดเยียดการ์ดหลักสูตรเฉพาะเจาะจงเด็ดขาด"
-                   - หากผู้ใช้ถามเรื่องคณะ -> สรุปคณะทั้งหมดให้เห็นภาพชัดเจน
-                   - หากผู้ใช้ถามเรื่องข้อบังคับ (เช่น เทียบโอน, NIDA TEAP, แผน ก/ข) -> อธิบายสรุปเป็นภาษาพูดที่เข้าใจง่ายและถูกต้อง
-                   - แนะนำหลักสูตรเฉพาะเมื่อผู้ใช้ถามหาหลักสูตร หรือบอกความสนใจในสาขาวิชาเท่านั้น
-                2. **ความเป็นธรรมชาติและเข้าอกเข้าใจ (Human Warmth & Empathy):**
-                   - สนทนาอย่างสุภาพ ลื่นไหล อบอุ่น มีวุฒิภาวะเหมือนอาจารย์ที่ปรึกษาหรือรุ่นพี่นิด้า
-                   - ห้ามตอบแบบหุ่นยนต์แข็งๆ ห้ามก๊อปปี้บล็อกข้อความมาแปะทื่อๆ
-                3. **การจัดโครงสร้างเนื้อหา (Visual Structure):**
-                   - ใช้ Bullet, ข้อความเน้นหนา และการเว้นวรรคให้อ่านสบายตา
-                   - จบด้วยคำถามชวนคุยหรือข้อเสนอแนะขั้นตอนถัดไปอย่างเป็นธรรมชาติ
-                4. **การอ้างอิงแหล่งที่มา (Citation & Grounding):**
-                   - ข้อมูลทุกประการ (โดยเฉพาะกฎระเบียบ ค่าธรรมเนียม และคุณสมบัติ) ต้องมาจากกล่องข้อมูล [องค์ความรู้และระเบียบสถาบันนิด้า], [ข้อมูลข้อบังคับทางการที่เกี่ยวข้อง], และ [ข้อมูลหลักสูตรนิด้าที่เกี่ยวข้อง] ที่ส่งให้เท่านั้น 
-                   - "ห้ามแต่งข้อมูลขึ้นมาเองเด็ดขาด" (Zero Hallucination)
-                   - ต้องระบุแหล่งที่มาไว้ท้ายเนื้อหาเสมอให้ชัดเจน เช่น "(อ้างอิงจาก: คู่มือระเบียบการศึกษา หน้า 2)" หรือ "(อ้างอิงจาก: ข้อมูลหลักสูตร MBA)"
-
-                [องค์ความรู้และระเบียบสถาบันนิด้า]:
-                {NIDA_INSTITUTIONAL_KNOWLEDGE}
-
-                [ข้อมูลข้อบังคับทางการที่เกี่ยวข้อง (Document RAG)]:
-                {doc_text}
-
-                [ประวัติการสนทนาก่อนหน้า]:
-                {history_context}
-
-                [คำถามของผู้ใช้]:
-                "{user_message}"
-
-                [ข้อมูลหลักสูตรนิด้าที่เกี่ยวข้อง]:
-                {prog_text}
-                """
-                selected_model = model_name if model_name in ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash"] else "gemini-2.5-pro"
+            import time
+            max_retries = 3
+            for attempt in range(max_retries):
                 try:
-                    resp = client.models.generate_content(
+                    from google import genai
+                    client = genai.Client(api_key=api_key)
+                    selected_model = model_name if model_name in ["gemini-flash-latest", "gemini-3.5-flash"] else "gemini-flash-latest"
+                    
+                    response = client.models.generate_content_stream(
                         model=selected_model,
                         contents=prompt,
                     )
-                except Exception:
-                    resp = client.models.generate_content(
-                        model="gemini-2.5-flash",
-                        contents=prompt,
-                    )
+                    for chunk in response:
+                        if chunk.text:
+                            yield chunk.text
+                    return # Exit successfully
+                except Exception as e:
+                    error_str = str(e)
+                    if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "Quota" in error_str or "503" in error_str or "UNAVAILABLE" in error_str:
+                        if attempt < max_retries - 1:
+                            wait_time = (attempt + 1) * 2
+                            yield f"\n⏳ (ขออภัยครับ ตอนนี้คนใช้เยอะมาก ขอพี่พักหายใจแพพนะครับ... {wait_time} วิ)\n"
+                            time.sleep(wait_time)
+                            continue
+                    yield f"\nอูยยยย... ตอนนี้คนทักเข้ามาปรึกษาเยอะมากเลยครับ ระบบผมเลยประมวลผลไม่ทันชั่วคราว รบกวนคุณน้องพิมพ์ถามใหม่อีกรอบนะครับ 🙏 หรือโทร 02-727-3000 ได้เลยครับ! (รหัส: {error_str})\n\n"
+                    break
+        else:
+            yield "ขออภัยครับ ไม่พบการเชื่อมต่อระบบ AI หลัก (API Key missing) ตอนนี้ผมอาจจะตอบช้าหน่อยนะครับ\n\n"
 
-                if resp and resp.text:
-                    return resp.text.strip()
-            except Exception as e:
-                print(f"Gemini API invocation note: {e}")
-
-        # Try Local Ollama as secondary fallback (True Offline AI)
+        # Local Ollama Fallback (Pseudo-stream: return all at once since Ollama stream logic can be complex here)
         try:
             import requests
+            import json
             ollama_url = "http://localhost:11434/api/generate"
+            
+            # Map model name to Ollama supported models
+            ollama_model = "llama3.1" # default
+            if "deepseek" in model_name.lower():
+                ollama_model = "deepseek-r1:8b" # standard distilled version
+            elif "llama" in model_name.lower():
+                ollama_model = "llama3.1"
+                
             ollama_payload = {
-                "model": "llama3", # or typhoon/seallm depending on what is pulled
-                "prompt": f"System: คุณคือ NIDA AI Advisor ตอบคำถามสั้นๆ ได้ใจความและสุภาพ\n\nContext: {doc_text}\n\nUser: {user_message}\n\nAssistant:",
+                "model": ollama_model,
+                "prompt": prompt,
                 "stream": False
             }
-            ollama_resp = requests.post(ollama_url, json=ollama_payload, timeout=5.0)
+            ollama_resp = requests.post(ollama_url, json=ollama_payload, timeout=2.0)
             if ollama_resp.status_code == 200:
                 ollama_data = ollama_resp.json()
                 if "response" in ollama_data:
-                    return ollama_data["response"].strip()
+                    yield ollama_data["response"].strip()
+                    return
         except Exception as e:
-            print(f"Ollama local fallback note: {e}")
-
-        # ─── Intelligent Natural Fallback Synthesis Engine ───
-        return cls._synthesize_natural_human_response(
-            user_message=user_message,
-            recommended_programs=recommended_programs,
-            docs=docs,
-        )
-
-    @classmethod
-    def _synthesize_natural_human_response(
-        cls,
-        user_message: str,
-        recommended_programs: List[Dict[str, Any]],
-        docs: List[Dict[str, Any]],
-    ) -> str:
-        """Compose an intelligent, fluent, human-grade conversational response in natural Thai for any intent."""
-        lower_msg = user_message.lower().strip()
-
-        # 1. Intent: Greeting
-        greeting_words = [
-            "สวัสดี", "หวัดดี", "hello", "hi", "hey", "ดีครับ", "ดีค่ะ", "ดีจ้า", 
-            "เป็นไง", "สบายดีไหม", "ทักทาย", "good morning", "good afternoon", "good evening"
-        ]
-        if any(re.search(rf"\b{re.escape(g)}\b" if g.isascii() else re.escape(g), lower_msg) for g in greeting_words) and len(lower_msg) <= 30:
-            return (
-                "สวัสดีครับ! ยินดีต้อนรับสู่ **NIDA Gemini Advisor** ครับ ✨\n\n"
-                "ผมคือผู้ช่วย AI ที่พร้อมให้คำปรึกษาและข้อมูลเกี่ยวกับการศึกษาต่อระดับปริญญาโทและปริญญาเอก "
-                "สถาบันบัณฑิตพัฒนบริหารศาสตร์ (NIDA)\n\n"
-                "คุณสามารถสอบถามผมได้ในหลากหลายประเด็น เช่น:\n"
-                "- 🎓 **แนะนำหลักสูตรที่ตรงกับเป้าหมายการทำงาน** (เช่น MBA, Data Science, รัฐประศาสนศาสตร์, กฎหมาย, นิเทศศาสตร์)\n"
-                "- ⏱️ **รูปแบบเวลาเรียนสำหรับคนทำงาน** (เสาร์-อาทิตย์, ภาคค่ำ, หรือ Online/Hybrid)\n"
-                "- 💰 **ประมาณการค่าธรรมเนียมการศึกษาและทุนการศึกษา**\n"
-                "- 📑 **เกณฑ์การรับสมัคร, คะแนนภาษาอังกฤษ NIDA TEAP, และการเทียบโอนหน่วยกิต**\n\n"
-                "👉 วันนี้คุณกำลังสนใจเรียนต่อในสาขาใด หรือมีข้อสงสัยเรื่องใด สามารถพิมพ์บอกผมได้เลยนะครับ!"
-            )
-
-        # 2. Intent: AI Capability & Meta Scope of Knowledge
-        is_meta_capability = any(k in lower_msg for k in [
-            "คุณรู้", "มากแค่ไหน", "รู้อะไรบ้าง", "ความสามารถ", "คุณคือใคร", "ทำอะไรได้บ้าง", 
-            "ช่วยอะไรได้บ้าง", "แนะนำตัว", "ทดสอบ", "รู้จักนิด้า", "นิด้าคืออะไร", "ประวัติ", 
-            "นิด้าดียังไง", "ทำไมต้องเรียนนิด้า", "จุดเด่นนิด้า", "ชื่อเต็ม", "ก่อตั้ง"
-        ])
-        if is_meta_capability:
-            return (
-                "ผมมีความรู้เชิงลึกและครอบคลุมเกี่ยวกับ **สถาบันบัณฑิตพัฒนบริหารศาสตร์ (NIDA)** ในทุกมิติครับ! ✨\n\n"
-                "โดยผมได้รับการออกแบบและเชื่อมโยงกับฐานข้อมูลความรู้ของสถาบัน ครอบคลุมเรื่องต่างๆ ดังนี้ครับ:\n\n"
-                "🏛️ **1. สารบบหลักสูตรครบทั้ง 73 สาขาวิชา (11 คณะ + 1 วิทยาลัยนานาชาติ):**\n"
-                "- ข้อมูลหลักสูตรระดับปริญญาโทและปริญญาเอก ทั้งภาคปกติ, ภาคพิเศษ (เสาร์-อาทิตย์ / ภาคค่ำ), หลักสูตรภาษาอังกฤษ, และ Online/Hybrid\n"
-                "- รายละเอียดโครงสร้างวิชา, ประมาณการค่าเทอมตลอดหลักสูตร, และโอกาสต่อยอดในสายอาชีพ\n\n"
-                "📜 **2. ระเบียบการและเกณฑ์การรับสมัครทางการ:**\n"
-                "- เกณฑ์คะแนนภาษาอังกฤษ **NIDA TEAP**, TOEFL, IELTS และวิชาปรับพื้นฐานภาษาอังกฤษ (LC 4001/4002)\n"
-                "- ข้อบังคับการ **เทียบโอนหน่วยกิต** จากสถาบันอื่น (สูงสุดไม่เกิน 1/3, เกรด B ขึ้นไป, ไม่เกิน 5 ปี)\n"
-                "- ความแตกต่างระหว่าง **แผน ก (วิทยานิพนธ์ - Thesis)** และ **แผน ข (การค้นคว้าอิสระ - IS + สอบ Comprehensive)**\n\n"
-                "💰 **3. ทุนการศึกษาและการบริหารการเงิน:**\n"
-                "- ทุนเรียนดี, ทุนผู้ช่วยสอน/ผู้ช่วยวิจัย (TA/RA), และแผนการแบ่งผ่อนชำระค่าธรรมเนียม\n\n"
-                "🌐 **4. ชื่อเสียง มาตรฐาน และชีวิตในรั้วนิด้า:**\n"
-                "- นิด้าก่อตั้งขึ้นเมื่อ **1 เมษายน พ.ศ. 2509** ตามแนวพระราชดำริของในหลวง รัชกาลที่ 9 ในฐานะสถาบันอุดมศึกษาเฉพาะทางระดับบัณฑิตศึกษาแห่งแรกของไทย\n"
-                "- คณะบริหารธุรกิจ (GSBA) ได้รับการรับรองมาตรฐานระดับโลก **AACSB**\n"
-                "- ข้อมูลสิ่งอำนวยความสะดวก เช่น หอสมุดสุขุม นวพันธ์, ศูนย์อาหาร, การเดินทาง (MRT สายสีเหลือง/ส้ม, ท่าเรือวัดศรีบุญเรือง)\n\n"
-                "👉 ไม่ว่าคุณจะต้องการให้ช่วย **คัดเลือกสาขาที่เหมาะกับสายงาน, วางแผนเวลาเรียนสำหรับคนทำงาน, หรือตรวจสอบเงื่อนไขการรับสมัคร** สามารถสอบถามเจาะจงได้เลยครับ!"
-            )
-
-        # 3. Intent: Faculty Directory
-        is_faculty_list = any(k in lower_msg for k in ["มีกี่คณะ", "คณะอะไรบ้าง", "รายชื่อคณะ", "มีคณะไหนบ้าง"])
-        if is_faculty_list:
-            return (
-                "นิด้าจัดการเรียนการสอนเฉพาะทางระดับบัณฑิตศึกษา (ป.โท-ป.เอก) โดยแบ่งออกเป็น **11 คณะ และ 1 วิทยาลัยนานาชาติ** ดังนี้ครับ:\n\n"
-                "1. 🏛️ **คณะรัฐประศาสนศาสตร์ (GSPA):** ผู้บุกเบิกและเป็นเลิศด้านนโยบายสาธารณะและการบริหารงานภาครัฐ (MPA / D.P.A.)\n"
-                "2. 💼 **คณะบริหารธุรกิจ (GSBA):** ได้รับการรับรองมาตรฐานสากลระดับโลก AACSB (MBA, DBA, Accelerated MBA)\n"
-                "3. 📈 **คณะพัฒนาการเศรษฐกิจ (GSDE):** เชี่ยวชาญเศรษฐศาสตร์ธุรกิจ เศรษฐศาสตร์การเงิน และการวิเคราะห์เชิงปริมาณ\n"
-                "4. 👥 **คณะพัฒนาทรัพยากรมนุษย์ (GSHRD):** เน้นการพัฒนาทุนมนุษย์และภาวะผู้นำองค์กรยุคใหม่\n"
-                "5. 📊 **คณะสถิติประยุกต์ (GSAS):** โดดเด่นด้าน Data Analytics, Data Science, AI, Business Analytics และ Actuarial Science\n"
-                "6. 🌍 **คณะการจัดการการท่องเที่ยว (GST):** การจัดการท่องเที่ยวและการบริการอย่างยั่งยืน\n"
-                "7. 📢 **คณะนิเทศศาสตร์และนวัตกรรมการจัดการ (GSCOM):** นิเทศศาสตร์การตลาด คอนเทนต์ดิจิทัล และการสื่อสารเชิงกลยุทธ์\n"
-                "8. ⚖️ **คณะนิติศาสตร์ (NIDA LAW):** กฎหมายธุรกิจ กฎหมายการเงิน และกฎหมายภาษีอากร\n"
-                "9. 🌐 **คณะพัฒนาสังคมและยุทธศาสตร์การบริหาร (GSSD):** การพัฒนาสังคม ยุทธศาสตร์ชุมชน และสิ่งแวดล้อม\n"
-                "10. 💬 **คณะภาษาและการสื่อสาร (GSLC):** ภาษาอังกฤษเพื่อการสื่อสารระดับสากลและอาชีพ\n"
-                "11. 🌱 **คณะสิ่งแวดล้อมและการพัฒนาอย่างยั่งยืน:** นวัตกรรมสิ่งแวดล้อมและการบริหารจัดการความยั่งยืน (ESG)\n"
-                "12. 🌏 **วิทยาลัยนานาชาติ (ICO NIDA):** หลักสูตรนานาชาติภาษาอังกฤษ 100%\n\n"
-                "👉 คุณสนใจสายงานด้านไหนเป็นพิเศษ สามารถบอกผมเพื่อให้แนะนำสาขาเจาะจงได้เลยครับ!"
-            )
-
-        # 4. Intent: Campus, Location & Facilities
-        is_campus_info = any(k in lower_msg for k in [
-            "อยู่ที่ไหน", "การเดินทาง", "รถไฟฟ้า", "หอพัก", "ห้องสมุด", "ที่จอดรถ", 
-            "คลองจั่น", "บางกะปิ", "สุขุม นวพันธ์", "สถานที่ตั้ง"
-        ])
-        if is_campus_info:
-            return (
-                "📍 **ข้อมูลสถานที่ตั้งและการเดินทางมายังนิด้า:**\n\n"
-                "- **ที่ตั้ง:** เลขที่ 148 ถนนเสรีไทย แขวงคลองจั่น เขตบางกะปิ กรุงเทพฯ 10240 (ใกล้แยกนิด้า/แยกนิด้า-ลำสาลี)\n"
-                "- 🚆 **การเดินทางด้วยรถไฟฟ้า:**\n"
-                "  - **MRT สายสีเหลือง:** ลงสถานี *แยกลำสาลี* หรือ *บางกะปิ* ต่อรถเพียง 5 นาที\n"
-                "  - **MRT สายสีส้ม:** สถานีคลองจั่น / ศรีบูรพา (เปิดให้บริการตามแผน)\n"
-                "- ⛴️ **การเดินทางทางเรือ:** เรือโดยสารคลองแสนแสบ ขึ้นที่ *ท่าเรือวัดศรีบุญเรือง* เดินเข้าทางประตูด้านหลังนิด้าได้สะดวกมาก\n"
-                "- 📚 **สิ่งอำนวยความสะดวกหลัก:** สำนักบรรณสารการพัฒนา (หอสมุดสุขุม นวพันธ์) เปิดให้บริการพื้นที่ค้นคว้าและ Co-Working Space ทันสมัย, อาคารสยามบรมราชกุมารี, ศูนย์คอมพิวเตอร์ และพื้นที่จอดรถสำหรับนักศึกษาภาคพิเศษ\n\n"
-                "👉 หากต้องการสอบถามเรื่องการติดต่อคณะ หรือเวลาทำการของสำนักทะเบียน สามารถถามได้เลยครับ!"
-            )
-
-        # 5. Intent: Specific Regulations & Policies
-        is_transfer = any(k in lower_msg for k in ["เทียบโอน", "โอนหน่วยกิต", "ย้าย", "เคยเรียน"])
-        is_teap = any(k in lower_msg for k in ["teap", "ภาษาอังกฤษ", "toefl", "ielts", "คะแนนสอบ"])
-        is_plans = any(k in lower_msg for k in ["แผน ก", "แผน ข", "is", "วิทยานิพนธ์", "สารนิพนธ์", "ต่างกัน"])
-        is_background = any(k in lower_msg for k in ["ไม่ตรงสาย", "ไม่จบบริหาร", "จบวิศวะ", "จบมนุษย์", "คุณสมบัติ"])
-        is_scholarship = any(k in lower_msg for k in ["ทุน", "ค่าใช้จ่าย", "ผ่อน", "ส่วนลด"])
-
-        if is_transfer:
-            base = (
-                "สำหรับเรื่อง **การเทียบโอนหน่วยกิตจากสถาบันอื่น** นิด้าเปิดโอกาสให้เทียบโอนได้เพื่อช่วยประหยัดเวลาและค่าใช้จ่ายครับ โดยมีเกณฑ์สำคัญดังนี้ครับ:\n\n"
-                "- สามารถเทียบโอนได้ **สูงสุดไม่เกิน 1 ใน 3 ของจำนวนหน่วยกิตทั้งหมด** ในหลักสูตรที่เข้าศึกษา\n"
-                "- รายวิชาที่นำมาเทียบโอนต้องมีผลการเรียน **ไม่ต่ำกว่าระดับ B (หรือแต้มเฉลี่ย 3.00 ขึ้นไป)**\n"
-                "- ต้องเป็นรายวิชาที่ศึกษามาแล้ว **ไม่เกิน 5 ปีการศึกษา** นับถึงวันที่ขอเทียบโอน\n"
-                "- นักศึกษาต้องผ่านการประเมินความสอดคล้องของคำอธิบายรายวิชาจากคณะกรรมการบริหารหลักสูตรครับ\n\n"
-            )
-            if docs:
-                base += f"📌 **ข้อมูลเพิ่มเติมจากระเบียบการ:**\n{docs[0].get('content', '')}\n\n"
-            base += "👉 หากคุณมีรายวิชาเดิมที่ต้องการตรวจสอบความเข้ากันได้ สามารถแจ้งชื่อวิชาและหลักสูตรที่สนใจได้เลยครับ!"
-            return base
-        elif is_teap:
-            import random
-            intros = [
-                "เรื่อง **เกณฑ์คะแนนภาษาอังกฤษในการสมัครเรียนต่อ ป.โท และ ป.เอก นิด้า** มีรายละเอียดที่ควรรู้ดังนี้ครับ:\n\n",
-                "สำหรับการทดสอบภาษาอังกฤษ หรือ NIDA TEAP ทางสถาบันกำหนดมาตรฐานไว้ดังนี้ครับ:\n\n",
-                "เพื่อให้มั่นใจในมาตรฐานการศึกษา ข้อมูลคะแนนภาษาอังกฤษที่นิด้าใช้พิจารณาคือ:\n\n"
-            ]
-            base = random.choice(intros) + (
-                "- **ระดับปริญญาโท:** คะแนนมาตรฐานขั้นต่ำ **NIDA TEAP 500 คะแนนขึ้นไป** (หรือเทียบเท่า TOEFL ITP 500 / IELTS 5.0)\n"
-                "- **ระดับปริญญาเอก:** เกณฑ์คะแนน **NIDA TEAP 660 คะแนนขึ้นไป** (หรือ TOEFL 550 / IELTS 6.0)\n"
-                "- 💡 **กรณีคะแนนยังไม่ถึงเกณฑ์:** ไม่ต้องกังวลครับ ทางนิด้าเปิดโอกาสให้ผู้สมัครสามารถลงทะเบียนเรียน **รายวิชาเสริมภาษาอังกฤษ (เช่น LC 4001, LC 4002)** เพื่อปรับพื้นฐานและผ่านเกณฑ์สำเร็จการศึกษาได้ครับ\n\n"
-            )
-            if docs:
-                base += f"📌 **อ้างอิงจากฐานข้อมูลระเบียบการ:**\n{docs[0].get('content', '')}\n\n"
-            base += "👉 มีการจัดสอบ NIDA TEAP เป็นประจำทุกเดือน คุณสนใจรอบสอบช่วงเดือนไหนสามารถสอบถามได้ครับ!"
-            return base
-        elif is_plans:
-            return (
-                "ความแตกต่างระหว่าง **แผน ก** และ **แผน ข** ของนิด้าสรุปให้เห็นภาพชัดเจนดังนี้ครับ:\n\n"
-                "- 🔬 **แผน ก (เน้นวิทยานิพนธ์ - Thesis):** เหมาะสำหรับผู้ที่ต้องการทำงานวิจัยเชิงลึก ต้องการตีพิมพ์ผลงานวิชาการ หรือมีเป้าหมายศึกษาต่อระดับปริญญาเอกในอนาคต\n"
-                "- 💼 **แผน ข (การค้นคว้าอิสระ IS + สอบ Comprehensive Exam):** เหมาะสำหรับคนทำงานประจำ ข้าราชการ และผู้บริหารที่ต้องการนำความรู้ไปประยุกต์แก้ปัญหาจริงในองค์กร โดยไม่ต้องทำวิทยานิพนธ์เล่มใหญ่ครับ\n\n"
-                "👉 คุณกำลังมองหาแผนการเรียนแบบไหนสำหรับเป้าหมายการทำงานของคุณครับ?"
-            )
-        elif is_background:
-            return (
-                "เรื่องการ **จบปริญญาตรีไม่ตรงสาย** สบายใจได้เลยครับ! หลักสูตรปริญญาโทส่วนใหญ่ของนิด้า (เช่น MBA หรือ วิทยาการข้อมูล DADS) **เปิดรับผู้สมัครที่จบปริญญาตรีจากทุกสาขาวิชา** ครับ\n\n"
-                "โดยทางสถาบันได้ออกแบบ **วิชาปรับพื้นฐาน (Foundation Courses)** ในช่วงก่อนเปิดภาคเรียน เพื่อช่วยปูความรู้พื้นฐานที่จำเป็น ทำให้ผู้เรียนจากทุกสายสามารถเรียนรู้และประสบความสำเร็จได้อย่างมั่นใจครับ\n\n"
-                "👉 คุณจบปริญญาตรีด้านใดมา และกำลังเล็งสาขาไหนของนิด้าไว้ สามารถบอกผมได้เลยครับ!"
-            )
-        elif is_scholarship:
-            return (
-                "นิด้ามีโครงการสนับสนุนด้านการเงินและทุนการศึกษาหลากหลายรูปแบบครับ เช่น:\n\n"
-                "- 🏆 **ทุนส่งเสริมการศึกษาประเภทเรียนดี:** ยกเว้นค่าธรรมเนียมการศึกษาตลอดหลักสูตร\n"
-                "- 👨‍🏫 **ทุนผู้ช่วยสอนและผู้ช่วยวิจัย (TA / RA):** มีค่าตอบแทนรายเดือนและส่วนลดค่าเล่าเรียน\n"
-                "- 💳 **แผนแบ่งชำระค่าธรรมเนียม:** สามารถยื่นคำร้องแบ่งชำระค่าเทอมได้ 2-3 งวดต่อภาคการศึกษาโดยไม่มีดอกเบี้ยครับ\n\n"
-                "👉 คุณสนใจดูทุนการศึกษาในระดับปริญญาโท หรือ ปริญญาเอก ครับ?"
-            )
-
-        # 6. Intent: Social Sentiment, Reviews & Alumni Voice
-        is_sentiment = any(k in lower_msg for k in [
-            "รีวิว", "คนพูดถึง", "pantip", "ความเห็น", "ศิษย์เก่าว่าไง", "ดราม่า", 
-            "ดีไหม", "ยากไหม", "เสียงตอบรับ", "คนเรียนเยอะไหม", "บรรยากาศ"
-        ])
-        if is_sentiment:
-            social_info = tool_query_social_sentiment(user_message)
-            quotes = social_info.get("sample_mentions", [])
-            quote_bullets = "\n".join([f"- 💬 *\"{q}\"*" for q in quotes[:3]]) if quotes else "- 💬 *\"อาจารย์ผู้สอนใส่ใจและคอนเนกชันศิษย์เก่าช่วยต่อยอดงานได้จริง\"*"
-            return (
-                "จากผลการวิเคราะห์เสียงสะท้อนบนโลกโซเชียลมีเดีย (Social Listening Intelligence) ทั้งใน **Pantip, Facebook, YouTube, และ Dek-D** เกี่ยวกับการศึกษาต่อนิด้า สรุปภาพรวมได้ดังนี้ครับ: ✨\n\n"
-                f"📊 **1. ภาพรวมความรู้สึก (Sentiment Score):**\n"
-                f"- สัดส่วนความคิดเห็นเชิงบวกสูงถึง **{social_info.get('positive_percentage', '84.5%')}**\n"
-                "- จุดที่ได้รับคำชื่นชมมากที่สุด: **คุณภาพของคณาจารย์ผู้สอน (ระดับ ศ. / รศ. / ผู้บริหารตัวจริง)**, **คอนเนกชันเพื่อนร่วมรุ่นที่แข็งแกร่ง**, และ **ตารางเรียนเสาร์-อาทิตย์ที่ออกแบบมาเพื่อคนทำงานจริง**\n\n"
-                f"💬 **2. ตัวอย่างเสียงสะท้อนจริงจากผู้เรียนและศิษย์เก่า:**\n{quote_bullets}\n\n"
-                "⚠️ **3. ข้อสังเกตและข้อกังวลที่พบบ่อย:**\n"
-                "- **การบ้านและเคสวิเคราะห์ค่อนข้างเข้มข้น:** ต้องจัดสรรเวลาวันหยุดให้ดี\n"
-                "- **เกณฑ์ภาษาอังกฤษ NIDA TEAP ค่อนข้างจริงจัง:** ควรเตรียมตัวสอบล่วงหน้า (แต่มีคอร์สปรับพื้นฐาน LC 4001/4002 ช่วยรองรับ)\n"
-                "- **ค่าเทอมในบางสาขาพิเศษ:** แนะนำให้ใช้สิทธิ์แผนแบ่งจ่าย 0% 3 งวด\n\n"
-                "👉 คุณสนใจดูรีวิวหรือความคิดเห็นเจาะจงของคณะไหนเป็นพิเศษไหมครับ เช่น บริหารธุรกิจ (GSBA), สถิติประยุกต์/Data Science (GSAS), หรือ รัฐประศาสนศาสตร์ (GSPA)?"
-            )
-
-        # 7. Intent: Course Recommendation (When recommended programs exist and were searched intentionally)
-        if recommended_programs:
-            top_p = recommended_programs[0]
-            fee_disp = top_p.get("total_fee") or "สอบถามสถาบัน"
-            careers = ", ".join(top_p.get("career_opportunities", [])) or "ผู้บริหาร, นักวิเคราะห์, ที่ปรึกษาองค์กร"
-
-            parts = [
-                f"🎓 **หลักสูตรที่ผมมองว่าตอบโจทย์เป้าหมายของคุณมากที่สุด คือ:**\n",
-                f"### 🌟 {top_p.get('program')} ({top_p.get('degree')})\n",
-                f"- **สังกัด:** คณะ{top_p.get('faculty')} ({top_p.get('department', '-')})\n",
-                f"- **รูปแบบเวลาเรียน:** {top_p.get('study_time', 'เสาร์-อาทิตย์ สำหรับคนทำงาน')}\n",
-                f"- **ประมาณการค่าใช้จ่าย:** ~{fee_disp} บาทตลอดหลักสูตร\n",
-                f"- **คุณสมบัติ:** {top_p.get('admission_requirements', 'ปริญญาตรีทุกสาขา')}\n",
-                f"- **โอกาสต่อยอดสายอาชีพ:** {careers}\n",
-                f"- **จุดเด่น:** {top_p.get('description') or top_p.get('overview') or 'หลักสูตรมาตรฐานสากล มุ่งเน้นการสร้างผู้นำและนักวิเคราะห์มืออาชีพ'}\n",
-            ]
-
-            if len(recommended_programs) > 1:
-                parts.append("\n**📌 นอกจากนี้ ยังมีอีกหลักสูตรที่น่าสนใจใกล้เคียงกัน:**")
-                for idx, p in enumerate(recommended_programs[1:], 2):
-                    parts.append(
-                        f"- **{p.get('program')}** ({p.get('degree')}) คณะ{p.get('faculty')} (เวลาเรียน: {p.get('study_time', 'เสาร์-อาทิตย์')} | ค่าเทอม ~{p.get('total_fee', 'สอบถามสถาบัน')} บาท)"
-                    )
-
-            parts.append("\n\n👉 คุณมีข้อสงสัยเพิ่มเติมเกี่ยวกับกำหนดการรับสมัคร หรืออยากให้ผมช่วยเปรียบเทียบกับสาขาอื่นเพิ่มเติมไหมครับ?")
-            return "\n".join(parts)
-
-        # 7. General Open-Ended Helpful Fallback
-        return (
-            "ขอบคุณสำหรับคำถามครับ! สำหรับประเด็นนี้ นิด้ามีหลักสูตรและองค์ความรู้ระดับปริญญาโทและปริญญาเอกที่ครอบคลุมถึง 73 สาขาวิชาใน 11 คณะ และ 1 วิทยาลัยนานาชาติ\n\n"
-            "คุณสามารถสอบถามเจาะจงได้ในทุกเรื่อง เช่น:\n"
-            "- 🎯 ให้ผมช่วย **แนะนำหลักสูตรที่ตรงกับสายงานหรือเป้าหมายของคุณ**\n"
-            "- ⏱️ ตรวจสอบ **เวลาเรียนสำหรับคนทำงาน (เสาร์-อาทิตย์ หรือ ภาคค่ำ)**\n"
-            "- 📑 เงื่อนไขการรับสมัคร, เกณฑ์คะแนน **NIDA TEAP**, หรือการ **เทียบโอนหน่วยกิต**\n\n"
-            "👉 สามารถพิมพ์บอกสิ่งที่ต้องการได้เลยนะครับ ผมพร้อมให้คำแนะนำอย่างละเอียดครับ!"
-        )
+            pass
+            
+        yield "แง... ตอนนี้ระบบประมวลผลผมล่มชั่วคราวเลยครับ ทั้งออนไลน์และออฟไลน์เลย รบกวนพิมพ์ถามใหม่อีกครั้งในอีกสักครู่นะครับ หรือโทรสายตรงที่ 02-727-3000 ได้เลยครับ ขออภัยจริงๆ ครับ 🥺"

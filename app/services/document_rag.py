@@ -119,13 +119,13 @@ class NIDADocumentRAG:
             self.collection.upsert(ids=ids, documents=docs, metadatas=metadatas)
         return len(ids)
 
-    def search_knowledge(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+    def search_knowledge(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """Query ChromaDB for relevant regulation and academic policy chunks with hybrid lexical re-ranking."""
         if self.collection.count() == 0:
             return []
 
         # Retrieve a broader candidate pool
-        candidate_count = min(max(top_k * 3, 10), self.collection.count())
+        candidate_count = min(max(top_k * 4, 15), self.collection.count())
         results = self.collection.query(
             query_texts=[query],
             n_results=candidate_count,
@@ -147,7 +147,7 @@ class NIDADocumentRAG:
                 
                 # Keyword overlap boost
                 kw_matches = sum(1 for t in q_tokens if t in doc_lower)
-                kw_boost = min(kw_matches * 0.25, 0.75)
+                kw_boost = min(kw_matches * 0.3, 0.9) # Give higher boost to exact keywords for NIDA courses
 
                 hybrid_score = round(dense_score + kw_boost, 3)
                 candidates.append({
@@ -163,7 +163,7 @@ class NIDADocumentRAG:
         return candidates[:top_k]
 
     @staticmethod
-    def _chunk_text(text: str, chunk_size: int = 600, overlap: int = 100) -> List[str]:
+    def _chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
         """Split text into overlapping semantic blocks respecting paragraph boundaries."""
         paragraphs = re.split(r"\n\s*\n", text)
         chunks: List[str] = []

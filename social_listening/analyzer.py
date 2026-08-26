@@ -106,10 +106,14 @@ def generate_wordcloud_image(texts: Iterable[str]) -> bytes | None:
         return None
 
 
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def analyze_sentiment_and_intent_llm(text: str) -> Optional[Dict[str, str]]:
-    """Analyze sentiment & intent using Gemini 2.5 Flash API for high precision & sarcasm/negation resolution."""
+    """Analyze sentiment & intent using Gemini 2.5 Flash API with retry logic for high precision & sarcasm/negation resolution."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
+        print("Warning: GEMINI_API_KEY not found. LLM Analysis will fail.")
         return None
 
     try:
@@ -136,115 +140,64 @@ def analyze_sentiment_and_intent_llm(text: str) -> Optional[Dict[str, str]]:
             if "sentiment" in data and "intent" in data:
                 return data
     except Exception as e:
-        print(f"Gemini LLM Analyzer warning: {e}")
+        print(f"Gemini LLM Analyzer exception: {e}")
+        raise # Reraise to trigger tenacity retry
 
     return None
 
 
 def analyze_sentiment_and_intent(text: str) -> Dict[str, str]:
-    """Analyze sentiment and student intent for NIDA education, with LLM priority and intelligent Thai Rule-Based fallback with negation support."""
+    """Analyze sentiment and student intent for NIDA education, with LLM priority."""
     if not text:
         return {"sentiment": "Neutral", "intent": "General Education"}
 
-    # Attempt LLM first if available
-    llm_res = analyze_sentiment_and_intent_llm(text)
-    if llm_res:
-        return llm_res
+    try:
+        llm_res = analyze_sentiment_and_intent_llm(text)
+        if llm_res:
+            return llm_res
+    except Exception as e:
+        print(f"Failed to get LLM response after retries: {e}")
 
+    # Safe fallback if LLM completely fails (API quota exceeded or key missing)
     t_lower = text.lower()
-
-    # Negation Handling Prefix Check
-    negation_prefixes = ["ไม่", "ไม่ได้", "ไม่ค่อย", "อย่า", "ห้าม", "แทบไม่"]
+    sentiment = "Neutral"
+    intent = "General Education"
     
-    pos_words = [
-        "อยากเรียน", "น่าเรียน", "คุ้ม", "แนะนำ", "ชอบ", "ดีมาก", "ชื่นชม",
-        "หลักสูตรดี", "อาจารย์เก่ง", "อาจารย์ดีมาก", "สังคมดี", "โอกาสดี", "ก้าวหน้า",
-        "คุณภาพ", "มีชื่อเสียง", "น่าเชื่อถือ", "ภูมิใจ", "มีประโยชน์", "คุ้มค่า",
-        "ได้ความรู้", "ได้คอนเนกชัน", "ได้เครือข่าย", "network ดี", "alumni ดี", "ศิษย์เก่าดี",
-        "เรียนสนุก", "เพื่อนดี", "บรรยากาศดี", "ยกระดับ", "พัฒนาตัวเอง", "มาถูกทาง", "ตัดสินใจถูก",
-        "ผ่านสัมภาษณ์", "ติด", "ได้รับการตอบรับ", "ชมสถาบัน", "ชอบมาก", "เลื่อนตำแหน่ง", "ขึ้นเงินเดือน",
-    ]
-
-    neg_words = [
-        "แพงมาก", "แพงเกิน", "ค่าเทอมสูง", "ไม่มีทุน", "ทุนยาก", "ไม่คุ้ม",
-        "เดินทางยาก", "ไกลมาก", "ไกล", "รถติด", "ไม่มีรถไฟฟ้า", "ที่จอดรถน้อย", "ที่จอดรถไม่พอ",
-        "ยากมาก", "เหนื่อยมาก", "หนักมาก", "ท้อ", "เครียด", "กดดัน", "สอบตก",
-        "เขียนวิทยานิพนธ์ยาก", "สารนิพนธ์ยาก", "อาจารย์ที่ปรึกษาไม่มีเวลา",
-        "ระบบแย่", "ลงทะเบียนยาก", "บริการแย่", "เจ้าหน้าที่ไม่ช่วย", "ข้อมูลไม่ชัด",
-        "รอนาน", "ช้า", "วุ่นวาย", "ขั้นตอนเยอะ", "ไม่มีเวลา", "ไม่ผ่านสัมภาษณ์", "สอบไม่ผ่าน",
-        "ข้อเสีย", "ปัญหา", "อุปสรรค", "น่าเสียดาย", "ผิดหวัง", "ไม่ตรงปก", "ยกเลิก",
-    ]
-
-    inquiry_words = [
-        "เท่าไหร่", "เกรด", "คุณสมบัติ", "สอบยังไง", "เปิดรับเมื่อไหร่", "รับกี่คน",
-        "สัมภาษณ์ยังไง", "ค่าเทอมกี่บาท", "เรียนวันไหน", "เรียนกี่ปี", "สมัครอย่างไร",
-        "มีทุนไหม", "ทุนมีไหม", "เทียบโอน", "กี่หน่วยกิต", "teap", "ielts", "toeic",
-        "ข้อสอบเข้า", "เดินทางยังไง", "หอพัก", "?", "สอบถาม", "ขอถาม", "รบกวนถาม",
-    ]
-
-    # Explicit Negation Checking ("ไม่ได้ดี", "ไม่ค่อยดี")
-    has_negated_pos = any(f"{neg}{pos}" in t_lower for neg in negation_prefixes for pos in ["ดี", "ชอบ", "คุ้ม", "แนะนำ", "โอเค"])
-    
-    has_pos = any(w in t_lower for w in pos_words) and not has_negated_pos
-    has_neg = any(w in t_lower for w in neg_words) or has_negated_pos
-    has_inquiry = any(w in t_lower for w in inquiry_words)
-
-    if has_inquiry:
+    if any(q in t_lower for q in ["?", "ไหม", "ยังไง", "รบกวนถาม"]):
         sentiment = "Question"
-    elif has_pos and not has_neg:
-        sentiment = "Positive"
-    elif has_neg and not has_pos:
-        sentiment = "Negative"
-    elif has_pos and has_neg:
-        sentiment = "Mixed"
-    else:
-        sentiment = "Neutral"
-
-    # Intent Classification
-    tuition_kws = ["ค่าเทอม", "ค่าใช้จ่าย", "ทุนการศึกษา", "ทุน", "เงิน", "กู้", "ผ่อนชำระ", "บาท", "แสน", "หมื่น"]
-    schedule_kws = ["เสาร์", "อาทิตย์", "ภาคค่ำ", "ภาคปกติ", "เวลาเรียน", "ออนไลน์", "ภาคพิเศษ", "นอกเวลาราชการ"]
-    admission_kws = ["คุณสมบัติ", "สอบ", "เกรด", "สัมภาษณ์", "รับสมัคร", "สมัคร", "สอบเข้า", "เกณฑ์", "วุฒิ", "gpa"]
-    career_kws = ["ทำงาน", "อาชีพ", "เงินเดือน", "ตำแหน่ง", "ก้าวหน้า", "ผู้บริหาร", "เลื่อนขั้น", "เจ้าของกิจการ"]
-    network_kws = ["คอนเนกชัน", "เครือข่าย", "alumni", "ศิษย์เก่า", "เพื่อนในคลาส", "รุ่นพี่", "community"]
-    thesis_kws = ["วิทยานิพนธ์", "สารนิพนธ์", "ค้นคว้าอิสระ", "แผน ก", "แผน ข", "งานวิจัย", "อาจารย์ที่ปรึกษา"]
-
-    if any(w in t_lower for w in tuition_kws):
-        intent = "Tuition & Cost"
-    elif any(w in t_lower for w in schedule_kws):
-        intent = "Schedule & Study Mode"
-    elif any(w in t_lower for w in admission_kws):
-        intent = "Admission & Requirements"
-    elif any(w in t_lower for w in network_kws):
-        intent = "Alumni Network"
-    elif any(w in t_lower for w in career_kws):
-        intent = "Career & Value"
-    elif any(w in t_lower for w in thesis_kws):
-        intent = "Thesis & Academic"
-    else:
-        intent = "General Education"
-
+    
     return {"sentiment": sentiment, "intent": intent}
+
 
 
 def summarize_dataset(comments: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Perform dataset-wide analysis for NIDA Social Listening."""
+    import concurrent.futures
+    
     sentiments = Counter()
     intents = Counter()
     texts: List[str] = []
 
-    for item in comments:
+    def _process_item(item):
         text = item.get("text", "")
         if not text:
-            continue
-        texts.append(text)
+            return None
         res = item.get("sentiment") and item.get("intent")
         if res:
-            sentiments[item["sentiment"]] += 1
-            intents[item["intent"]] += 1
+            return {"text": text, "sentiment": item["sentiment"], "intent": item["intent"]}
         else:
             analysis = analyze_sentiment_and_intent(text)
-            sentiments[analysis["sentiment"]] += 1
-            intents[analysis["intent"]] += 1
+            return {"text": text, "sentiment": analysis["sentiment"], "intent": analysis["intent"]}
+
+    # Use ThreadPoolExecutor to run LLM analysis concurrently for much faster processing
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = list(executor.map(_process_item, comments))
+
+    for r in results:
+        if r:
+            texts.append(r["text"])
+            sentiments[r["sentiment"]] += 1
+            intents[r["intent"]] += 1
 
     word_freqs = get_word_frequencies(texts, top_n=20)
     return {
