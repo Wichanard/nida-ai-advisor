@@ -197,11 +197,14 @@ Format strictly as JSON:
         )
 
         # 4. Save User Message
-        save_chat_message(
-            session_id=session_id,
-            sender="user",
-            message=user_message,
-        )
+        try:
+            save_chat_message(
+                session_id=session_id,
+                sender="user",
+                message=user_message,
+            )
+        except Exception as e:
+            print(f"Warning: Failed to save user message: {e}")
 
         full_reply = ""
         # 3. Synthesize Grounded Advisory Response (Streaming)
@@ -218,13 +221,17 @@ Format strictly as JSON:
             yield chunk
 
         # Save Assistant Reply to SQLite
-        msg_id = save_chat_message(
-            session_id=session_id,
-            sender="assistant",
-            message=full_reply,
-            recommended_programs=recommended_programs,
-            tools_used=tools_invoked,
-        )
+        try:
+            msg_id = save_chat_message(
+                session_id=session_id,
+                sender="assistant",
+                message=full_reply,
+                recommended_programs=recommended_programs,
+                tools_used=tools_invoked,
+            )
+        except Exception as e:
+            print(f"Warning: Failed to save assistant message: {e}")
+            msg_id = 0
 
         if metadata_callback:
             metadata_callback({

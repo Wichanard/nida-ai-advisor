@@ -107,11 +107,15 @@ def init_db():
         global engine, DATABASE_URL
         DATABASE_URL = "sqlite:////tmp/nida_enterprise_fallback.db"
         engine = None
-        # Try again with /tmp DB
         try:
             eng = get_engine()
             with eng.begin() as conn:
-                conn.execute(text("CREATE TABLE IF NOT EXISTS chat_sessions (session_id VARCHAR(255) PRIMARY KEY, user_id VARCHAR(255))"))
+                conn.execute(text("CREATE TABLE IF NOT EXISTS chat_sessions (session_id VARCHAR(255) PRIMARY KEY, user_id VARCHAR(255), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"))
+                # Try to alter if it already exists from a previous bad init
+                try:
+                    conn.execute(text("ALTER TABLE chat_sessions ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"))
+                except Exception:
+                    pass
                 conn.execute(text("CREATE TABLE IF NOT EXISTS chat_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, session_id VARCHAR(255), sender VARCHAR(50), message TEXT, recommended_programs TEXT, tools_used TEXT, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"))
                 conn.execute(text("CREATE TABLE IF NOT EXISTS user_profiles (session_id VARCHAR(255) PRIMARY KEY, inferred_age VARCHAR(255), work_experience TEXT, interests TEXT, last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"))
         except Exception:
@@ -129,7 +133,10 @@ def save_chat_message(
     with eng.begin() as conn:
         res = conn.execute(text("SELECT session_id FROM chat_sessions WHERE session_id = :s"), {"s": session_id}).fetchone()
         if res:
-            conn.execute(text("UPDATE chat_sessions SET updated_at = CURRENT_TIMESTAMP WHERE session_id = :s"), {"s": session_id})
+            try:
+                conn.execute(text("UPDATE chat_sessions SET updated_at = CURRENT_TIMESTAMP WHERE session_id = :s"), {"s": session_id})
+            except Exception:
+                pass
         else:
             conn.execute(text("INSERT INTO chat_sessions (session_id, user_id) VALUES (:s, :u)"), {"s": session_id, "u": user_id})
 
