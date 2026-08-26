@@ -18,7 +18,7 @@ export default function Sidebar() {
 
   const subNavItems = [
     { name: "แชทใหม่", icon: <Edit size={18} />, action: "new_chat" },
-    { name: "ค้นหาแชท", icon: <Search size={18} /> },
+    { name: "ค้นหาแชท", icon: <Search size={18} />, path: "/archive?search=true" },
     { name: "วิดีโอ", icon: <Video size={18} /> },
     { name: "คลัง", icon: <Archive size={18} />, path: "/archive" },
   ];
@@ -33,11 +33,7 @@ export default function Sidebar() {
     }
   };
 
-  const recentChats = [
-    "ทำงานประจำ อยากเรียนต่อ M...",
-    "จบไม่ตรงสาย อยากเรียน Data S...",
-    "ข้าราชการ เรียน MPA แนะนำ..."
-  ];
+
 
   return (
     <div className={`relative flex flex-col h-full bg-white border-r border-gray-200 transition-all duration-300 ${collapsed ? "w-16" : "w-64"} shrink-0`}>
@@ -70,12 +66,14 @@ export default function Sidebar() {
               const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
               if (item.name === "NIDACHAT") {
                 return (
-                  <div key={item.name} onClick={handleNewChat} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors cursor-pointer ${
-                    isActive ? "bg-white border border-gray-200 shadow-sm text-[#003B70] font-medium" : "text-gray-600 hover:bg-gray-50 hover:text-[#003B70]"
-                  }`}>
-                    {item.icon}
-                    {!collapsed && <span className="text-sm">{item.name}</span>}
-                  </div>
+                  <Link key={item.name} href={item.path}>
+                    <div className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors cursor-pointer ${
+                      isActive ? "bg-white border border-gray-200 shadow-sm text-[#003B70] font-medium" : "text-gray-600 hover:bg-gray-50 hover:text-[#003B70]"
+                    }`}>
+                      {item.icon}
+                      {!collapsed && <span className="text-sm">{item.name}</span>}
+                    </div>
+                  </Link>
                 );
               }
               return (
@@ -116,19 +114,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Recent Chats */}
-        {!collapsed && (
-          <div className="px-3 mt-4">
-            <div className="space-y-1">
-              {recentChats.map((chat, i) => (
-                <div key={i} className="flex items-start gap-2 px-3 py-1.5 cursor-pointer text-gray-500 hover:text-[#003B70]">
-                  <MessageSquare size={14} className="shrink-0 mt-0.5" />
-                  <span className="text-xs line-clamp-1">{chat}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

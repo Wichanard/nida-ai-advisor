@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { MessageSquare, Clock, ArrowLeft, Bot, User, Archive } from "lucide-react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Session = {
@@ -19,17 +20,34 @@ type Message = {
   content: string;
 };
 
-export default function ArchivePage() {
+function ArchiveContent() {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [history, setHistory] = useState<Message[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const isSearch = searchParams?.get("search");
+    if (isSearch) {
+      setTimeout(() => {
+        document.getElementById("search-input")?.focus();
+      }, 100);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`https://nida-backend-235f.onrender.com/api/sessions?user_id=guest`);
+        setLoading(true);
+        const url = new URL("https://nida-backend-235f.onrender.com/api/sessions");
+        url.searchParams.append("user_id", "guest");
+        if (searchQuery.trim()) {
+          url.searchParams.append("search", searchQuery.trim());
+        }
+        const res = await fetch(url.toString());
         if (res.ok) {
           const data = await res.json();
           setSessions(data.sessions || []);
@@ -40,8 +58,14 @@ export default function ArchivePage() {
         setLoading(false);
       }
     };
-    fetchSessions();
-  }, []);
+    
+    // Debounce the search
+    const timer = setTimeout(() => {
+      fetchSessions();
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleSelectSession = async (sessionId: string) => {
     setSelectedSession(sessionId);
@@ -75,10 +99,23 @@ export default function ArchivePage() {
     <div className="h-full flex flex-col md:flex-row bg-white relative">
       {/* Sidebar for Sessions */}
       <div className={`md:w-1/3 lg:w-1/4 border-r border-gray-200 h-full flex flex-col ${selectedSession ? 'hidden md:flex' : 'flex'}`}>
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+        <div className="p-6 border-b border-gray-100 flex flex-col gap-4">
           <h2 className="text-xl font-bold text-[#003B70] flex items-center gap-2">
             <Clock size={20} /> คลังประวัติแชท
           </h2>
+          <div className="relative w-full">
+            <input
+              id="search-input"
+              type="text"
+              placeholder="ค้นหาแชท..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
+            />
+            <div className="absolute left-3 top-2.5 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            </div>
+          </div>
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {loading ? (
@@ -177,5 +214,13 @@ export default function ArchivePage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ArchivePage() {
+  return (
+    <Suspense fallback={<div className="flex h-full items-center justify-center">กำลังโหลด...</div>}>
+      <ArchiveContent />
+    </Suspense>
   );
 }
