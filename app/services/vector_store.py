@@ -38,7 +38,7 @@ class GeminiEmbeddingFunction:
         for text in input:
             try:
                 res = self.client.models.embed_content(
-                    model="gemini-embedding-2",
+                    model="text-embedding-004",
                     contents=text
                 )
                 embeddings.append(res.embeddings[0].values)
@@ -198,8 +198,7 @@ class NIDAVectorStore:
                     self.pc_index.upsert(vectors=vectors[i:i+batch_size])
         else:
             if self.collection.count() == 0 and docs_to_insert:
-                print(f"Indexing {len(docs_to_insert)} courses into ChromaDB...")
-                self.collection.add(documents=docs_to_insert, metadatas=metadatas, ids=ids)
+                print("Skipping ChromaDB auto-ingestion to prevent Render rate limit hangs. Fallback to keyword search.")
 
     def search(self, query: str, degree_filter: str = "ทั้งหมด", faculty_filter: str = "ทั้งหมด", study_mode_filter: str = "ทั้งหมด", max_budget: Optional[float] = None, top_k: int = 4) -> List[Dict[str, Any]]:
         if self.use_pinecone:
@@ -219,7 +218,27 @@ class NIDAVectorStore:
             matched_ids = [match['id'] for match in results.get('matches', [])]
         else:
             if self.collection.count() == 0:
-                return []
+                # Fallback to simple keyword search if DB is empty
+                keywords = [k for k in query.split() if len(k) > 2]
+                scored = []
+                for p in self.programs:
+                    text_search = p.get("search_document", "").lower()
+                    score = sum(1 for k in keywords if k.lower() in text_search)
+                    if score > 0:
+                        scored.append({"prog": p, "score": score})
+                scored.sort(key=lambda x: x["score"], reverse=True)
+                
+                final_results = []
+                for item in scored:
+                    prog = item["prog"]
+                    if degree_filter and degree_filter != "ทั้งหมด" and prog.get("degree") != degree_filter: continue
+                    if faculty_filter and faculty_filter != "ทั้งหมด" and prog.get("faculty") != faculty_filter: continue
+                    if max_budget is not None and prog.get("numeric_fee") is not None and prog["numeric_fee"] > max_budget: continue
+                    if study_mode_filter and study_mode_filter != "ทั้งหมด" and study_mode_filter not in prog.get("study_time", ""): continue
+                    
+                    final_results.append(prog)
+                    if len(final_results) >= top_k: break
+                return final_results
                 
             where_clause = {}
             if degree_filter and degree_filter != "ทั้งหมด":

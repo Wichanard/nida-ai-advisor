@@ -132,7 +132,7 @@ Format strictly as JSON:
 }}
 """
             response = client.models.generate_content(
-                model='gemini-3.5-flash',
+                model='gemini-3.6-flash',
                 contents=prompt,
                 config={'response_mime_type': 'application/json'}
             )
@@ -414,10 +414,9 @@ Format strictly as JSON:
                 try:
                     from google import genai
                     client = genai.Client(api_key=api_key)
-                    selected_model = model_name if model_name in ["gemini-flash-latest", "gemini-3.5-flash"] else "gemini-flash-latest"
                     
                     response = client.models.generate_content_stream(
-                        model=selected_model,
+                        model="gemini-3.6-flash",
                         contents=prompt,
                     )
                     for chunk in response:
