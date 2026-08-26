@@ -17,6 +17,7 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [sessionId, setSessionId] = useState<string>("");
 
   useEffect(() => {
@@ -51,6 +52,15 @@ export default function ChatPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      // Small timeout ensures the input is fully re-enabled before focusing
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+    }
+  }, [isLoading]);
 
   const sendPrompt = (text: string) => {
     setInput(text);
@@ -196,6 +206,7 @@ export default function ChatPage() {
         <div className="max-w-3xl mx-auto relative">
           <form id="chat-form" onSubmit={handleSubmit} className="relative flex items-center shadow-lg rounded-full bg-white border border-gray-200">
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
