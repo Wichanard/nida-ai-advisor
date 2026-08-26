@@ -17,8 +17,8 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-# Default to SQLite if DATABASE_URL is not provided
-DEFAULT_DATABASE_URL = f"sqlite:///{BASE_DIR}/data/nida_enterprise.db"
+# Default to SQLite if DATABASE_URL is not provided (use /tmp for Render compatibility)
+DEFAULT_DATABASE_URL = f"sqlite:////tmp/nida_enterprise.db"
 DATABASE_URL = os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
 
 engine: Optional[Engine] = None
@@ -36,10 +36,11 @@ def get_engine() -> Engine:
     return engine
 
 def init_db():
-    eng = get_engine()
-    with eng.begin() as conn:
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS user_profiles (
+    try:
+        eng = get_engine()
+        with eng.begin() as conn:
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS user_profiles (
                 session_id VARCHAR(255) PRIMARY KEY,
                 inferred_age VARCHAR(255),
                 work_experience TEXT,
@@ -96,6 +97,21 @@ def init_db():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """))
+    except Exception as e:
+        print(f"CRITICAL ERROR initializing database: {e}")
+        print("Fallback to memory sqlite to prevent crash.")
+        global engine, DATABASE_URL
+        DATABASE_URL = "sqlite:///:memory:"
+        engine = None
+        # Try again with memory DB
+        try:
+            eng = get_engine()
+            with eng.begin() as conn:
+                conn.execute(text("CREATE TABLE IF NOT EXISTS chat_sessions (session_id VARCHAR(255) PRIMARY KEY, user_id VARCHAR(255))"))
+                conn.execute(text("CREATE TABLE IF NOT EXISTS chat_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, session_id VARCHAR(255), sender VARCHAR(50), message TEXT, recommended_programs TEXT, tools_used TEXT, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"))
+                conn.execute(text("CREATE TABLE IF NOT EXISTS user_profiles (session_id VARCHAR(255) PRIMARY KEY, inferred_age VARCHAR(255), work_experience TEXT, interests TEXT, last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"))
+        except Exception:
+            pass
 
 def save_chat_message(
     session_id: str,
