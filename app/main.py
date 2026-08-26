@@ -148,14 +148,18 @@ async def get_courses_endpoint(request: Request):
 async def chat_endpoint(request: Request, req: ChatRequest):
     """Streaming endpoint for Next.js frontend to consume."""
     def generate():
-        for chunk in NIDAAgentEngine.execute_chat_stream(
-            session_id=req.session_id,
-            user_message=req.message,
-            degree_filter=req.degree_filter,
-            faculty_filter=req.faculty_filter,
-            study_mode_filter=req.study_mode_filter
-        ):
-            yield chunk
+        try:
+            for chunk in NIDAAgentEngine.execute_chat_stream(
+                session_id=req.session_id,
+                user_message=req.message,
+                degree_filter=req.degree_filter,
+                faculty_filter=req.faculty_filter,
+                study_mode_filter=req.study_mode_filter
+            ):
+                yield chunk
+        except Exception as e:
+            print(f"Chat stream error: {e}")
+            yield f"ขออภัยครับ เกิดข้อผิดพลาดในระบบประมวลผล ({str(e)})"
 
     return StreamingResponse(generate(), media_type="text/plain")
 

@@ -28,7 +28,11 @@ def get_engine() -> Engine:
     if engine is None:
         if DATABASE_URL.startswith("sqlite"):
             # SQLite specific configuration
-            (BASE_DIR / "data").mkdir(parents=True, exist_ok=True)
+            if ":memory:" not in DATABASE_URL and "/tmp" not in DATABASE_URL:
+                try:
+                    (BASE_DIR / "data").mkdir(parents=True, exist_ok=True)
+                except Exception:
+                    pass
             engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
         else:
             # PostgreSQL (or other) configuration
