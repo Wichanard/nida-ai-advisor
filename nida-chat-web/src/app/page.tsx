@@ -32,7 +32,7 @@ export default function ChatPage() {
     if (!sessionId) return;
     const fetchHistory = async () => {
       try {
-        const res = await fetch(`/api/history?session_id=${sessionId}`);
+        const res = await fetch(`https://nida-backend-235f.onrender.com/api/history?session_id=${sessionId}`);
         if (res.ok) {
           const data = await res.json();
           if (data.history && data.history.length > 0) {
@@ -75,7 +75,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, { id: assistantMessageId, role: "assistant", content: "" }]);
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("https://nida-backend-235f.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: currentInput, session_id: sessionId }),

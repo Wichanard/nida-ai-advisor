@@ -29,7 +29,7 @@ export default function ArchivePage() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await fetch("/api/sessions");
+        const res = await fetch(`https://nida-backend-235f.onrender.com/api/sessions?user_id=guest`);
         if (res.ok) {
           const data = await res.json();
           setSessions(data.sessions || []);
@@ -48,7 +48,7 @@ export default function ArchivePage() {
     setHistoryLoading(true);
     setHistory([]);
     try {
-      const res = await fetch(`/api/history?session_id=${sessionId}`);
+      const res = await fetch(`https://nida-backend-235f.onrender.com/api/history?session_id=${sessionId}`);
       if (res.ok) {
         const data = await res.json();
         setHistory(data.history || []);

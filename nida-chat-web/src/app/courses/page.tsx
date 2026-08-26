@@ -32,7 +32,7 @@ export default function CoursesPage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch("/api/courses");
+        const res = await fetch(`https://nida-backend-235f.onrender.com/api/courses`);
         if (res.ok) {
           const data = await res.json();
           // Flatten the hierarchical data
