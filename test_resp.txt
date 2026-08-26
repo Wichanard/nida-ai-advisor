@@ -1,0 +1,10 @@
+ขออภัยครับ เกิดข้อผิดพลาดในระบบประมวลผล ((sqlite3.OperationalError) no such table: chat_messages
+[SQL: 
+            SELECT id, session_id, sender, message, recommended_programs, tools_used, timestamp
+            FROM chat_messages
+            WHERE session_id = ?
+            ORDER BY timestamp ASC, id ASC
+            LIMIT ?
+            ]
+[parameters: ('test-prompt-4', 30)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8))

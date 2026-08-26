@@ -103,11 +103,11 @@ def init_db():
         """))
     except Exception as e:
         print(f"CRITICAL ERROR initializing database: {e}")
-        print("Fallback to memory sqlite to prevent crash.")
+        print("Fallback to /tmp sqlite to prevent crash.")
         global engine, DATABASE_URL
-        DATABASE_URL = "sqlite:///:memory:"
+        DATABASE_URL = "sqlite:////tmp/nida_enterprise_fallback.db"
         engine = None
-        # Try again with memory DB
+        # Try again with /tmp DB
         try:
             eng = get_engine()
             with eng.begin() as conn:
